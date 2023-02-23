@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import Header from './Header';
-import List from './Item';
-import AddItemForm from './AddItemForm';
-import GenList from './GenList';
+import ItemsList from './ItemsList';
+import Stage from './Stage';
+
 
 //import logo from './logo.svg';
 
@@ -16,7 +16,7 @@ function App() {
       id: 1
     },
     {
-      item: 'Rlue',
+      item: 'Blue',
       score: 0,
       id: 2
     },
@@ -26,6 +26,12 @@ function App() {
       id: 3
     },
   ]);
+
+  const [gameState, setGameState] = useState('start');
+
+  const [pairs, setPairs] = useState([]);
+
+  
 
   const nextItemId = useRef(3);
 
@@ -44,25 +50,31 @@ function App() {
   }
 
 
+
+const updatePairsList = (a) => {
+  setPairs(a);
+}
+
+
+
   return (
+    
     <div className="main-container">  
       <Header />
-
-      <AddItemForm 
-        addItem={handleAddItem}
+      
+      <ItemsList
         items={items}
-      />
-      
-      {items.map(item =>
-        <List
-          item={item.item}
-          score={item.score}
-          id={item.id}
-          key={item.id.toString()}
+        addItem={handleAddItem}
+        // generatePairs={generatePairs}
+        pairs={pairs}
+        updatePairsList={updatePairsList}
         />
-      )}
-      
-      <GenList items={items} />
+
+      <Stage
+        items={items}
+        pairs={pairs}
+        gameState={gameState}
+      />
 
 
     </div>
