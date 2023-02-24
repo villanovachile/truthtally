@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Header from './Header';
 import ItemsList from './ItemsList';
 import Stage from './Stage';
+import Controls from './Controls';
 
 
 //import logo from './logo.svg';
@@ -10,21 +11,21 @@ import Stage from './Stage';
 function App() {
 
   const [items, setItems] = useState ([
-    {
-      item: 'Red',
-      score: 0,
-      id: 1
-    },
-    {
-      item: 'Blue',
-      score: 0,
-      id: 2
-    },
-    {
-      item: 'White',
-      score: 0,
-      id: 3
-    },
+    // {
+    //   item: 'Red',
+    //   score: 0,
+    //   id: 1
+    // },
+    // {
+    //   item: 'Blue',
+    //   score: 0,
+    //   id: 2
+    // },
+    // {
+    //   item: 'White',
+    //   score: 0,
+    //   id: 3
+    // },
   ]);
 
   const [gameState, setGameState] = useState('start');
@@ -51,6 +52,8 @@ function App() {
 
 
 
+
+
 const updatePairsList = (a) => {
   setPairs(a);
 }
@@ -72,9 +75,12 @@ const updatePairsList = (a) => {
 
       <Stage
         items={items}
+        setItems={setItems}
         pairs={pairs}
         gameState={gameState}
       />
+
+      <Controls />
 
 
     </div>
