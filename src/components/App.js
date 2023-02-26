@@ -77,6 +77,7 @@ const updatePairsList = (a) => {
         items={items}
         setItems={setItems}
         pairs={pairs}
+        setPairs={setPairs}
         gameState={gameState}
       />
 

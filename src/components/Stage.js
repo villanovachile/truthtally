@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 import ItemCard from './ItemCard';
 
-const Stage = ({gameState, items, pairs, updateScore, setItems}) => {
+const Stage = ({gameState, items, pairs, setPairs, updateScore, setItems}) => {
 
 // const pairs = [
 //     [
@@ -97,10 +97,14 @@ if (pairs.length) {
                 }
             )
             if (currentIndex.current === pairs.length -1) {
-                return;
-            } else {
-                currentIndex.current++
+                currentIndex.current = 0;
+                console.log('done!!')
+                setPairs([]);
+
             }
+                currentIndex.current++
+                console.log('it still ran')
+            
         }
         }
     
