@@ -1,7 +1,7 @@
-import React, {useState, useRef} from 'react';
-import ItemCard from './ItemCard';
+import React from 'react';
 
-const Stage = ({gameState, items, pairs, setPairs, updateScore, setItems}) => {
+
+const Stage = ({gameState, setGameState, items, pairs, setPairs, updateScore, setItems, currentIndex}) => {
 
 // const pairs = [
 //     [
@@ -42,41 +42,25 @@ const Stage = ({gameState, items, pairs, setPairs, updateScore, setItems}) => {
 //     ],
 
 // ]
-// console.log(pairs)
+
 
 // const [currentIndex, setCurrentIndex] = useState(0);
 
 
 
-// console.log(pairs[0][0].item);
-// console.log(currentItemOne)
-
-const currentIndex = useRef(0);
 
 
-if (pairs.length) {
-
+if (pairs.length && gameState === 'inProgress') {
+   
     let key = 1;
-
-
-    
-    
-    // setCurrentItemTwo(pairs[0][1].item);
-    
-
+   
     function nextRound(currentSelection) {
-        
-
-        console.log(pairs.length);
-        
-        // e.preventDefault();
-        // console.log('You selected ' + currentSelection.item)
-        
+                
         if (currentIndex.current <= pairs.length -1 ) {
             
                 items.map((item, i) => {
                     if (item.id === currentSelection.id){
-                        // console.log(i)
+                        
                         const newArray = items.map((item, n) => {
                             if (i === n) {
                                 
@@ -88,7 +72,7 @@ if (pairs.length) {
                             return item;
                             }
                         });
-                        // console.log(newArray);
+                        
                         setItems(newArray);
                         
                         
@@ -98,13 +82,12 @@ if (pairs.length) {
             )
             if (currentIndex.current === pairs.length -1) {
                 currentIndex.current = 0;
-                console.log('done!!')
                 setPairs([]);
+                setGameState('finished');
 
-            }
+            } else {
                 currentIndex.current++
-                console.log('it still ran')
-            
+            }
         }
         }
     
@@ -117,15 +100,7 @@ if (pairs.length) {
         
         <div className='stage-container'>
         
-            
-            {/* {
-                pairs.map(pairItems =>
-                    pairItems.map(pairItem =>
-                        <ItemCard key={key++} pairedItem={pairItem.item} />
-                    )
-                )
-                } */}
-                {/* <ItemCard key={key++} pairedItem={'Here comes the sun'} /> */}
+
                 <div className='item-card' onClick={(e) => nextRound(pairs[currentIndex.current][0])}>
                     {pairs[currentIndex.current][0].item}
                 </div>
@@ -133,8 +108,6 @@ if (pairs.length) {
                 <div className='item-card' key={key++} onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
                 {pairs[currentIndex.current][1].item}
                 </div>
-
-                {/* <ItemCard key={key++} pairedItem={'While My Guitar Gently Weeps'} /> */}
 
         </div>
         </>

@@ -3,6 +3,7 @@ import Header from './Header';
 import ItemsList from './ItemsList';
 import Stage from './Stage';
 import Controls from './Controls';
+import Results from './Results';
 
 
 //import logo from './logo.svg';
@@ -26,15 +27,20 @@ function App() {
     //   score: 0,
     //   id: 3
     // },
+    // {
+    //   item: 'Green',
+    //   score: 0,
+    //   id: 4
+    // },
   ]);
 
   const [gameState, setGameState] = useState('start');
 
   const [pairs, setPairs] = useState([]);
 
-  
+  const currentIndex = useRef(0);
 
-  const nextItemId = useRef(3);
+  const nextItemId = useRef(0);
 
 
   const handleAddItem = (item) => {
@@ -71,6 +77,8 @@ const updatePairsList = (a) => {
         // generatePairs={generatePairs}
         pairs={pairs}
         updatePairsList={updatePairsList}
+        gameState={gameState}
+        setGameState={setGameState}
         />
 
       <Stage
@@ -79,9 +87,31 @@ const updatePairsList = (a) => {
         pairs={pairs}
         setPairs={setPairs}
         gameState={gameState}
+        setGameState={setGameState}
+        currentIndex={currentIndex}
       />
 
-      <Controls />
+      <Results
+        items={items}
+        setItems={setItems}
+        pairs={pairs}
+        setPairs={setPairs}
+        gameState={gameState}
+        setGameState={setGameState}
+        currentIndex={currentIndex}
+      />
+
+      <Controls 
+        items={items}
+        setItems={setItems}
+        updatePairsList={updatePairsList}
+        pairs={pairs}
+        gameState={gameState}
+        setGameState={setGameState}
+        currentIndex={currentIndex}
+        nextItemId={nextItemId}
+        setPairs={setPairs}
+      />
 
 
     </div>

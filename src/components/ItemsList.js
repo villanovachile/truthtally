@@ -1,9 +1,10 @@
 import React from 'react';
 import Item from './Item';
-import GenPairs from './GenPairs';
 import AddItemForm from './AddItemForm';
 
-const ItemsList = ({items, addItem, pairs, updatePairsList}) => {
+const ItemsList = ({items, addItem, pairs, updatePairsList, gameState, setGameState}) => {
+
+  if (gameState === 'start') {
     return (
         <div className="items-list">
 
@@ -19,14 +20,10 @@ const ItemsList = ({items, addItem, pairs, updatePairsList}) => {
           key={item.id.toString()}
         />
       )}
-      
-      <GenPairs
-        items={items}
-        updatePairsList={updatePairsList}
-        pairs={pairs}
-        />
+
         </div>
     );
+  }
 }
 
 export default ItemsList;
