@@ -1,9 +1,12 @@
 import React from 'react';
 
 
-const Item = ({item, score, items}) => {
+const Item = ({item, id, score, removeItem}) => {
     return (
-        <div className='list-item'>{item}({score})</div>
+        <span className='list-item'>
+            <button className='remove-item' onClick={() => removeItem(id)}>✖</button>
+            {item}
+        </span>
 
         
     );

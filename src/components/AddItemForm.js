@@ -11,10 +11,9 @@ const AddItemForm = ({addItem, items}) => {
         e.preventDefault();
 
         let dupe = false;
-        const input = itemInput.current.value.toLowerCase().replace(/\s+/g, '')
-        
+        const input = itemInput.current.value.toLowerCase().replace(/\s+/g, '');
         items.forEach(item => {
-            if (item.item === input) {
+            if (item.item.toLowerCase().replace(/\s+/g, '') === input) {
                 dupe = true;
             }
         });

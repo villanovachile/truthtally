@@ -45,7 +45,7 @@ const Controls = ({items, setItems, nextItemId, setPairs, updatePairsList, gameS
     return (
         <div className='controls'>
 
-            {items.length > 2 && gameState === 'start' ? <button onClick={() => genList()}>Submit</button> : null}
+            {items.length > 2 && gameState === 'start' ? <button onClick={() => genList()}>Begin</button> : null}
 
             {items.length > 0 && gameState === 'start' ? <button onClick={() => clearList()}>Clear</button> : null}
 

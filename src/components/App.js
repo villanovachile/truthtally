@@ -57,6 +57,11 @@ function App() {
   }
 
 
+  const handleRemoveItem = (id) => {
+    setItems(prevItems => prevItems.filter( p => p.id !== id ));
+  }
+
+
 
 
 
@@ -74,7 +79,7 @@ const updatePairsList = (a) => {
       <ItemsList
         items={items}
         addItem={handleAddItem}
-        // generatePairs={generatePairs}
+        removeItem={handleRemoveItem}
         pairs={pairs}
         updatePairsList={updatePairsList}
         gameState={gameState}

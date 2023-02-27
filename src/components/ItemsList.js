@@ -2,7 +2,7 @@ import React from 'react';
 import Item from './Item';
 import AddItemForm from './AddItemForm';
 
-const ItemsList = ({items, addItem, pairs, updatePairsList, gameState, setGameState}) => {
+const ItemsList = ({items, addItem, pairs, updatePairsList, gameState, setGameState, removeItem}) => {
 
   if (gameState === 'start') {
     return (
@@ -15,6 +15,7 @@ const ItemsList = ({items, addItem, pairs, updatePairsList, gameState, setGameSt
                   {items.map(item =>
         <Item
           item={item.item}
+          removeItem={removeItem}
           score={item.score}
           id={item.id}
           key={item.id.toString()}
