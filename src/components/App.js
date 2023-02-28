@@ -4,6 +4,7 @@ import ItemsList from './ItemsList';
 import Stage from './Stage';
 import Controls from './Controls';
 import Results from './Results';
+import LoadingSpinner from './LoadingSpinner';
 
 
 //import logo from './logo.svg';
@@ -11,30 +12,13 @@ import Results from './Results';
 
 function App() {
 
-  const [items, setItems] = useState ([
-    // {
-    //   item: 'Red',
-    //   score: 0,
-    //   id: 1
-    // },
-    // {
-    //   item: 'Blue',
-    //   score: 0,
-    //   id: 2
-    // },
-    // {
-    //   item: 'White',
-    //   score: 0,
-    //   id: 3
-    // },
-    // {
-    //   item: 'Green',
-    //   score: 0,
-    //   id: 4
-    // },
-  ]);
+  const [items, setItems] = useState ([]);
 
   const [gameState, setGameState] = useState('start');
+
+  const [gameCompleted, setGameCompleted] = useState(false);
+
+  const [loadingText, setLoadingText] = useState('');
 
   const [pairs, setPairs] = useState([]);
 
@@ -69,53 +53,48 @@ const updatePairsList = (a) => {
   setPairs(a);
 }
 
+const props = {
+  items,
+  setItems,
+  gameState,
+  setGameState,
+  gameCompleted,
+  setGameCompleted,
+  loadingText,
+  setLoadingText,
+  pairs,
+  setPairs,
+  currentIndex,
+  nextItemId,
+  handleAddItem,
+  handleRemoveItem,
+  updatePairsList
+};
 
 
   return (
     
     <div className="main-container">  
       <Header />
+
+      <LoadingSpinner 
+        {...props}
+      />
       
       <ItemsList
-        items={items}
-        addItem={handleAddItem}
-        removeItem={handleRemoveItem}
-        pairs={pairs}
-        updatePairsList={updatePairsList}
-        gameState={gameState}
-        setGameState={setGameState}
-        />
+        {...props}
+      />
 
       <Stage
-        items={items}
-        setItems={setItems}
-        pairs={pairs}
-        setPairs={setPairs}
-        gameState={gameState}
-        setGameState={setGameState}
-        currentIndex={currentIndex}
+        {...props} 
       />
 
       <Results
-        items={items}
-        setItems={setItems}
-        pairs={pairs}
-        setPairs={setPairs}
-        gameState={gameState}
-        setGameState={setGameState}
-        currentIndex={currentIndex}
+        {...props}
       />
 
       <Controls 
-        items={items}
-        setItems={setItems}
-        updatePairsList={updatePairsList}
-        pairs={pairs}
-        gameState={gameState}
-        setGameState={setGameState}
-        currentIndex={currentIndex}
-        nextItemId={nextItemId}
-        setPairs={setPairs}
+        {...props}
       />
 
 

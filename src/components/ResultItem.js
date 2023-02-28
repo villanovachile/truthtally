@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ResultItem = ({rank, item}) => {
+const ResultItem = ({item}) => {
     return (
-        <div className='result-item'>{rank +  '.) ' + item}</div>
+        <li>{item}</li>
     )
 }
 

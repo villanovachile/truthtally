@@ -1,22 +1,27 @@
 import React from 'react';
 
-const Controls = ({items, setItems, nextItemId, setPairs, updatePairsList, gameState, setGameState, currentIndex}) => {
+const Controls = ({items, setItems, nextItemId, setPairs, updatePairsList, gameState, setGameState, currentIndex, setLoadingText, setGameCompleted}) => {
 
     const genList = () => {
         
         const generatePairs = (arr) => {
-        
-          const result = [];
-          for (let i = 0; i < arr.length; i++) {
-            for (let j = i + 1; j < arr.length; j++) {
-              result.push([arr[i], arr[j]]);
+            const result = [];
+            for (let i = 0; i < arr.length; i++) {
+              for (let j = i + 1; j < arr.length; j++) {
+                result.push([arr[i], arr[j]]);
+              }
             }
-          }
-          setGameState('inProgress')
-          return result;
-        }
-
-        updatePairsList(generatePairs(items));
+            setLoadingText('Generating pairs...');
+            setGameCompleted(false);
+            setGameState('loading');
+            // Shuffle the array of pairs
+            for (let i = result.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [result[i], result[j]] = [result[j], result[i]];
+            }
+            return result;
+          };
+          updatePairsList(generatePairs(items));
         
       }
 
@@ -30,12 +35,14 @@ const Controls = ({items, setItems, nextItemId, setPairs, updatePairsList, gameS
         setItems(resetScores);
         currentIndex.current = 0;
         genList();
+        setGameCompleted(false)
         setGameState('inProgress')
       }
 
     const startOver = () => {
         setItems([]);
         setPairs([]);
+        setGameCompleted(false)
         setGameState('start');
         nextItemId.current = 0;
         currentIndex.current = 0;
@@ -49,9 +56,9 @@ const Controls = ({items, setItems, nextItemId, setPairs, updatePairsList, gameS
 
             {items.length > 0 && gameState === 'start' ? <button onClick={() => clearList()}>Clear</button> : null}
 
-            {gameState !== 'start' ? <button onClick={() => startOver()}>Start Over</button> : null }
+            {gameState !== 'start' && gameState !== 'loading' ? <button onClick={() => startOver()}>Start Over</button> : null }
             
-            {gameState !== 'start' ? <button onClick={() => rateAgain()}>Rate Again</button> : null }
+            {gameState !== 'start' && gameState !== 'loading' ? <button onClick={() => rateAgain()}>Rate Again</button> : null }
 
 
         </div>

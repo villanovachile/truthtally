@@ -1,7 +1,6 @@
 body {
   background: #e8e7e7;
   font-family: arial;
-  /* text-transform: uppercase; */
 }
 
 header {
@@ -10,6 +9,7 @@ header {
   text-align: center;
   background-color: #5f0000;
   border-bottom: solid 2px #970101;
+  font-size: 1.3em;
 }
 
 
@@ -17,8 +17,8 @@ header {
   background: #ffffff;
   min-width: 375px;
   max-width: 700px;
-  min-height: 100px;
-  margin: 70px auto;
+
+  margin: auto;
   box-shadow: 0 2px 0 rgb(119, 0, 0);
   border-radius: 6px;
   overflow: hidden;
@@ -110,6 +110,7 @@ input[type=submit] {
   justify-content: space-evenly;
   align-content:center;
   height: 300px;
+  padding: 20px 10px 20px 10px;
   vertical-align: middle;
   align-items:center;
   justify-content:center;
@@ -121,7 +122,7 @@ input[type=submit] {
   justify-content:center;
   width:100%;
   height:100%;
-  border:5px;
+  border:1px;
   border-color:white;
   border-style: solid;
   padding: 10px;
@@ -129,9 +130,7 @@ input[type=submit] {
   color: white;
 }
 
-.item-card:hover {
-  background-color:rgb(171, 2, 2);
-}
+
 
 .item-card-divider {
   display:flex;
@@ -151,8 +150,11 @@ input[type=submit] {
 }
 
 .stage-header {
-  min-height: 50px;
+  padding: 10px;
   text-align: center;
+  background-color:#9d0000;
+  color: white;
+  font-size: 1.1em;
 }
 
 .remove-item {
@@ -165,4 +167,191 @@ input[type=submit] {
   margin: 0 10px 0 0;
   padding: 0;
   background: none;
+}
+
+.results-container {
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+
+
+ol {
+  display: table;
+  margin: 0 auto;
+}
+li {
+  text-align: left;
+  font-weight: bold;
+}
+
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+
+  background-color:#dedede
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid #ccc;
+  border-top-color: #000;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+.loading-text {
+  
+  font-size: 24px;
+  margin-top: 16px;
+  margin: auto;
+  animation: flash-loading 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flash-loading {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.item-card:active {
+  animation: flash-selection 1.9s;
+}
+
+@keyframes flash-selection {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: rgb(57, 1, 1);
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+/* Mobile Styles */
+
+/* Apply styles when screen size is less than or equal to 768px */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+  
+  header {
+    font-size: 1.2em;
+    min-height: 10%;
+  }
+  
+  
+
+  .main-container {
+    min-width: 0;
+    max-width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    
+  }
+  
+  .list-item {
+    font-size: 1em;
+    letter-spacing: normal;
+    padding: 10px;
+  }
+
+  .player-item {
+    line-height: 2.5em;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  input[type=text] {
+    margin: 10px 0;
+  }
+
+  input[type=submit], button {
+    font-size: 1em;
+    margin: 10px 0;
+  }
+
+  .stage-container {
+    height: auto;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .item-card {
+    width: 100%;
+    min-height: 60px;
+    margin-bottom: 10px;
+  }
+
+  .item-card-divider {
+    width: 100%;
+    background-color:#9d0000;
+    margin-bottom: 10px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .stage-header {
+    font-size: 1em;
+  }
+
+  .remove-item {
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .results-container {
+    padding: 10px;
+    
+  }
+
+  li {
+    font-size: 1em;
+  }
+
+  .loading-container {
+    height: 50vh;
+  }
+
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+  }
+
+  .loading-text {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
 }

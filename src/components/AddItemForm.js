@@ -17,9 +17,9 @@ const AddItemForm = ({addItem, items}) => {
                 dupe = true;
             }
         });
-
+        
         if (!dupe && input) {
-            addItem(itemInput.current.value);
+            addItem(itemInput.current.value.replace(/(^|\s)[a-z]/g, f => f.toUpperCase()));
             e.currentTarget.reset();
         }
 

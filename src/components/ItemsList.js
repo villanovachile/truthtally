@@ -2,7 +2,7 @@ import React from 'react';
 import Item from './Item';
 import AddItemForm from './AddItemForm';
 
-const ItemsList = ({items, addItem, pairs, updatePairsList, gameState, setGameState, removeItem}) => {
+const ItemsList = ({items, addItem, gameState, removeItem}) => {
 
   if (gameState === 'start') {
     return (

@@ -1,118 +1,74 @@
 import React from 'react';
 
 
-const Stage = ({gameState, setGameState, items, pairs, setPairs, updateScore, setItems, currentIndex}) => {
-
-// const pairs = [
-//     [
-//         {
-//             item: 'red',
-//             score: 0,
-//             id: 1
-//         },
-//         {
-//             item: 'white',
-//             score: 0,
-//             id: 2
-//         },
-//     ],
-//     [
-//         {
-//             item: 'red',
-//             score: 0,
-//             id: 1
-//         },
-//         {
-//             item: 'blue',
-//             score: 0,
-//             id: 3
-//         },
-//     ],
-//     [
-//         {
-//             item: 'white',
-//             score: 0,
-//             id: 2
-//         },
-//         {
-//             item: 'blue',
-//             score: 0,
-//             id: 3
-//         },
-//     ],
-
-// ]
+const Stage = ({gameState, setGameState, items, pairs, setPairs, setItems, currentIndex, setLoadingText, setGameCompleted}) => {
 
 
-// const [currentIndex, setCurrentIndex] = useState(0);
-
-
-
-
-
-if (pairs.length && gameState === 'inProgress') {
-   
-    let key = 1;
-   
-    function nextRound(currentSelection) {
-                
-        if (currentIndex.current <= pairs.length -1 ) {
-            
-                items.map((item, i) => {
-                    if (item.id === currentSelection.id){
-                        
-                        const newArray = items.map((item, n) => {
-                            if (i === n) {
-                                
-                                
-                            return { ...item, score: items[i].score + 1};
-                            } else {
-                                
-                                
-                            return item;
-                            }
-                        });
-                        
-                        setItems(newArray);
-                        
-                        
-                        
-                    }
-                }
-            )
-            if (currentIndex.current === pairs.length -1) {
-                currentIndex.current = 0;
-                setPairs([]);
-                setGameState('finished');
-
-            } else {
-                currentIndex.current++
-            }
-        }
-        }
+    if (pairs.length && gameState === 'inProgress') {
     
+        let key = 1;
+    
+        function nextRound(currentSelection) {
+                    
+            if (currentIndex.current <= pairs.length -1 ) {
+                
+                    items.map((item, i) => {
+                        if (item.id === currentSelection.id){
+                            
+                            const newArray = items.map((item, n) => {
+                                if (i === n) {
+                                    
+                                    
+                                return { ...item, score: items[i].score + 1};
+                                } else {
+                                    
+                                    
+                                return item;
+                                }
+                            });
+                            
+                            setItems(newArray);
+                            
+                            
+                            
+                        }
+                    }
+                )
+                if (currentIndex.current === pairs.length -1) {
+                    currentIndex.current = 0;
+                    setPairs([]);
+                    setGameCompleted(true)
+                    setLoadingText('Tabulating results...')
+                    setGameState('loading');
 
-
-    return (
-        <>
-        <div className='stage-header'>Battle {currentIndex.current + 1} of {pairs.length} </div>
+                } else {
+                    currentIndex.current++
+                }
+            }
+            }
         
-        
-        <div className='stage-container'>
-        
 
-                <div className='item-card' onClick={(e) => nextRound(pairs[currentIndex.current][0])}>
-                    {pairs[currentIndex.current][0].item}
-                </div>
-                <div className='item-card-divider'>vs.</div>
-                <div className='item-card' key={key++} onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
-                {pairs[currentIndex.current][1].item}
-                </div>
 
-        </div>
-        </>
-    )
-}
+        return (
+            <>
+            <div className='stage-header'>Battle {currentIndex.current + 1} of {pairs.length} </div>
+            
+            
+            <div className='stage-container'>
+            
+
+                    <div className='item-card' onClick={(e) => nextRound(pairs[currentIndex.current][0])}>
+                        {pairs[currentIndex.current][0].item}
+                    </div>
+                    <div className='item-card-divider'>vs.</div>
+                    <div className='item-card' key={key++} onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
+                    {pairs[currentIndex.current][1].item}
+                    </div>
+
+            </div>
+            </>
+        )
+    }
 }
 
 export default Stage;
