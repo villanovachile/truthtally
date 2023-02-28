@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Truth Tally
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Link to web app: [https://truthtally.danielr.io/](https://truthtally.danielr.io/)
 
-In the project directory, you can run:
+## Description
+
+This React based app will allow you to create a list, and sort based on your choice from randomized unique pairings.
+
+## Usage
+
+1. Enter a list of items to compare (i.e., Beatles, Led Zeppelin, Pink Floyd, Black Sabbath)
+2. Click/tap on Begin
+3. Select a favored item from one of the pairs of items displayed.
+4. Results are then displayed.
+
+`- The Begin button only appears once there are 3 items in the list`
+
+`- Each selection increases the score of the selected item`
+`- Rate Again will clear scores and begin the ratng process again`
+
+`- Start Over will clear the list, requiring entering items again`
+
+
+## Screenshots
+
+![Screenshot](./screenshots/screenshot01.png)
+
+![Screenshot](./screenshots/screenshot02.png)
+
+![Screenshot](./screenshots/screenshot03.png)
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To develop further on this app, you will want to fork the repo, then clone your fork into your local git repository.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+In terminal, CD into your cloned repo and enter `npm install`, then run the app by entering `npm start`
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
