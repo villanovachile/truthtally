@@ -12,7 +12,7 @@ const Stage = ({gameState, setGameState, items, pairs, setPairs, setItems, curre
                     
             if (currentIndex.current <= pairs.length -1 ) {
                 
-                    items.map((item, i) => {
+                    items.forEach((item, i) => {
                         if (item.id === currentSelection.id){
                             
                             const newArray = items.map((item, n) => {
