@@ -275,6 +275,9 @@ li {
     min-height: 10%;
     flex: 0 0 auto;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .main-container {
@@ -344,10 +347,9 @@ li {
     min-height: 60px;
     margin-bottom: 10px;
     font-size: 1.8em;
-    
     padding: 0px;
     background-color: #8d3333;
-    border-radius: 0px;
+    border-radius: 10px;
     border: 5px;
     border-style: solid;
     border-color: #aea1a1;
