@@ -30,7 +30,7 @@ This React based app will allow you to create a list, and sort based on your cho
 
 ![Screenshot](./screenshots/screenshot03.png)
 
-### `npm start`
+### `Development`
 
 To develop further on this app, you will want to fork the repo, then clone your fork into your local git repository.
 
