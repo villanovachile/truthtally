@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-const Item = ({item, id, removeItem}) => {
+const Item = ({item, id, handleRemoveItem}) => {
     return (
         <span className='list-item'>
-            <button className='remove-item' onClick={() => removeItem(id)}>✖</button>
+            <button className='remove-item' onClick={() => handleRemoveItem(id)}>✖</button>
             {item}
         </span>
 

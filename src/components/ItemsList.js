@@ -2,20 +2,20 @@ import React from 'react';
 import Item from './Item';
 import AddItemForm from './AddItemForm';
 
-const ItemsList = ({items, addItem, gameState, removeItem}) => {
+const ItemsList = ({items, handleAddItem, gameState, handleRemoveItem}) => {
 
   if (gameState === 'start') {
     return (
         <div className="items-list">
 
         <AddItemForm 
-        addItem={addItem}
+        handleAddItem={handleAddItem}
         items={items}
         />
                   {items.map(item =>
         <Item
           item={item.item}
-          removeItem={removeItem}
+          handleRemoveItem={handleRemoveItem}
           score={item.score}
           id={item.id}
           key={item.id.toString()}

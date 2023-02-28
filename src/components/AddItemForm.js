@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 
 
 
-const AddItemForm = ({addItem, items}) => {
+const AddItemForm = ({handleAddItem, items}) => {
 
     const itemInput = useRef();
 
@@ -19,7 +19,7 @@ const AddItemForm = ({addItem, items}) => {
         });
         
         if (!dupe && input) {
-            addItem(itemInput.current.value.replace(/(^|\s)[a-z]/g, f => f.toUpperCase()));
+            handleAddItem(itemInput.current.value.replace(/(^|\s)[a-z]/g, f => f.toUpperCase()));
             e.currentTarget.reset();
         }
 
