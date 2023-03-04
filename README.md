@@ -17,6 +17,7 @@ This React based app will allow you to create a list, and sort based on your cho
 `- The Begin button only appears once there are 3 items in the list`
 
 `- Each selection increases the score of the selected item`
+
 `- Rate Again will clear scores and begin the ratng process again`
 
 `- Start Over will clear the list, requiring entering items again`
