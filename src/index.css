@@ -4,14 +4,13 @@ body {
 }
 
 header {
-  color: #FFF;
+  color: #fff;
   padding: 5px 10px;
   text-align: center;
   background-color: #5f0000;
   border-bottom: solid 2px #970101;
   font-size: 1.3em;
 }
-
 
 .main-container {
   background: #ffffff;
@@ -22,33 +21,8 @@ header {
   box-shadow: 0 2px 0 rgb(119, 0, 0);
   border-radius: 6px;
   overflow: hidden;
-  border:1px;
+  border: 1px;
 }
-
-.list-item {
-  display: flex; 
-  justify-content: center;
-  align-content:center; 
-  text-align: center;
-  font-size: 1.2em;
-  border-bottom: solid 2px #EEEEEE;
-  letter-spacing: 2px;
-}
-
-.list-item:hover .remove-item {
-  visibility: visible;
-}
-
-.list-item {
-  color: #2F2366;
-}
-
-.player-item {
-  flex-grow: 1;
-  line-height: 3.5em;
-  padding-left: 10px;
-}
-
 
 /* Form & Buttons */
 
@@ -57,7 +31,7 @@ form {
   background-color: #5f0000;
 }
 
-input[type=text] {
+input[type="text"] {
   flex-grow: 1;
   border-width: 0 0 1px 0;
   margin: 15px 10px 15px 15px;
@@ -71,18 +45,19 @@ input[type=text] {
   outline: none;
 }
 
-input[type=text]::-webkit-input-placeholder {
+input[type="text"]::-webkit-input-placeholder {
   color: #ffffff;
   letter-spacing: 2px;
 }
 
-input[type=text]:focus {
+input[type="text"]:focus {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-input[type=submit], button {
+input[type="submit"],
+button {
   display: block;
-  font-size: .6em;
+  font-size: 0.6em;
   margin: 15px 15px 15px 0;
   padding: 10px;
   background-color: #8d3333;
@@ -97,88 +72,10 @@ input[type=submit], button {
 }
 
 button,
-input[type=submit] {
+input[type="submit"] {
   outline: none;
-  transition: background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-
-
-.stage-container {
-  background:#5f0000;
-  display:flex;
-  justify-content: space-evenly;
-  align-content:center;
-  height: 300px;
-  padding: 20px 10px 20px 10px;
-  vertical-align: middle;
-  align-items:center;
-  justify-content:center;
-}
-
-.item-card {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  height:100%;
-  border:1px;
-  border-color:white;
-  border-style: solid;
-  padding: 10px;
-  cursor: pointer;
-  color: white;
-}
-
-
-
-.item-card-divider {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:20%;
-  text-align:center;
-  color: white;
-  font-size: 20px;
-}
-
-.controls {
-  padding: 10px;
-  background-color:rgb(119, 0, 0);
-  display: flex;
-  justify-content:center;
-}
-
-.stage-header {
-  padding: 10px;
-  text-align: center;
-  background-color:#9d0000;
-  color: white;
-  font-size: 1.1em;
-}
-
-.remove-item {
-  font-size: 1.15em;
-  border: none;
-  outline: none;
-  visibility: hidden;
-  color: #EF5350;
-  cursor: pointer;
-  margin: 0 10px 0 0;
-  padding: 0;
-  background: none;
-}
-
-.results-container {
-  padding: 20px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  text-align: center;
-}
-
 
 ol {
   display: table;
@@ -189,74 +86,12 @@ li {
   font-weight: bold;
 }
 
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 30vh;
-
-  background-color:#dedede
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 5px solid #ccc;
-  border-top-color: #000;
-  animation: spin 1s linear infinite;
-  margin: auto;
-}
-
-.loading-text {
-  
-  font-size: 24px;
-  margin-top: 16px;
-  margin: auto;
-  animation: flash-loading 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes flash-loading {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.item-card:active {
-  animation: flash-selection 1.9s;
-}
-
-@keyframes flash-selection {
-  0% {
-    background-color: white;
-  }
-  50% {
-    background-color: rgb(57, 1, 1);
-  }
-  100% {
-    background-color: white;
-  }
-}
-
 /* Mobile Styles */
 
 /* Apply styles when screen size is less than or equal to 768px */
 @media screen and (max-width: 768px) {
-  html, body {
+  html,
+  body {
     font-size: 16px;
     margin: 0px;
     height: 100%;
@@ -269,7 +104,7 @@ li {
     height: 100%;
     width: 100%;
   }
-  
+
   header {
     font-size: 1.6em;
     min-height: 10%;
@@ -279,7 +114,7 @@ li {
     align-items: center;
     justify-content: center;
   }
-  
+
   .main-container {
     width: 100%;
     height: 100%;
@@ -289,146 +124,24 @@ li {
     display: flex;
     flex-direction: column;
     flex: 1;
-    
-  }
-  
-  .list-item {
-    font-size: 1.3em;
-    letter-spacing: normal;
-    padding: 10px;
-    
-  }
-
-  .items-list {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    justify-content: left;
-    align-items: center;
-  }
-
-
-  .player-item {
-    line-height: 2.5em;
   }
 
   form {
     flex-direction: column;
   }
 
-  .items-list form {
-    width: 100%;
-  }
-
-  input[type=text] {
+  input[type="text"] {
     margin: 10px 0;
     font-size: 1.5em;
   }
 
-  input[type=submit], button {
+  input[type="submit"],
+  button {
     font-size: 1em;
     margin: 10px 0;
-  }
-
-  .stage-container {
-    height: auto;
-    flex-direction: column;
-    padding: 10px;
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-  }
-
-  .item-card {
-    width: 100%;
-    min-height: 60px;
-    margin-bottom: 10px;
-    font-size: 1.8em;
-    padding: 0px;
-    background-color: #8d3333;
-    border-radius: 10px;
-    border: 5px;
-    border-style: solid;
-    border-color: #aea1a1;
-    color: #fff;
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-shadow: none;
-    cursor: pointer;
-  }
-
-  .item-card-divider {
-    width: 100%;
-    background-color:#9d0000;
-    margin-bottom: 10px;
-    font-size: 1.8em;
-  }
-
-  .controls {
-    flex-direction: column;
-  }
-
-  .stage-header {
-    font-size: 1.3em;
-    font-weight: bold;
-  }
-
-  .remove-item {
-    font-size: 1em;
-    margin: 0;
-  }
-
-  .remove-item {
-    font-size: 1.15em;
-    border: none;
-    outline: none;
-    visibility: visible;
-    color: #EF5350;
-    cursor: pointer;
-    margin: 0 10px 0 0;
-    padding: 0;
-    background: none;
-  }
-
-  .results-container {
-    padding: 10px;
-    font-size: 1.5em;
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    justify-content: left;
-    align-items: center;
-    width: 100%;
   }
 
   li {
     font-size: 1em;
   }
-
-  .loading-container {
-    height: auto;
-    flex-direction: column;
-    padding: 10px;
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-  }
-
-  .spinner {
-    width: 75px;
-    height: 75px;
-    border-width: 3px;
-  }
-
-  .loading-text {
-    font-size: 1.7em;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-
 }
