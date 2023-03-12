@@ -1,12 +1,7 @@
-import React from 'react';
-
+import React from "react";
 
 const Header = () => {
-    return (
-        <header>
-            Truth Tally
-        </header>
-    );
-}
+  return <header>Truth Tally's</header>;
+};
 
 export default Header;

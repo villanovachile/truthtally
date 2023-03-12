@@ -1,11 +1,22 @@
 .truthtally-container {
   background: #ffffff;
   min-width: 375px;
-  max-width: 700px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
   margin: auto;
   box-shadow: 0 2px 0 rgb(119, 0, 0);
   overflow: hidden;
   border: 1px;
+  border-style: solid;
+  justify-content: flex-end;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.items-list {
+  flex-grow: 1;
 }
 
 .list-item {
@@ -166,6 +177,8 @@
   }
 }
 
+/* Mobile View */
+
 @media screen and (max-width: 768px) {
   .truthtally-container {
     width: 100%;
@@ -185,12 +198,14 @@
   }
 
   .items-list {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
+    /* flex: 1 1 auto; */
+    /* display: flex; */
+    /* flex-direction: column; */
     overflow-y: scroll;
-    justify-content: left;
-    align-items: center;
+    /* justify-content: left; */
+    justify-content: flex-start;
+    flex-shrink: 1;
+    height: 100%;
   }
 
   .player-item {

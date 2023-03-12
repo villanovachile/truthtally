@@ -63,13 +63,13 @@ function TruthTally() {
     <div className="truthtally-container">
       <LoadingSpinner {...props} />
 
+      <Controls {...props} />
+
       <ItemsList {...props} />
 
       <Stage {...props} />
 
       <Results {...props} />
-
-      <Controls {...props} />
     </div>
   );
 }
