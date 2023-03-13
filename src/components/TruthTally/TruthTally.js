@@ -65,11 +65,11 @@ function TruthTally() {
 
       <Controls {...props} />
 
-      <ItemsList {...props} />
-
       <Stage {...props} />
 
       <Results {...props} />
+
+      <ItemsList {...props} />
     </div>
   );
 }

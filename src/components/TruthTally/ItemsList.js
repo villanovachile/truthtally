@@ -6,6 +6,7 @@ const ItemsList = ({ items, handleAddItem, gameState, handleRemoveItem }) => {
   if (gameState === "start") {
     return (
       <div className="items-list">
+        <AddItemForm handleAddItem={handleAddItem} items={items} />
         {items.map((item) => (
           <Item
             item={item.item}
@@ -15,7 +16,6 @@ const ItemsList = ({ items, handleAddItem, gameState, handleRemoveItem }) => {
             key={item.id.toString()}
           />
         ))}
-        <AddItemForm handleAddItem={handleAddItem} items={items} />
       </div>
     );
   }
