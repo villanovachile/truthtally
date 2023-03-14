@@ -21,13 +21,14 @@ const handler = async (event) => {
       unlisted: input.unlisted,
       tags: input.tags,
     });
-
     return {
       statusCode: 200,
       body: JSON.stringify(newURI),
     };
   } catch (error) {
     return { statusCode: 500, body: error.toString() };
+  } finally {
+    await mongoClient.close();
   }
 };
 
