@@ -11,6 +11,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<TruthTally />} />
         <Route path="/*" element={<Error404 />} />
+        <Route path="/list">
+          <Route path="/list/404" element={<Error404 />} />
+          <Route index element={<TruthTally />} />
+          <Route path=":uri" element={<TruthTally />} />
+        </Route>
       </Routes>
     </div>
   );

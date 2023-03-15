@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ItemsList from "./ItemsList";
 import Stage from "./Stage";
 import Controls from "./Controls";
@@ -6,9 +7,17 @@ import Results from "./Results";
 import LoadingSpinner from "./LoadingSpinner";
 
 function TruthTally() {
+  let { uri } = useParams();
+
+  let navigate = useNavigate();
+
+  const history = useLocation();
+
   const [items, setItems] = useState([]);
 
-  const [gameState, setGameState] = useState("start");
+  const [sourceItemsList, setSourceItemsList] = useState([]);
+
+  const [gameState, setGameState] = useState("preload");
 
   const [gameCompleted, setGameCompleted] = useState(false);
 
@@ -19,6 +28,55 @@ function TruthTally() {
   const currentIndex = useRef(0);
 
   const nextItemId = useRef(0);
+
+  useEffect(() => {
+    setItems([]);
+    const fetchURL = "/.netlify/functions/get_list?uri=" + uri;
+    if (uri === undefined) {
+      setLoadingText("Loading...");
+      setGameState("start");
+      return;
+    }
+    (async () => {
+      try {
+        setLoadingText("Loading...");
+        let results = await fetch(fetchURL).then((response) => response.json());
+        if (results !== "not_found" && results.type === "list") {
+          setSourceItemsList([]);
+          let id = 0;
+          results[uri].forEach((item) => {
+            nextItemId.current++;
+
+            setSourceItemsList((prevItems) => [
+              // Creates a temporary copy of source list, with renumerated id and score
+              ...prevItems,
+              {
+                item: item.item,
+                score: 0,
+                id: id++,
+              },
+            ]);
+
+            setItems((prevItems) => [
+              // loads the items state with source list
+              ...prevItems,
+              {
+                item: item.item,
+                score: 0,
+                id: item.id,
+              },
+            ]);
+          });
+          setGameState("start");
+        } else {
+          navigate("/list/404");
+        }
+      } catch (error) {
+        console.log("Error: ", error);
+        navigate("/list/404");
+      }
+    })();
+  }, [history, navigate, uri]);
 
   const handleAddItem = (item) => {
     nextItemId.current++;
@@ -57,13 +115,15 @@ function TruthTally() {
     handleAddItem,
     handleRemoveItem,
     updatePairsList,
+    uri,
+    sourceItemsList,
   };
 
   return (
     <div className="truthtally-container">
-      <LoadingSpinner {...props} />
-
       <Controls {...props} />
+
+      <LoadingSpinner {...props} />
 
       <Stage {...props} />
 
