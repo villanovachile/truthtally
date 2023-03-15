@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const Controls = ({ setShowShareModal, items, setItems, nextItemId, setPairs, updatePairsList, gameState, setGameState, currentIndex, setLoadingText, setGameCompleted }) => {
+const Controls = ({ setShowModal, setShowShareModal, items, setItems, nextItemId, setPairs, updatePairsList, gameState, setGameState, currentIndex, setLoadingText, setGameCompleted }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
 
@@ -59,6 +59,10 @@ const Controls = ({ setShowShareModal, items, setItems, nextItemId, setPairs, up
     setShowShareModal(true);
   };
 
+  function handleButtonClick() {
+    // window.sessionStorage.setItem("showShareModal", JSON.stringify(true));
+  }
+
   return (
     <div className="controls">
       {items.length > 2 && gameState === "start" ? <button onClick={() => genList()}>Begin</button> : null}
@@ -70,6 +74,8 @@ const Controls = ({ setShowShareModal, items, setItems, nextItemId, setPairs, up
       {gameState !== "start" && gameState !== "loading" && gameState !== "preload" ? <button onClick={() => rateAgain()}>Rate Again</button> : null}
 
       {items.length > 0 && (gameState === "start" || gameState === "finished") ? <button onClick={() => shareList()}>Share List</button> : null}
+
+      {/* <button onClick={handleButtonClick}>Set showModal to true</button> */}
     </div>
   );
 };

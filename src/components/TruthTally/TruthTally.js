@@ -22,7 +22,7 @@ function TruthTally() {
 
   const [gameState, setGameState] = useState("preload");
 
-  const [gameCompleted, setGameCompleted] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState();
 
   const [loadingText, setLoadingText] = useState("");
 
@@ -33,18 +33,31 @@ function TruthTally() {
   const nextItemId = useRef(0);
 
   useEffect(() => {
+    const storedValue = window.sessionStorage.getItem("showShareModal");
+    if (storedValue) {
+      setShowShareModal(JSON.parse(storedValue));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("showShareModal", JSON.stringify(showShareModal));
+    console.log(window.sessionStorage.getItem("showShareModal"));
+    console.log(showShareModal);
+  }, [showShareModal]);
+
+  useEffect(() => {
     setItems([]);
     const fetchURL = "/.netlify/functions/get_list?uri=" + uri;
     if (uri === undefined) {
       setLoadingText("Loading...");
       setGameState("start");
+      setShowShareModal(false);
       return;
     }
     (async () => {
       try {
         setLoadingText("Loading...");
         let results = await fetch(fetchURL).then((response) => response.json());
-
         if (results !== "not_found" && results.type === "list") {
           setSourceItemsList([]);
           let id = 0;

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
 
 const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, items, disableModalState, setShowShareModal, showShareModal }) => {
   const [currentItemsList, setCurrentItemsList] = useState([]);
@@ -12,6 +11,7 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
   const hideModal = () => {
     document.body.style.overflow = "unset";
     setShowShareModal(false);
+    // window.sessionStorage.setItem("showShareModal", JSON.stringify(false));
   };
 
   const [formData, setFormData] = useState({
@@ -48,7 +48,7 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
           },
         ]);
       });
-  }, []);
+  }, [items]);
 
   useEffect(() => {
     currentItemsList.length > 0 ? setCurrentItemsListEmpty(false) : setCurrentItemsListEmpty(true);
@@ -56,7 +56,6 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
 
   const shareList = (e) => {
     e.preventDefault();
-    console.log("wat");
 
     (async () => {
       const tempList = await items.map((item) => ({ ...item, score: 0 }));
