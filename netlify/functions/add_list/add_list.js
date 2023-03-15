@@ -4,7 +4,7 @@ const randomstring = require("randomstring");
 const mongoClient = new MongoClient(process.env.MONGODB_URI, {
   socketTimeoutMS: 5000,
   connectTimeoutMS: 5000,
-  serverSelectionTimeout: 5000,
+  serverSelectionTimeoutMS: 5000,
 });
 
 const clientPromise = mongoClient.connect();
