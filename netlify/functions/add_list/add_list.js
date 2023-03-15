@@ -1,7 +1,11 @@
 const { MongoClient } = require("mongodb");
 const randomstring = require("randomstring");
 
-const mongoClient = new MongoClient(process.env.MONGODB_URI);
+const mongoClient = new MongoClient(process.env.MONGODB_URI, {
+  socketTimeoutMS: 5000,
+  connectTimeoutMS: 5000,
+  serverSelectionTimeout: 5000,
+});
 
 const clientPromise = mongoClient.connect();
 
@@ -27,8 +31,6 @@ const handler = async (event) => {
     };
   } catch (error) {
     return { statusCode: 500, body: error.toString() };
-  } finally {
-    await mongoClient.close();
   }
 };
 

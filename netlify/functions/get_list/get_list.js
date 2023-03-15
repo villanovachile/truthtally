@@ -1,6 +1,10 @@
 const { MongoClient } = require("mongodb");
 
-const mongoClient = new MongoClient(process.env.MONGODB_URI);
+const mongoClient = new MongoClient(process.env.MONGODB_URI, {
+  socketTimeoutMS: 5000,
+  connectTimeoutMS: 5000,
+  serverSelectionTimeout: 5000,
+});
 const clientPromise = mongoClient.connect();
 
 const handler = async (event) => {
@@ -33,8 +37,8 @@ const handler = async (event) => {
           body: JSON.stringify("not_found"),
         };
       }
-    } finally {
-      await mongoClient.close();
+    } catch (error) {
+      return { statusCode: 500, body: error.toString() };
     }
   } catch (error) {
     return { statusCode: 500, body: error.toString() };
