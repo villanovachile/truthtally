@@ -76,7 +76,7 @@ function TruthTally() {
         navigate("/list/404");
       }
     })();
-  }, [history]);
+  }, [history, navigate, uri]);
 
   const handleAddItem = (item) => {
     nextItemId.current++;
