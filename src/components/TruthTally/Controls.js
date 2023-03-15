@@ -55,9 +55,9 @@ const Controls = ({ setShowShareModal, items, setItems, nextItemId, setPairs, up
     navigate(0);
   };
 
-  // const shareList = () => {
-  //   setShowShareModal(true);
-  // };
+  const shareList = () => {
+    setShowShareModal(true);
+  };
 
   return (
     <div className="controls">
@@ -69,7 +69,7 @@ const Controls = ({ setShowShareModal, items, setItems, nextItemId, setPairs, up
 
       {gameState !== "start" && gameState !== "loading" && gameState !== "preload" ? <button onClick={() => rateAgain()}>Rate Again</button> : null}
 
-      {/* {items.length > 0 && (gameState === "start" || gameState === "finished") ? <button onClick={() => shareList()}>Share List</button> : null} */}
+      {items.length > 0 && (gameState === "start" || gameState === "finished") ? <button onClick={() => shareList()}>Share List</button> : null}
     </div>
   );
 };

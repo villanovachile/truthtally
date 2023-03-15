@@ -5,6 +5,7 @@ import Stage from "./Stage";
 import Controls from "./Controls";
 import Results from "./Results";
 import LoadingSpinner from "./LoadingSpinner";
+import ShareListModal from "./ShareListModal";
 
 function TruthTally() {
   let { uri } = useParams();
@@ -16,6 +17,8 @@ function TruthTally() {
   const [items, setItems] = useState([]);
 
   const [sourceItemsList, setSourceItemsList] = useState([]);
+
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const [gameState, setGameState] = useState("preload");
 
@@ -41,6 +44,7 @@ function TruthTally() {
       try {
         setLoadingText("Loading...");
         let results = await fetch(fetchURL).then((response) => response.json());
+
         if (results !== "not_found" && results.type === "list") {
           setSourceItemsList([]);
           let id = 0;
@@ -116,11 +120,15 @@ function TruthTally() {
     handleRemoveItem,
     updatePairsList,
     uri,
+    navigate,
     sourceItemsList,
+    showShareModal,
+    setShowShareModal,
   };
 
   return (
     <div className="truthtally-container">
+      {showShareModal && <div className="modal-overlay" />}
       <Controls {...props} />
 
       <LoadingSpinner {...props} />
@@ -130,6 +138,8 @@ function TruthTally() {
       <Results {...props} />
 
       <ItemsList {...props} />
+
+      {showShareModal && <ShareListModal {...props} />}
     </div>
   );
 }
