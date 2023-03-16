@@ -28,8 +28,18 @@ const Controls = ({ setShowModal, setShowShareModal, items, setItems, nextItemId
   };
 
   const clearList = () => {
-    setItems([]);
-    nextItemId.current = 0;
+    if (uri === undefined) {
+      setItems([]);
+      setPairs([]);
+      setGameCompleted(false);
+      setGameState("start");
+      nextItemId.current = 0;
+      currentIndex.current = 0;
+      navigate("/");
+      return;
+    }
+    navigate("/");
+    // navigate(0);
   };
 
   const rateAgain = () => {
@@ -59,10 +69,6 @@ const Controls = ({ setShowModal, setShowShareModal, items, setItems, nextItemId
     setShowShareModal(true);
   };
 
-  function handleButtonClick() {
-    // window.sessionStorage.setItem("showShareModal", JSON.stringify(true));
-  }
-
   return (
     <div className="controls">
       {items.length > 2 && gameState === "start" ? <button onClick={() => genList()}>Begin</button> : null}
@@ -74,8 +80,6 @@ const Controls = ({ setShowModal, setShowShareModal, items, setItems, nextItemId
       {gameState !== "start" && gameState !== "loading" && gameState !== "preload" ? <button onClick={() => rateAgain()}>Rate Again</button> : null}
 
       {items.length > 0 && (gameState === "start" || gameState === "finished") ? <button onClick={() => shareList()}>Share List</button> : null}
-
-      {/* <button onClick={handleButtonClick}>Set showModal to true</button> */}
     </div>
   );
 };

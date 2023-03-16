@@ -228,6 +228,29 @@
   z-index: 1;
 }
 
+.list-title {
+  font-size: 1.1em;
+  color: white;
+  background-color: #5f0000;
+  padding: 10px 0px 5px 0px;
+  margin: 0px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.svg-button {
+  cursor: pointer;
+}
+
+.svg-button:hover {
+  opacity: 0.8;
+}
+
+.svg-button:active path {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
 /* Mobile View */
 
 @media screen and (max-width: 768px) {

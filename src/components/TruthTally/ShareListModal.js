@@ -84,12 +84,8 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
 
   function copy(e) {
     e.preventDefault();
-    const el = document.createElement("input");
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
     setCopied(true);
   }
 
