@@ -29,9 +29,9 @@
   color: #2f2366;
 }
 
-.list-item:hover .remove-item {
+/* .list-item:hover .remove-item {
   visibility: visible;
-}
+} */
 
 .player-item {
   flex-grow: 1;
@@ -63,6 +63,7 @@
   padding: 10px;
   cursor: pointer;
   color: white;
+  text-align: center;
 }
 
 .item-card-divider {
@@ -94,7 +95,7 @@
   font-size: 1.15em;
   border: none;
   outline: none;
-  visibility: hidden;
+  /* visibility: hidden; */
   color: #ef5350;
   cursor: pointer;
   margin: 0 10px 0 0;
@@ -173,6 +174,10 @@
   }
 }
 
+form {
+  align-items: center;
+}
+
 .share-modal form {
   display: flex;
   flex-direction: column;
@@ -240,6 +245,11 @@
 
 .svg-button {
   cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: auto 0 auto 0;
+  min-width: 15px;
+  min-height: 15px;
 }
 
 .svg-button:hover {
@@ -306,7 +316,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     height: 100px;
   }
 
@@ -325,6 +334,7 @@
     font-weight: bold;
     text-shadow: none;
     cursor: pointer;
+    text-align: center;
   }
 
   .item-card-divider {

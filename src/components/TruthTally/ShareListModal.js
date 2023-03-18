@@ -1,9 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, items, disableModalState, setShowShareModal, showShareModal }) => {
-  const [currentItemsList, setCurrentItemsList] = useState([]);
-  const [currentItemsListEmpty, setCurrentItemsListEmpty] = useState(true);
-
+const ShareListModal = ({
+  sourceListChanged,
+  currentItemsList,
+  currentItemsListEmpty,
+  sourceItemsList,
+  setSourceItemsList,
+  uri,
+  navigate,
+  items,
+  disableModalState,
+  setShowShareModal,
+  showShareModal,
+}) => {
   const listTags = useRef();
   const nextItemId = useRef(0);
   const [copied, setCopied] = useState(false);
@@ -29,30 +38,6 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
       };
     });
   }
-
-  useEffect(() => {
-    setCurrentItemsList([]);
-    nextItemId.current = 0;
-    let id = 0;
-
-    items
-      .sort((a, b) => a.id - b.id)
-      .forEach((item) => {
-        nextItemId.current++;
-        setCurrentItemsList((prevItems) => [
-          ...prevItems,
-          {
-            item: item.item,
-            score: 0,
-            id: id++,
-          },
-        ]);
-      });
-  }, [items]);
-
-  useEffect(() => {
-    currentItemsList.length > 0 ? setCurrentItemsListEmpty(false) : setCurrentItemsListEmpty(true);
-  }, [currentItemsList]);
 
   const shareList = (e) => {
     e.preventDefault();
@@ -82,12 +67,12 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
     })();
   };
 
-  function copy(e) {
+  const copyLink = (e) => {
     e.preventDefault();
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     setCopied(true);
-  }
+  };
 
   document.body.style.overflow = "hidden";
 
@@ -121,7 +106,7 @@ const ShareListModal = ({ sourceItemsList, setSourceItemsList, uri, navigate, it
           <form>
             <input type="text" id="input" name="input" value={window.location.href} readOnly />
             <div className="share-modal-buttons">
-              <button onClick={copy}>{!copied ? "Copy link" : "Copied!"}</button>
+              <button onClick={copyLink}>{!copied ? "Copy link" : "Copied!"}</button>
               <button type="button" onClick={() => hideModal()}>
                 Close
               </button>
