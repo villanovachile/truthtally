@@ -4,13 +4,19 @@ import XIcon from "../../images/x-icon";
 
 const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, items, id, handleRemoveItem }) => {
   const [editingItem, setEditingItem] = useState(false);
-  const itemInput = useRef();
+  //   const itemInput = useRef();
+
+  const [itemInput, setItemInput] = useState(item);
+
+  function handleInputChange(event) {
+    setItemInput(event.target.value);
+  }
 
   const editedItemSubmit = (e) => {
     e.preventDefault();
     items.forEach((item, i) => {
       if (item.id === id) {
-        const newItem = { ...item, item: itemInput.current.value };
+        const newItem = { ...item, item: itemInput };
         const newArray = [...items];
         newArray.splice(i, 1, newItem);
         setItems(newArray);
@@ -25,15 +31,12 @@ const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, item
     }
   }, [id, inputIdEdited]);
 
+  //   useEffect(() => {
+  //     console.log(itemInput.current);
+  //   }, []);
+
   return (
     <div className="list-item">
-      {/* <span className="list-item"> */}
-
-      {/* {listState === "edit" && (
-        <button className="remove-item" onClick={() => handleRemoveItem(id)}>
-          ✖
-        </button>
-      )} */}
       <div className="remove-item">
         {listState === "edit" && (
           <svg
@@ -58,7 +61,7 @@ const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, item
               editedItemSubmit(e);
             }}
           >
-            <input autoFocus className="edit-item-input" type="text" ref={itemInput} defaultValue={item}></input>
+            <input autoFocus style={{ width: itemInput.length + 3 + "ch" }} className="edit-item-input" type="text" defaultValue={item} onChange={handleInputChange}></input>
           </form>
         ) : (
           item
@@ -91,7 +94,6 @@ const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, item
           </svg>
         )}
       </div>
-      {/* // </span> */}
     </div>
   );
 };

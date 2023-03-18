@@ -30,6 +30,8 @@ function TruthTally() {
 
   const [preEditListCopy, setPreEditListCopy] = useState([]);
 
+  const [preListTitleCopy, setPreListTitleCopy] = useState();
+
   const [gameState, setGameState] = useState("preload");
 
   const [listState, setListState] = useState();
@@ -153,7 +155,6 @@ function TruthTally() {
   // }, [currentItemsList]);
 
   useEffect(() => {
-    // console.log(sourceItemsList);
     let currentListItemNames = [];
     let sourceListItemNames = [];
 
@@ -214,7 +215,30 @@ function TruthTally() {
     setSourceListChanged,
     preEditListCopy,
     setPreEditListCopy,
+    setPreListTitleCopy,
+    preListTitleCopy,
+    setListTitle,
+    listTitle,
   };
+
+  function handleTitleInputChange(event) {
+    setTitleInput(event.target.value);
+  }
+
+  const editedTitleSubmit = (e) => {
+    e.preventDefault();
+    setListTitle(titleInput);
+
+    setEditingTitle(false);
+  };
+
+  const [editingTitle, setEditingTitle] = useState(false);
+
+  const [titleInput, setTitleInput] = useState();
+
+  useEffect(() => {
+    setTitleInput(listTitle);
+  }, [listTitle]);
 
   return (
     <div className="truthtally-container">
@@ -222,9 +246,43 @@ function TruthTally() {
       <Controls {...props} />
 
       <div className="list-title">
-        {listTitle}
+        {editingTitle ? (
+          <form
+            style={{ width: titleInput.length + 50 + "ch" }}
+            onSubmit={(e) => {
+              editedTitleSubmit(e);
+            }}
+          >
+            <input autoFocus style={{ width: titleInput.length + 10 + "ch" }} className="edit-item-input" type="text" defaultValue={listTitle} onChange={handleTitleInputChange}></input>
+          </form>
+        ) : (
+          listTitle
+        )}
 
-        {listState === "edit" && <PencilIcon fill={"#FFFFFF"} />}
+        {listState === "edit" && (
+          <svg
+            fill="#FFFFFF"
+            version="1.1"
+            id="Capa_1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="15px"
+            height="15px"
+            viewBox="0 0 528.899 528.899"
+            className="svg-button"
+            onClick={() => {
+              setEditingTitle(true);
+            }}
+          >
+            <g>
+              <path
+                d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981
+		c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611
+		C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069
+		L27.473,390.597L0.3,512.69z"
+              />
+            </g>
+          </svg>
+        )}
       </div>
 
       <LoadingSpinner {...props} />

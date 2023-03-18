@@ -29,6 +29,40 @@
   color: #2f2366;
 }
 
+.list-item .item-name form input[type="text"] {
+  background: #eaeaea;
+  color: #000000;
+  margin: unset;
+  font-size: 1em;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: unset;
+  width: fit-content;
+}
+.list-item form {
+  background-color: unset;
+  max-width: 600px;
+}
+
+.list-title form input[type="text"] {
+  font-size: 1em;
+  color: rgb(255, 252, 252);
+  background-color: #7a0000;
+  padding: 0px;
+  margin: 0px;
+  letter-spacing: 0px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.list-title form {
+  background-color: unset;
+  width: fit-content !important;
+  max-width: 690px;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
 /* .list-item:hover .remove-item {
   visibility: visible;
 } */
@@ -239,8 +273,10 @@ form {
   background-color: #5f0000;
   padding: 10px 0px 5px 0px;
   margin: 0px;
-  text-align: center;
   text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .svg-button {
@@ -298,7 +334,7 @@ form {
     width: 100%;
   }
 
-  input[type="text"] {
+  .items-list form input[type="text"] {
     margin: 10px 0;
     font-size: 1.5em;
   }
@@ -417,5 +453,8 @@ form {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  .list-item .item-name form input[type="text"] {
+    max-width: 80vw;
   }
 }

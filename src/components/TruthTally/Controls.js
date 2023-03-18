@@ -21,6 +21,10 @@ const Controls = ({
   setSourceListChanged,
   setPreEditListCopy,
   preEditListCopy,
+  setPreListTitleCopy,
+  preListTitleCopy,
+  setListTitle,
+  listTitle,
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -92,11 +96,13 @@ const Controls = ({
   const editListButton = () => {
     setListState("edit");
     setPreEditListCopy(items);
+    setPreListTitleCopy(listTitle);
   };
 
   const editListCancel = () => {
     setListState("display");
     setItems(preEditListCopy);
+    setListTitle(preListTitleCopy);
     setPreEditListCopy([]);
   };
 
