@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 
 const AddItemForm = ({ setInputIdEdited, setEditingTitle, handleAddItem, items }) => {
   const itemInput = useRef();

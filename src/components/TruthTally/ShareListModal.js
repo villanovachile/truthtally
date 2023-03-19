@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
 const ShareListModal = ({
   sourceListChanged,
   sourceTitleChanged,
   currentItemsList,
-  currentItemsListEmpty,
   sourceItemsList,
   setSourceItemsList,
   uri,
@@ -19,8 +18,6 @@ const ShareListModal = ({
   gameState,
   sourceRankedListChanged,
 }) => {
-  const listTags = useRef();
-  const nextItemId = useRef(0);
   const [copied, setCopied] = useState(false);
 
   console.log(sourceTitleChanged);

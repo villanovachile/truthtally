@@ -7,7 +7,6 @@ import Controls from "./Controls";
 import Results from "./Results";
 import LoadingSpinner from "./LoadingSpinner";
 import ShareListModal from "./ShareListModal";
-import PencilIcon from "../../images/pencil-icon.js";
 
 function TruthTally() {
   const [sourceListChanged, setSourceListChanged] = useState(false);
@@ -33,8 +32,6 @@ function TruthTally() {
   const [sourceListType, setSourceListType] = useState();
 
   const [showShareModal, setShowShareModal] = useState(false);
-
-  const [currentItemsListEmpty, setCurrentItemsListEmpty] = useState(true);
 
   const [preEditListCopy, setPreEditListCopy] = useState([]);
 
@@ -126,7 +123,7 @@ function TruthTally() {
           setListTitle(results.title);
           setSourceListTitle(results.title);
           setSourceItemsList([]);
-          let id = 0;
+
           results[uri].forEach((item) => {
             nextItemId.current++;
 
@@ -174,34 +171,6 @@ function TruthTally() {
     ]);
   };
 
-  // Updates the current list of items to compare with source shared unranked list
-  // useEffect(() => {
-  //   setCurrentItemsList([]);
-  //   nextItemCurrentId.current = 0;
-  //   let id = 0;
-
-  //   items
-  //     .sort((a, b) => a.id - b.id)
-  //     .forEach((item) => {
-  //       nextItemCurrentId.current++;
-  //       setCurrentItemsList((prevItems) => [
-  //         ...prevItems,
-  //         {
-  //           item: item.item,
-  //           score: 0,
-  //           id: id++,
-  //         },
-  //       ]);
-  //     });
-  //   if (JSON.stringify(sourceItemsList) !== JSON.stringify(currentItemsList)) {
-  //     setSourceListChanged(true);
-  //   }
-  // }, [items]);
-
-  // useEffect(() => {
-  //   currentItemsList.length > 0 ? setCurrentItemsListEmpty(false) : setCurrentItemsListEmpty(true);
-  // }, [currentItemsList]);
-
   useEffect(() => {
     let currentListItemNames = [];
     let sourceListItemNames = [];
@@ -226,13 +195,6 @@ function TruthTally() {
   const updatePairsList = (a) => {
     setPairs(a);
   };
-
-  // const copyLink = (e) => {
-  //   e.preventDefault();
-  //   const url = window.location.href;
-  //   navigator.clipboard.writeText(url);
-  //   // setCopied(true);
-  // };
 
   function handleTitleInputChange(event) {
     setTitleInput(event.target.value);
@@ -280,7 +242,6 @@ function TruthTally() {
     setListState,
     shareButtonLabel,
     setShareButtonLabel,
-    currentItemsListEmpty,
     sourceListChanged,
     setSourceListChanged,
     preEditListCopy,

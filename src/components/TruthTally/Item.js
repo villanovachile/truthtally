@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import PencilIcon from "../../images/pencil-icon";
-import XIcon from "../../images/x-icon";
+import React, { useState, useEffect } from "react";
 
 const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, setItems, item, items, id, handleRemoveItem }) => {
   const [editingItem, setEditingItem] = useState(false);
