@@ -15,6 +15,8 @@ function TruthTally() {
 
   const [sourceTitleChanged, setSourceTitleChanged] = useState(false);
 
+  const [sourceListURI, setSourceListURI] = useState();
+
   let { uri } = useParams();
 
   let navigate = useNavigate();
@@ -72,6 +74,7 @@ function TruthTally() {
 
   useEffect(() => {
     setItems([]);
+    setSourceTitleChanged(false);
     const fetchURL = "/.netlify/functions/get_list?uri=" + uri;
     if (uri === undefined) {
       setLoadingText("Loading...");
@@ -90,6 +93,7 @@ function TruthTally() {
           setSourceListType("unranked");
           setListTitle(results.title);
           setSourceItemsList([]);
+          setSourceListURI(results.source_uri);
           let id = 0;
           results[uri].forEach((item) => {
             nextItemId.current++;
@@ -122,6 +126,7 @@ function TruthTally() {
           setSourceListType("ranked");
           setListTitle(results.title);
           setSourceListTitle(results.title);
+          setSourceListURI(results.source_uri);
           setSourceItemsList([]);
 
           results[uri].forEach((item) => {
@@ -204,9 +209,6 @@ function TruthTally() {
     e.preventDefault();
     setTitleInput(listTitle);
     if (titleInput !== "") {
-      console.log(sourceListTitle);
-      console.log(titleInput);
-
       sourceListTitle !== titleInput ? setSourceTitleChanged(true) : setSourceTitleChanged(false);
       setListTitle(titleInput);
     }
@@ -263,6 +265,8 @@ function TruthTally() {
     setSourceListType,
     sourceRankedListChanged,
     setSourceRankedListChanged,
+    sourceListURI,
+    setSourceListURI,
   };
 
   return (
@@ -283,8 +287,9 @@ function TruthTally() {
         ) : (
           listTitle
         )}
+        {sourceTitleChanged && "*"}
 
-        {(listState === "edit" || gameState === "finished") && (gameState !== "loading" || gameState !== "inProgress") && (
+        {(listState === "edit" || gameState === "finished") && (
           <svg
             fill="#FFFFFF"
             version="1.1"

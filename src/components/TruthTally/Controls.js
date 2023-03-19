@@ -31,6 +31,7 @@ const Controls = ({
   titleInput,
   sourceListType,
   sourceRankedListChanged,
+  sourceListURI,
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -131,6 +132,10 @@ const Controls = ({
     }
   };
 
+  const viewSourceList = () => {
+    navigate("/list/" + sourceListURI);
+  };
+
   return (
     <div className="controls">
       {listState === "edit" && uri !== undefined && (
@@ -160,7 +165,9 @@ const Controls = ({
 
       {items.length > 0 && gameState === "start" && listState === "edit" ? <button onClick={() => clearList()}>Clear</button> : null}
 
-      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" ? <button onClick={() => startOver()}>Start Over</button> : null}
+      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && (sourceListType === "new" || sourceListType === "unranked") ? (
+        <button onClick={() => startOver()}>Start Over</button>
+      ) : null}
 
       {gameState === "finished" && gameState !== "loading" && gameState !== "preload" && (sourceListType === "new" || sourceRankedListChanged === true) ? (
         <button onClick={() => rateAgain()}>Rank Again</button>
@@ -183,6 +190,8 @@ const Controls = ({
       )}
 
       {shareButton()}
+
+      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && sourceListType === "ranked" ? <button onClick={() => viewSourceList()}>See Source List</button> : null}
     </div>
   );
 };

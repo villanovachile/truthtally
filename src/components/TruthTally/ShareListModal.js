@@ -17,10 +17,10 @@ const ShareListModal = ({
   setSourceListType,
   gameState,
   sourceRankedListChanged,
+  sourceListURI,
+  setSourceListURI,
 }) => {
   const [copied, setCopied] = useState(false);
-
-  console.log(sourceTitleChanged);
 
   const hideModal = () => {
     document.body.style.overflow = "unset";
@@ -97,7 +97,6 @@ const ShareListModal = ({
         });
         const unrankedURI = await results.json();
         if (unrankedURI !== undefined) {
-          console.log(unrankedURI);
           // if URI is returned, save ranked list, and associate URI with saved ranked list
           let id = 1;
           const tempRankedList = await items.sort((a, b) => b.score - a.score).map((item) => ({ ...item, id: id++ }));
@@ -121,7 +120,6 @@ const ShareListModal = ({
 
           const response = await results.json();
           if (response !== undefined) {
-            console.log(response);
             navigate("/list/" + response);
             hideModal();
           }
@@ -130,12 +128,12 @@ const ShareListModal = ({
       return;
     }
 
-    //game is finished, and source is saved unranked list
-    if (gameState === "finished" && sourceListType === "unranked") {
+    //game is finished, and source is saved unranked list, or source list type is ranked and title has been modified
+    if (gameState === "finished" && (sourceListType === "unranked" || (sourceTitleChanged && sourceListType === "ranked"))) {
       // save unranked list and generate URI
       (async () => {
-        // if URI is returned, save ranked list, and associate URI with saved ranked list
         let id = 1;
+        let source_uri;
         const tempRankedList = await items.sort((a, b) => b.score - a.score).map((item) => ({ ...item, id: id++ }));
         const tags = formData.listTags
           .replace(/^[,\s]+|[,\s]+$/g, "")
@@ -144,7 +142,10 @@ const ShareListModal = ({
         const title = listTitle;
         const type = "ranked";
         const unlisted = formData.isUnlisted;
-        const newList = { items: tempRankedList, unlisted: unlisted, title: title, tags: tags, type: type, source_uri: uri };
+
+        sourceListType === "ranked" ? (source_uri = sourceListURI) : (source_uri = uri);
+
+        const newList = { items: tempRankedList, unlisted: unlisted, title: title, tags: tags, type: type, source_uri: source_uri };
         let results = await fetch("/.netlify/functions/add_list", {
           method: "POST",
           headers: {
@@ -155,7 +156,6 @@ const ShareListModal = ({
         });
         const response = await results.json();
         if (response !== undefined) {
-          console.log(response);
           navigate("/list/" + response);
           hideModal();
         }
