@@ -25,6 +25,12 @@ const Controls = ({
   preListTitleCopy,
   setListTitle,
   listTitle,
+  sourceTitleChanged,
+  setEditingTitle,
+  editedTitleSubmit,
+  titleInput,
+  sourceListType,
+  sourceRankedListChanged,
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -101,6 +107,7 @@ const Controls = ({
 
   const editListCancel = () => {
     setListState("display");
+    setEditingTitle(false);
     setItems(preEditListCopy);
     setListTitle(preListTitleCopy);
     setPreEditListCopy([]);
@@ -108,16 +115,19 @@ const Controls = ({
 
   const editListOK = () => {
     setListState("display");
+    // editedTitleSubmit(titleInput);
     setPreEditListCopy([]);
   };
 
   const shareButton = () => {
-    if (uri === undefined && sourceListChanged === false) {
-      return items.length > 2 && (gameState === "start" || gameState === "finished") && listState === "edit" ? <button onClick={() => shareList()}>Save List</button> : null;
-    } else if (uri !== undefined && sourceListChanged === true) {
-      return items.length > 2 && (gameState === "start" || gameState === "finished") && listState !== "edit" ? <button onClick={() => shareList()}>Save Changed List</button> : null;
-    } else {
-      return items.length > 2 && (gameState === "start" || gameState === "finished") && listState !== "edit" ? <button onClick={() => shareList()}>Share List</button> : null;
+    if (uri === undefined && sourceListChanged === false && gameState === "start") {
+      return items.length > 2 && listState === "edit" ? <button onClick={() => shareList()}>Save List</button> : null;
+    } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && gameState === "start") {
+      return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Save Changed List</button> : null;
+    } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && gameState === "start") {
+      return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Share List</button> : null;
+    } else if (gameState === "finished") {
+      return uri !== undefined && sourceListType === "ranked" ? <button onClick={() => shareList()}>Share Ranked List</button> : <button onClick={() => shareList()}>Save Ranked List</button>;
     }
   };
 
@@ -144,13 +154,21 @@ const Controls = ({
         </>
       )}
 
-      {items.length > 2 && gameState === "start" && listState !== "edit" ? <button onClick={() => genList()}>Rank List</button> : null}
+      {items.length > 2 && gameState === "start" && ((listState !== "edit" && uri !== undefined) || (listState === "edit" && uri === undefined)) ? (
+        <button onClick={() => genList()}>Rank List</button>
+      ) : null}
 
       {items.length > 0 && gameState === "start" && listState === "edit" ? <button onClick={() => clearList()}>Clear</button> : null}
 
       {gameState !== "start" && gameState !== "loading" && gameState !== "preload" ? <button onClick={() => startOver()}>Start Over</button> : null}
 
-      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" ? <button onClick={() => rateAgain()}>Rate Again</button> : null}
+      {gameState === "finished" && gameState !== "loading" && gameState !== "preload" && (sourceListType === "new" || sourceRankedListChanged === true) ? (
+        <button onClick={() => rateAgain()}>Rank Again</button>
+      ) : null}
+
+      {gameState === "finished" && gameState !== "loading" && gameState !== "preload" && sourceListType === "ranked" && sourceRankedListChanged === false ? (
+        <button onClick={() => rateAgain()}>Rank this list</button>
+      ) : null}
 
       {listState === "display" && gameState !== "loading" && gameState === "start" && (
         <>

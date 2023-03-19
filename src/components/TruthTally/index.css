@@ -52,7 +52,6 @@
   margin: 0px;
   letter-spacing: 0px;
   text-align: center;
-  text-transform: uppercase;
 }
 .list-title form {
   background-color: unset;
@@ -142,7 +141,7 @@
   margin: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-content: center;
   text-align: center;
 }
@@ -413,12 +412,15 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: left;
-    align-items: center;
-    width: 100%;
+    /* align-items: center; */
+    /* width: 100%; */
     flex-grow: 1;
   }
 
-  li {
+  .ranked-items {
+    display: table;
+    text-align: left;
+    margin: auto;
     font-size: 1em;
   }
 

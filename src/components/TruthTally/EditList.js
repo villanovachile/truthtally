@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import Item from "./Item";
 import AddItemForm from "./AddItemForm";
 
-const EditList = ({ listState, items, setItems, handleAddItem, gameState, handleRemoveItem }) => {
+const EditList = ({ inputIdEdited, setInputIdEdited, setEditingTitle, listState, items, setItems, handleAddItem, gameState, handleRemoveItem }) => {
   // if (gameState === "start") {
-  const [inputIdEdited, setInputIdEdited] = useState();
+
   return (
     <div className="items-list">
-      <AddItemForm handleAddItem={handleAddItem} items={items} />
+      <AddItemForm setInputIdEdited={setInputIdEdited} setEditingTitle={setEditingTitle} handleAddItem={handleAddItem} items={items} />
       {items.map((item) => (
         <Item
           listState={listState}
@@ -20,6 +20,7 @@ const EditList = ({ listState, items, setItems, handleAddItem, gameState, handle
           key={item.id.toString()}
           inputIdEdited={inputIdEdited}
           setInputIdEdited={setInputIdEdited}
+          setEditingTitle={setEditingTitle}
         />
       ))}
     </div>

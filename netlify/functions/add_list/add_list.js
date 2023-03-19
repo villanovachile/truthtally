@@ -3,6 +3,7 @@ const randomstring = require("randomstring");
 
 const handler = async (event) => {
   const input = JSON.parse(event.body);
+  console.log(input);
 
   try {
     const database = await connectToDatabase(process.env.MONGODB_URI);
@@ -17,6 +18,7 @@ const handler = async (event) => {
       type: input.type,
       unlisted: input.unlisted,
       tags: input.tags,
+      unranked_list_uri: input.source_uri,
     });
 
     return {

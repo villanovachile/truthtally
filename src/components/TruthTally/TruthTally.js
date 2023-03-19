@@ -12,6 +12,10 @@ import PencilIcon from "../../images/pencil-icon.js";
 function TruthTally() {
   const [sourceListChanged, setSourceListChanged] = useState(false);
 
+  const [sourceRankedListChanged, setSourceRankedListChanged] = useState(false);
+
+  const [sourceTitleChanged, setSourceTitleChanged] = useState(false);
+
   let { uri } = useParams();
 
   let navigate = useNavigate();
@@ -24,6 +28,10 @@ function TruthTally() {
 
   const [sourceItemsList, setSourceItemsList] = useState([]);
 
+  const [sourceListTitle, setSourceListTitle] = useState();
+
+  const [sourceListType, setSourceListType] = useState();
+
   const [showShareModal, setShowShareModal] = useState(false);
 
   const [currentItemsListEmpty, setCurrentItemsListEmpty] = useState(true);
@@ -31,6 +39,10 @@ function TruthTally() {
   const [preEditListCopy, setPreEditListCopy] = useState([]);
 
   const [preListTitleCopy, setPreListTitleCopy] = useState();
+
+  const [editingTitle, setEditingTitle] = useState(false);
+
+  const [titleInput, setTitleInput] = useState();
 
   const [gameState, setGameState] = useState("preload");
 
@@ -44,6 +56,8 @@ function TruthTally() {
 
   const [shareButtonLabel, setShareButtonLabel] = useState();
 
+  const [inputIdEdited, setInputIdEdited] = useState();
+
   const currentIndex = useRef(0);
 
   const nextItemId = useRef(0);
@@ -55,9 +69,9 @@ function TruthTally() {
     }
   }, []);
 
-  useEffect(() => {
-    window.sessionStorage.setItem("showShareModal", JSON.stringify(showShareModal));
-  }, [showShareModal]);
+  // useEffect(() => {
+  //   window.sessionStorage.setItem("showShareModal", JSON.stringify(showShareModal));
+  // }, [showShareModal]);
 
   useEffect(() => {
     setItems([]);
@@ -68,13 +82,15 @@ function TruthTally() {
       setShowShareModal(false);
       setListState("edit");
       setListTitle("Untitled List");
+      setSourceListType("new");
       return;
     }
     (async () => {
       try {
         setLoadingText("Loading...");
         let results = await fetch(fetchURL).then((response) => response.json());
-        if (results !== "not_found" && results.type === "list") {
+        if (results !== "not_found" && results.type === "unranked") {
+          setSourceListType("unranked");
           setListTitle(results.title);
           setSourceItemsList([]);
           let id = 0;
@@ -91,6 +107,8 @@ function TruthTally() {
               },
             ]);
 
+            setSourceListTitle(results.title);
+
             setItems((prevItems) => [
               // loads the items state with source list
               ...prevItems,
@@ -103,6 +121,36 @@ function TruthTally() {
           });
           setListState("display");
           setGameState("start");
+        } else if (results !== "not_found" && results.type === "ranked") {
+          setSourceListType("ranked");
+          setListTitle(results.title);
+          setSourceListTitle(results.title);
+          setSourceItemsList([]);
+          let id = 0;
+          results[uri].forEach((item) => {
+            nextItemId.current++;
+
+            setSourceItemsList((prevItems) => [
+              // Creates a temporary copy of source list, with renumerated id and score
+              ...prevItems,
+              {
+                item: item.item,
+                score: item.score,
+                id: item.id,
+              },
+            ]);
+
+            setItems((prevItems) => [
+              ...prevItems,
+              {
+                item: item.item,
+                score: item.score,
+                id: item.id,
+              },
+            ]);
+          });
+          setListState("display");
+          setGameState("finished");
         } else {
           navigate("/list/404");
         }
@@ -167,6 +215,7 @@ function TruthTally() {
 
     if (uri !== undefined) {
       JSON.stringify(currentListItemNames) === JSON.stringify(sourceListItemNames) ? setSourceListChanged(false) : setSourceListChanged(true);
+      JSON.stringify(items) === JSON.stringify(sourceItemsList) ? setSourceRankedListChanged(false) : setSourceRankedListChanged(true);
     }
   }, [items, sourceItemsList, uri]);
 
@@ -178,12 +227,33 @@ function TruthTally() {
     setPairs(a);
   };
 
-  const copyLink = (e) => {
+  // const copyLink = (e) => {
+  //   e.preventDefault();
+  //   const url = window.location.href;
+  //   navigator.clipboard.writeText(url);
+  //   // setCopied(true);
+  // };
+
+  function handleTitleInputChange(event) {
+    setTitleInput(event.target.value);
+  }
+
+  const editedTitleSubmit = (e) => {
     e.preventDefault();
-    const url = window.location.href;
-    navigator.clipboard.writeText(url);
-    // setCopied(true);
+    setTitleInput(listTitle);
+    if (titleInput !== "") {
+      console.log(sourceListTitle);
+      console.log(titleInput);
+
+      sourceListTitle !== titleInput ? setSourceTitleChanged(true) : setSourceTitleChanged(false);
+      setListTitle(titleInput);
+    }
+    setEditingTitle(false);
   };
+
+  useEffect(() => {
+    setTitleInput(listTitle);
+  }, [listTitle]);
 
   const props = {
     items,
@@ -219,26 +289,20 @@ function TruthTally() {
     preListTitleCopy,
     setListTitle,
     listTitle,
+    sourceTitleChanged,
+    setSourceTitleChanged,
+    sourceListTitle,
+    setSourceListTitle,
+    setEditingTitle,
+    editedTitleSubmit,
+    titleInput,
+    inputIdEdited,
+    setInputIdEdited,
+    sourceListType,
+    setSourceListType,
+    sourceRankedListChanged,
+    setSourceRankedListChanged,
   };
-
-  function handleTitleInputChange(event) {
-    setTitleInput(event.target.value);
-  }
-
-  const editedTitleSubmit = (e) => {
-    e.preventDefault();
-    setListTitle(titleInput);
-
-    setEditingTitle(false);
-  };
-
-  const [editingTitle, setEditingTitle] = useState(false);
-
-  const [titleInput, setTitleInput] = useState();
-
-  useEffect(() => {
-    setTitleInput(listTitle);
-  }, [listTitle]);
 
   return (
     <div className="truthtally-container">
@@ -246,7 +310,7 @@ function TruthTally() {
       <Controls {...props} />
 
       <div className="list-title">
-        {editingTitle ? (
+        {editingTitle && (listState === "edit" || gameState === "finished") ? (
           <form
             style={{ width: titleInput.length + 50 + "ch" }}
             onSubmit={(e) => {
@@ -259,7 +323,7 @@ function TruthTally() {
           listTitle
         )}
 
-        {listState === "edit" && (
+        {(listState === "edit" || gameState === "finished") && (gameState !== "loading" || gameState !== "inProgress") && (
           <svg
             fill="#FFFFFF"
             version="1.1"
@@ -271,6 +335,7 @@ function TruthTally() {
             className="svg-button"
             onClick={() => {
               setEditingTitle(true);
+              setInputIdEdited("title");
             }}
           >
             <g>

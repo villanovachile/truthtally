@@ -10,11 +10,13 @@ const handler = async (event) => {
 
     if (results.length > 0) {
       let viewCount = results[0].views;
+      const currentDate = new Date();
       await collection.updateOne(
         { [input]: { $exists: true } },
         {
           $set: {
             views: viewCount + 1,
+            last_accessed: currentDate,
           },
         }
       );

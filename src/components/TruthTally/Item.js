@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import PencilIcon from "../../images/pencil-icon";
 import XIcon from "../../images/x-icon";
 
-const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, items, id, handleRemoveItem }) => {
+const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, setItems, item, items, id, handleRemoveItem }) => {
   const [editingItem, setEditingItem] = useState(false);
   //   const itemInput = useRef();
 
@@ -14,14 +14,28 @@ const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, item
 
   const editedItemSubmit = (e) => {
     e.preventDefault();
-    items.forEach((item, i) => {
-      if (item.id === id) {
-        const newItem = { ...item, item: itemInput };
-        const newArray = [...items];
-        newArray.splice(i, 1, newItem);
-        setItems(newArray);
+    setItemInput(item);
+
+    let dupe = false;
+    const input = itemInput.toLowerCase().replace(/\s+/g, "");
+    items.forEach((item) => {
+      if (item.item.toLowerCase().replace(/\s+/g, "") === input) {
+        dupe = true;
       }
     });
+
+    if (!dupe && input) {
+      items.forEach((item, i) => {
+        if (item.id === id) {
+          const newItem = { ...item, item: itemInput.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()) };
+          const newArray = [...items];
+          newArray.splice(i, 1, newItem);
+          setItems(newArray);
+        }
+      });
+    } else {
+      return;
+    }
     setEditingItem(false);
   };
 
@@ -30,10 +44,6 @@ const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, item
       setEditingItem(false);
     }
   }, [id, inputIdEdited]);
-
-  //   useEffect(() => {
-  //     console.log(itemInput.current);
-  //   }, []);
 
   return (
     <div className="list-item">
@@ -81,6 +91,7 @@ const Item = ({ inputIdEdited, setInputIdEdited, listState, setItems, item, item
             onClick={() => {
               setEditingItem(true);
               setInputIdEdited(id);
+              setEditingTitle(false);
             }}
           >
             <g>
