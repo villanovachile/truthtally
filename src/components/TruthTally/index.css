@@ -498,4 +498,8 @@ form {
     margin: 10px 0;
     font-size: 1.5em;
   }
+
+  ul {
+    padding-left: 25px;
+  }
 }
