@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, setItems, item, items, id, handleRemoveItem }) => {
-  const [editingItem, setEditingItem] = useState(false);
+  //   const [editingItem, setEditingItem] = useState(false);
   //   const itemInput = useRef();
 
   const [itemInput, setItemInput] = useState(item);
+  const inputRef = useRef(null);
 
   function handleInputChange(event) {
     setItemInput(event.target.value);
@@ -12,10 +13,23 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
 
   const editedItemSubmit = (e) => {
     e.preventDefault();
-    setItemInput(item);
+
+    inputRef.current.blur();
+
+    if (itemInput.trim() === "") {
+      setItemInput(item);
+      return;
+    }
 
     let dupe = false;
     const input = itemInput.toLowerCase().replace(/\s+/g, "");
+    if (input === "") {
+      console.log("empty");
+      console.log(item);
+      setItemInput(item);
+      return;
+    }
+
     items.forEach((item) => {
       if (item.item.toLowerCase().replace(/\s+/g, "") === input) {
         dupe = true;
@@ -32,16 +46,18 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
         }
       });
     } else {
+      //   setEditingItem(false);
+
       return;
     }
-    setEditingItem(false);
+    // setEditingItem(false);
   };
 
-  useEffect(() => {
-    if (inputIdEdited !== id) {
-      setEditingItem(false);
-    }
-  }, [id, inputIdEdited]);
+  //   useEffect(() => {
+  //     if (inputIdEdited !== id) {
+  //       setEditingItem(false);
+  //     }
+  //   }, [id, inputIdEdited]);
 
   return (
     <div className="list-item">
@@ -63,44 +79,26 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
         )}
       </div>
       <div className="item-name">
-        {editingItem ? (
+        {listState === "edit" ? (
           <form
             onSubmit={(e) => {
               editedItemSubmit(e);
             }}
           >
-            <input autoFocus style={{ width: itemInput.length + 3 + "ch" }} className="edit-item-input" type="text" defaultValue={item} onChange={handleInputChange}></input>
+            <input
+              onBlur={(e) => {
+                editedItemSubmit(e);
+              }}
+              style={{ width: itemInput.length + 3 + "ch" }}
+              className="edit-item-input"
+              type="text"
+              value={itemInput}
+              onChange={handleInputChange}
+              ref={inputRef}
+            ></input>
           </form>
         ) : (
           item
-        )}
-      </div>
-      <div className="edit-item-icon">
-        {listState === "edit" && (
-          <svg
-            fill="#000000"
-            version="1.1"
-            id="Capa_1"
-            xmlns="http://www.w3.org/2000/svg"
-            width="15px"
-            height="15px"
-            viewBox="0 0 528.899 528.899"
-            className="svg-button"
-            onClick={() => {
-              setEditingItem(true);
-              setInputIdEdited(id);
-              setEditingTitle(false);
-            }}
-          >
-            <g>
-              <path
-                d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981
-		c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611
-		C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069
-		L27.473,390.597L0.3,512.69z"
-              />
-            </g>
-          </svg>
         )}
       </div>
     </div>

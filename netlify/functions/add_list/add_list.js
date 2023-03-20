@@ -14,6 +14,7 @@ const handler = async (event) => {
       views: 0,
       rating: 0,
       title: input.title,
+      author: input.author,
       type: input.type,
       unlisted: input.unlisted,
       tags: input.tags,

@@ -25,7 +25,9 @@ function TruthTally() {
 
   const [items, setItems] = useState([]);
 
-  const [listTitle, setListTitle] = useState();
+  const [listTitle, setListTitle] = useState("");
+
+  const [listAuthor, setListAuthor] = useState();
 
   const [sourceItemsList, setSourceItemsList] = useState([]);
 
@@ -61,6 +63,8 @@ function TruthTally() {
 
   const nextItemId = useRef(0);
 
+  const titleInputRef = useRef(null);
+
   useEffect(() => {
     const storedValue = window.sessionStorage.getItem("showShareModal");
     if (storedValue) {
@@ -68,32 +72,37 @@ function TruthTally() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   window.sessionStorage.setItem("showShareModal", JSON.stringify(showShareModal));
-  // }, [showShareModal]);
+  useEffect(() => {
+    window.sessionStorage.setItem("showShareModal", JSON.stringify(showShareModal));
+  }, [showShareModal]);
 
   useEffect(() => {
     setItems([]);
     setSourceTitleChanged(false);
     const fetchURL = "/.netlify/functions/get_list?uri=" + uri;
+
     if (uri === undefined) {
       setLoadingText("Loading...");
       setGameState("start");
       setShowShareModal(false);
       setListState("edit");
-      setListTitle("Untitled List");
+      setListTitle("Add a List Title...");
       setSourceListType("new");
+      setListAuthor();
       return;
     }
+
     (async () => {
       try {
         setLoadingText("Loading...");
         let results = await fetch(fetchURL).then((response) => response.json());
+        console.log("MADE THE CALL");
         if (results !== "not_found" && results.type === "unranked") {
           setSourceListType("unranked");
           setListTitle(results.title);
           setSourceItemsList([]);
           setSourceListURI(results.source_uri);
+          setListAuthor(null);
           let id = 0;
           results[uri].forEach((item) => {
             nextItemId.current++;
@@ -125,6 +134,7 @@ function TruthTally() {
         } else if (results !== "not_found" && results.type === "ranked") {
           setSourceListType("ranked");
           setListTitle(results.title);
+          listAuthor !== null && setListAuthor(results.author);
           setSourceListTitle(results.title);
           setSourceListURI(results.source_uri);
           setSourceItemsList([]);
@@ -200,15 +210,21 @@ function TruthTally() {
   const updatePairsList = (a) => {
     setPairs(a);
   };
-
   function handleTitleInputChange(event) {
     setTitleInput(event.target.value);
   }
 
   const editedTitleSubmit = (e) => {
     e.preventDefault();
-    setTitleInput(listTitle);
-    if (titleInput !== "") {
+
+    titleInputRef.current.blur();
+
+    if (titleInput.trim() === "") {
+      setTitleInput(listTitle);
+      return;
+    }
+
+    if (titleInput.trim() !== "") {
       sourceListTitle !== titleInput ? setSourceTitleChanged(true) : setSourceTitleChanged(false);
       setListTitle(titleInput);
     }
@@ -218,6 +234,14 @@ function TruthTally() {
   useEffect(() => {
     setTitleInput(listTitle);
   }, [listTitle]);
+
+  const titleInputFocus = (e) => {
+    listTitle === "Add a List Title..." && e.target.select();
+  };
+
+  useEffect(() => {
+    !titleInputRef && titleInputRef.current.focus();
+  }, []);
 
   const props = {
     items,
@@ -267,6 +291,8 @@ function TruthTally() {
     setSourceRankedListChanged,
     sourceListURI,
     setSourceListURI,
+    listAuthor,
+    setListAuthor,
   };
 
   return (
@@ -275,21 +301,35 @@ function TruthTally() {
       <Controls {...props} />
 
       <div className="list-title">
-        {editingTitle && (listState === "edit" || gameState === "finished") ? (
+        {(listState === "edit" && gameState === "start") || (editingTitle && gameState === "finished") ? (
           <form
-            style={{ width: titleInput.length + 50 + "ch" }}
+            style={{ width: titleInput.length + 5 + "ch" }}
+            onBlur={(e) => {
+              editedTitleSubmit(e);
+            }}
             onSubmit={(e) => {
               editedTitleSubmit(e);
             }}
           >
-            <input autoFocus style={{ width: titleInput.length + 10 + "ch" }} className="edit-item-input" type="text" defaultValue={listTitle} onChange={handleTitleInputChange}></input>
+            <input
+              autoFocus
+              style={{ width: titleInput.length + 5 + "ch" }}
+              className="list-title"
+              type="text"
+              value={titleInput}
+              onChange={handleTitleInputChange}
+              ref={titleInputRef}
+              onClick={(e) => {
+                titleInputFocus(e);
+              }}
+            ></input>
           </form>
         ) : (
           listTitle
         )}
-        {sourceTitleChanged && "*"}
+        {sourceTitleChanged && sourceListType !== "new" && "*"}
 
-        {(listState === "edit" || gameState === "finished") && (
+        {gameState === "finished" && (
           <svg
             fill="#FFFFFF"
             version="1.1"
@@ -321,6 +361,12 @@ function TruthTally() {
       <Stage {...props} />
 
       <Results {...props} />
+
+      {gameState === "finished" && (
+        <div className="new-list-button">
+          <button onClick={() => navigate("/")}>Create New List</button>
+        </div>
+      )}
 
       {listState === "display" && gameState === "start" && <ItemsList {...props} />}
 

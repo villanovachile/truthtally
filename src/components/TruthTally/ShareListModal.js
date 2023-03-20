@@ -25,17 +25,18 @@ const ShareListModal = ({
   const hideModal = () => {
     document.body.style.overflow = "unset";
     setShowShareModal(false);
-    // window.sessionStorage.setItem("showShareModal", JSON.stringify(false));
+    window.sessionStorage.setItem("showShareModal", JSON.stringify(false));
   };
 
   const [formData, setFormData] = useState({
-    listTitle: "",
+    listAuthor: "",
     listTags: "",
     isUnlisted: false,
   });
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
+
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -54,7 +55,7 @@ const ShareListModal = ({
           .replace(/\s*,\s*/g, ",")
           .split(",");
         const title = listTitle;
-        const type = "list";
+        const type = "unranked";
         const unlisted = formData.isUnlisted;
         const newList = { items: tempList, unlisted: unlisted, title: title, tags: tags, type: type };
         let results = await fetch("/.netlify/functions/add_list", {
@@ -68,7 +69,6 @@ const ShareListModal = ({
         const response = await results.json();
         if (response !== undefined) {
           navigate("/list/" + response);
-          hideModal();
         }
       })();
       return;
@@ -84,9 +84,10 @@ const ShareListModal = ({
           .replace(/\s*,\s*/g, ",")
           .split(",");
         const title = listTitle;
+        const author = formData.listAuthor;
         const type = "unranked";
         const unlisted = formData.isUnlisted;
-        const newList = { items: tempList, unlisted: unlisted, title: title, tags: tags, type: type };
+        const newList = { items: tempList, unlisted: unlisted, title: title, tags: tags, type: type, author: author };
         let results = await fetch("/.netlify/functions/add_list", {
           method: "POST",
           headers: {
@@ -106,9 +107,10 @@ const ShareListModal = ({
             .split(",");
           const title = listTitle;
           const type = "ranked";
+          const author = formData.listAuthor;
           const unlisted = formData.isUnlisted;
           const sourceListURI = unrankedURI;
-          const newList = { items: tempRankedList, unlisted: unlisted, title: title, tags: tags, type: type, source_uri: sourceListURI };
+          const newList = { items: tempRankedList, unlisted: unlisted, title: title, tags: tags, type: type, source_uri: sourceListURI, author: author };
           let results = await fetch("/.netlify/functions/add_list", {
             method: "POST",
             headers: {
@@ -121,7 +123,6 @@ const ShareListModal = ({
           const response = await results.json();
           if (response !== undefined) {
             navigate("/list/" + response);
-            hideModal();
           }
         }
       })();
@@ -129,7 +130,7 @@ const ShareListModal = ({
     }
 
     //game is finished, and source is saved unranked list, or source list type is ranked and title has been modified
-    if (gameState === "finished" && (sourceListType === "unranked" || (sourceTitleChanged && sourceListType === "ranked"))) {
+    if (gameState === "finished" && (sourceListType === "unranked" || ((sourceRankedListChanged === true || sourceTitleChanged) && sourceListType === "ranked"))) {
       // save unranked list and generate URI
       (async () => {
         let id = 1;
@@ -141,11 +142,15 @@ const ShareListModal = ({
           .split(",");
         const title = listTitle;
         const type = "ranked";
+
+        let author;
+        formData.listAuthor.replace(/\s+/g, "") !== "" ? (author = formData.listAuthor) : (author = null);
+        console.log(author);
         const unlisted = formData.isUnlisted;
 
         sourceListType === "ranked" ? (source_uri = sourceListURI) : (source_uri = uri);
 
-        const newList = { items: tempRankedList, unlisted: unlisted, title: title, tags: tags, type: type, source_uri: source_uri };
+        const newList = { items: tempRankedList, unlisted: unlisted, title: title, tags: tags, type: type, source_uri: source_uri, author: author };
         let results = await fetch("/.netlify/functions/add_list", {
           method: "POST",
           headers: {
@@ -157,7 +162,6 @@ const ShareListModal = ({
         const response = await results.json();
         if (response !== undefined) {
           navigate("/list/" + response);
-          hideModal();
         }
       })();
       return;
@@ -217,9 +221,9 @@ const ShareListModal = ({
       {gameState === "finished" && (sourceListType === "new" || sourceListType === "unranked" || sourceTitleChanged || (sourceListType === "ranked" && sourceRankedListChanged === true)) && (
         <div className="share-modal">
           <form onSubmit={(e) => shareList(e)}>
-            {/* <label htmlFor="input">Title (required):</label> */}
+            <label htmlFor="input">Your name: (optional):</label>
 
-            {/* <input type="text" id="input" name="listTitle" placeholder="i.e., Beatles Albums" onChange={handleChange} value={formData.listTitle} required /> */}
+            <input type="text" id="input" name="listAuthor" placeholder="" onChange={handleChange} value={formData.listAuthor} />
             <label htmlFor="input">Tags (separate with commas) (ranked):</label>
             <input type="text" id="input" name="listTags" placeholder="(optional)" onChange={handleChange} value={formData.listTags} />
             <span>

@@ -32,6 +32,7 @@ const Controls = ({
   sourceListType,
   sourceRankedListChanged,
   sourceListURI,
+  setListAuthor,
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -80,6 +81,7 @@ const Controls = ({
     genList();
     setGameCompleted(false);
     setGameState("inProgress");
+    setListAuthor();
   };
 
   const startOver = () => {
@@ -122,13 +124,13 @@ const Controls = ({
 
   const shareButton = () => {
     if (uri === undefined && sourceListChanged === false && gameState === "start") {
-      return items.length > 2 && listState === "edit" ? <button onClick={() => shareList()}>Save List</button> : null;
+      return items.length > 2 && listState === "edit" ? <button onClick={() => shareList()}>Share List</button> : null;
     } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && gameState === "start") {
-      return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Save Changed List</button> : null;
+      return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Share New List</button> : null;
     } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && gameState === "start") {
       return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Share List</button> : null;
     } else if (gameState === "finished") {
-      return uri !== undefined && sourceListType === "ranked" ? <button onClick={() => shareList()}>Share Ranked List</button> : <button onClick={() => shareList()}>Save Ranked List</button>;
+      return uri !== undefined && sourceListType === "ranked" ? <button onClick={() => shareList()}>Share Ranked List</button> : <button onClick={() => shareList()}>Share Ranked List</button>;
     }
   };
 
@@ -163,7 +165,7 @@ const Controls = ({
         <button onClick={() => genList()}>Rank List</button>
       ) : null}
 
-      {items.length > 0 && gameState === "start" && listState === "edit" ? <button onClick={() => clearList()}>Clear</button> : null}
+      {items.length > 2 && gameState === "start" && listState === "edit" ? <button onClick={() => clearList()}>Clear</button> : null}
 
       {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && (sourceListType === "new" || sourceListType === "unranked") ? (
         <button onClick={() => startOver()}>Start Over</button>
@@ -191,7 +193,7 @@ const Controls = ({
 
       {shareButton()}
 
-      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && sourceListType === "ranked" ? <button onClick={() => viewSourceList()}>See Source List</button> : null}
+      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && sourceListType === "ranked" ? <button onClick={() => viewSourceList()}>See Unranked List</button> : null}
     </div>
   );
 };
