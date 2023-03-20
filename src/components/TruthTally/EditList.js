@@ -1,13 +1,28 @@
-import React from "react";
-import Item from "./Item";
-import AddItemForm from "./AddItemForm";
+import React from 'react';
+import Item from './Item';
+import AddItemForm from './AddItemForm';
 
-const EditList = ({ inputIdEdited, setInputIdEdited, setEditingTitle, listState, items, setItems, handleAddItem, gameState, handleRemoveItem }) => {
+const EditList = ({
+  inputIdEdited,
+  setInputIdEdited,
+  setEditingTitle,
+  listState,
+  items,
+  setItems,
+  handleAddItem,
+  gameState,
+  handleRemoveItem
+}) => {
   // if (gameState === "start") {
 
   return (
     <div className="items-list">
-      <AddItemForm setInputIdEdited={setInputIdEdited} setEditingTitle={setEditingTitle} handleAddItem={handleAddItem} items={items} />
+      <AddItemForm
+        setInputIdEdited={setInputIdEdited}
+        setEditingTitle={setEditingTitle}
+        handleAddItem={handleAddItem}
+        items={items}
+      />
       {items.map((item) => (
         <Item
           listState={listState}

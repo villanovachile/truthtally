@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Controls = ({
   listState,
@@ -32,7 +32,7 @@ const Controls = ({
   sourceListType,
   sourceRankedListChanged,
   sourceListURI,
-  setListAuthor,
+  setListAuthor
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -45,9 +45,9 @@ const Controls = ({
           result.push([arr[i], arr[j]]);
         }
       }
-      setLoadingText("Generating pairs...");
+      setLoadingText('Generating pairs...');
       setGameCompleted(false);
-      setGameState("loading");
+      setGameState('loading');
       // Shuffle the array of pairs
       for (let i = result.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -64,7 +64,7 @@ const Controls = ({
     setItems([]);
     setPairs([]);
     setGameCompleted(false);
-    setGameState("start");
+    setGameState('start');
     nextItemId.current = 0;
     currentIndex.current = 0;
     // navigate("/");
@@ -80,7 +80,7 @@ const Controls = ({
     currentIndex.current = 0;
     genList();
     setGameCompleted(false);
-    setGameState("inProgress");
+    setGameState('inProgress');
     setListAuthor();
   };
 
@@ -89,10 +89,10 @@ const Controls = ({
       setItems([]);
       setPairs([]);
       setGameCompleted(false);
-      setGameState("start");
+      setGameState('start');
       nextItemId.current = 0;
       currentIndex.current = 0;
-      navigate("/");
+      navigate('/');
       return;
     }
     navigate(0);
@@ -103,13 +103,13 @@ const Controls = ({
   };
 
   const editListButton = () => {
-    setListState("edit");
+    setListState('edit');
     setPreEditListCopy(items);
     setPreListTitleCopy(listTitle);
   };
 
   const editListCancel = () => {
-    setListState("display");
+    setListState('display');
     setEditingTitle(false);
     setItems(preEditListCopy);
     setListTitle(preListTitleCopy);
@@ -117,75 +117,92 @@ const Controls = ({
   };
 
   const editListOK = () => {
-    setListState("display");
+    setListState('display');
     // editedTitleSubmit(titleInput);
     setPreEditListCopy([]);
   };
 
   const shareButton = () => {
-    if (uri === undefined && sourceListChanged === false && gameState === "start") {
-      return items.length > 2 && listState === "edit" ? <button onClick={() => shareList()}>Share List</button> : null;
-    } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && gameState === "start") {
-      return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Share New List</button> : null;
-    } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && gameState === "start") {
-      return items.length > 2 && listState !== "edit" ? <button onClick={() => shareList()}>Share List</button> : null;
-    } else if (gameState === "finished") {
-      return uri !== undefined && sourceListType === "ranked" ? <button onClick={() => shareList()}>Share Ranked List</button> : <button onClick={() => shareList()}>Share Ranked List</button>;
+    if (uri === undefined && sourceListChanged === false && gameState === 'start') {
+      return items.length > 2 && listState === 'edit' ? <button onClick={() => shareList()}>Share List</button> : null;
+    } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && gameState === 'start') {
+      return items.length > 2 && listState !== 'edit' ? (
+        <button onClick={() => shareList()}>Share New List</button>
+      ) : null;
+    } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && gameState === 'start') {
+      return items.length > 2 && listState !== 'edit' ? <button onClick={() => shareList()}>Share List</button> : null;
+    } else if (gameState === 'finished') {
+      return uri !== undefined && sourceListType === 'ranked' ? (
+        <button onClick={() => shareList()}>Share Ranked List</button>
+      ) : (
+        <button onClick={() => shareList()}>Share Ranked List</button>
+      );
     }
   };
 
   const viewSourceList = () => {
-    navigate("/list/" + sourceListURI);
+    navigate('/list/' + sourceListURI);
   };
 
   return (
     <div className="controls">
-      {listState === "edit" && uri !== undefined && (
+      {listState === 'edit' && uri !== undefined && (
         <>
           <button
             onClick={() => {
               editListOK();
-            }}
-          >
-            {" "}
+            }}>
+            {' '}
             OK
           </button>
 
           <button
             onClick={() => {
               editListCancel();
-            }}
-          >
+            }}>
             Cancel
           </button>
         </>
       )}
 
-      {items.length > 2 && gameState === "start" && ((listState !== "edit" && uri !== undefined) || (listState === "edit" && uri === undefined)) ? (
+      {items.length > 2 &&
+      gameState === 'start' &&
+      ((listState !== 'edit' && uri !== undefined) || (listState === 'edit' && uri === undefined)) ? (
         <button onClick={() => genList()}>Rank List</button>
       ) : null}
 
-      {items.length > 2 && gameState === "start" && listState === "edit" ? <button onClick={() => clearList()}>Clear</button> : null}
+      {items.length > 2 && gameState === 'start' && listState === 'edit' ? (
+        <button onClick={() => clearList()}>Clear</button>
+      ) : null}
 
-      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && (sourceListType === "new" || sourceListType === "unranked") ? (
+      {gameState !== 'start' &&
+      gameState !== 'loading' &&
+      gameState !== 'preload' &&
+      (sourceListType === 'new' || sourceListType === 'unranked') ? (
         <button onClick={() => startOver()}>Start Over</button>
       ) : null}
 
-      {gameState === "finished" && gameState !== "loading" && gameState !== "preload" && (sourceListType === "new" || sourceRankedListChanged === true) ? (
+      {gameState === 'finished' &&
+      gameState !== 'loading' &&
+      gameState !== 'preload' &&
+      (sourceListType === 'new' || sourceRankedListChanged === true) ? (
         <button onClick={() => rateAgain()}>Rank Again</button>
       ) : null}
 
-      {gameState === "finished" && gameState !== "loading" && gameState !== "preload" && sourceListType === "ranked" && sourceRankedListChanged === false ? (
+      {gameState === 'finished' &&
+      gameState !== 'loading' &&
+      gameState !== 'preload' &&
+      sourceListType === 'ranked' &&
+      sourceRankedListChanged === false ? (
         <button onClick={() => rateAgain()}>Rank this list</button>
       ) : null}
 
-      {listState === "display" && gameState !== "loading" && gameState === "start" && (
+      {listState === 'display' && gameState !== 'loading' && gameState === 'start' && (
         <>
           <button
             onClick={() => {
               editListButton();
-            }}
-          >
+            }}>
             Edit List
           </button>
         </>
@@ -193,7 +210,9 @@ const Controls = ({
 
       {shareButton()}
 
-      {gameState !== "start" && gameState !== "loading" && gameState !== "preload" && sourceListType === "ranked" ? <button onClick={() => viewSourceList()}>See Unranked List</button> : null}
+      {gameState !== 'start' && gameState !== 'loading' && gameState !== 'preload' && sourceListType === 'ranked' ? (
+        <button onClick={() => viewSourceList()}>See Unranked List</button>
+      ) : null}
     </div>
   );
 };

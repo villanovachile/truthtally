@@ -1,5 +1,5 @@
-const connectToDatabase = require("../../../utils/mongo-connection");
-const randomstring = require("randomstring");
+const connectToDatabase = require('../../../utils/mongo-connection');
+const randomstring = require('randomstring');
 
 const handler = async (event) => {
   const input = JSON.parse(event.body);
@@ -18,12 +18,12 @@ const handler = async (event) => {
       type: input.type,
       unlisted: input.unlisted,
       tags: input.tags,
-      source_uri: input.source_uri,
+      source_uri: input.source_uri
     });
 
     return {
       statusCode: 200,
-      body: JSON.stringify(newURI),
+      body: JSON.stringify(newURI)
     };
   } catch (error) {
     return { statusCode: 500, body: error.toString() };

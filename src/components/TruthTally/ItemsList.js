@@ -1,5 +1,5 @@
-import React from "react";
-import Item from "./Item";
+import React from 'react';
+import Item from './Item';
 
 const ItemsList = ({ listState, items, handleAddItem, gameState, handleRemoveItem }) => {
   // if (gameState === "start") {
@@ -7,7 +7,14 @@ const ItemsList = ({ listState, items, handleAddItem, gameState, handleRemoveIte
   return (
     <div className="items-list">
       {items.map((item) => (
-        <Item listState={listState} item={item.item} handleRemoveItem={handleRemoveItem} score={item.score} id={item.id} key={item.id.toString()} />
+        <Item
+          listState={listState}
+          item={item.item}
+          handleRemoveItem={handleRemoveItem}
+          score={item.score}
+          id={item.id}
+          key={item.id.toString()}
+        />
       ))}
     </div>
   );

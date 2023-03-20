@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 const AddItemForm = ({ setInputIdEdited, setEditingTitle, handleAddItem, items }) => {
   const itemInput = useRef();
@@ -7,9 +7,9 @@ const AddItemForm = ({ setInputIdEdited, setEditingTitle, handleAddItem, items }
     e.preventDefault();
 
     let dupe = false;
-    const input = itemInput.current.value.toLowerCase().replace(/\s+/g, "");
+    const input = itemInput.current.value.toLowerCase().replace(/\s+/g, '');
     items.forEach((item) => {
-      if (item.item.toLowerCase().replace(/\s+/g, "") === input) {
+      if (item.item.toLowerCase().replace(/\s+/g, '') === input) {
         dupe = true;
       }
     });
@@ -26,7 +26,7 @@ const AddItemForm = ({ setInputIdEdited, setEditingTitle, handleAddItem, items }
         type="text"
         ref={itemInput}
         onFocus={() => {
-          setInputIdEdited("add-item");
+          setInputIdEdited('add-item');
           setEditingTitle(false);
         }}
         placeholder="Enter an item"

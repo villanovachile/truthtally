@@ -1,8 +1,8 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import TruthTally from "./TruthTally";
-import Header from "./Header";
-import Error404 from "./Error404";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import TruthTally from './TruthTally';
+import Header from './Header';
+import Error404 from './Error404';
 
 const App = () => {
   return (

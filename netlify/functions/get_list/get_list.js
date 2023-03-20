@@ -1,4 +1,4 @@
-const connectToDatabase = require("../../../utils/mongo-connection");
+const connectToDatabase = require('../../../utils/mongo-connection');
 
 const handler = async (event) => {
   const input = event.queryStringParameters.uri;
@@ -16,19 +16,19 @@ const handler = async (event) => {
         {
           $set: {
             views: viewCount + 1,
-            last_accessed: currentDate,
-          },
+            last_accessed: currentDate
+          }
         }
       );
 
       return {
         statusCode: 200,
-        body: JSON.stringify(results[0]),
+        body: JSON.stringify(results[0])
       };
     } else {
       return {
         statusCode: 200,
-        body: JSON.stringify("not_found"),
+        body: JSON.stringify('not_found')
       };
     }
   } catch (error) {

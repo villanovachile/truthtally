@@ -1,6 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from 'react';
 
-const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, setItems, item, items, id, handleRemoveItem }) => {
+const Item = ({
+  setEditingTitle,
+  inputIdEdited,
+  setInputIdEdited,
+  listState,
+  setItems,
+  item,
+  items,
+  id,
+  handleRemoveItem
+}) => {
   //   const [editingItem, setEditingItem] = useState(false);
   //   const itemInput = useRef();
 
@@ -16,22 +26,22 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
 
     inputRef.current.blur();
 
-    if (itemInput.trim() === "") {
+    if (itemInput.trim() === '') {
       setItemInput(item);
       return;
     }
 
     let dupe = false;
-    const input = itemInput.toLowerCase().replace(/\s+/g, "");
-    if (input === "") {
-      console.log("empty");
+    const input = itemInput.toLowerCase().replace(/\s+/g, '');
+    if (input === '') {
+      console.log('empty');
       console.log(item);
       setItemInput(item);
       return;
     }
 
     items.forEach((item) => {
-      if (item.item.toLowerCase().replace(/\s+/g, "") === input) {
+      if (item.item.toLowerCase().replace(/\s+/g, '') === input) {
         dupe = true;
       }
     });
@@ -39,7 +49,10 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
     if (!dupe && input) {
       items.forEach((item, i) => {
         if (item.id === id) {
-          const newItem = { ...item, item: itemInput.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()) };
+          const newItem = {
+            ...item,
+            item: itemInput.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase())
+          };
           const newArray = [...items];
           newArray.splice(i, 1, newItem);
           setItems(newArray);
@@ -62,7 +75,7 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
   return (
     <div className="list-item">
       <div className="remove-item">
-        {listState === "edit" && (
+        {listState === 'edit' && (
           <svg
             id="Layer_1"
             data-name="Layer 1"
@@ -72,30 +85,32 @@ const Item = ({ setEditingTitle, inputIdEdited, setInputIdEdited, listState, set
             width={10}
             height={10}
             className="svg-button"
-            onClick={() => handleRemoveItem(id)}
-          >
-            <path d="M6,6H6a20.53,20.53,0,0,1,29,0l26.5,26.49L87.93,6a20.54,20.54,0,0,1,29,0h0a20.53,20.53,0,0,1,0,29L90.41,61.44,116.9,87.93a20.54,20.54,0,0,1,0,29h0a20.54,20.54,0,0,1-29,0L61.44,90.41,35,116.9a20.54,20.54,0,0,1-29,0H6a20.54,20.54,0,0,1,0-29L32.47,61.44,6,34.94A20.53,20.53,0,0,1,6,6Z" />
+            onClick={() => handleRemoveItem(id)}>
+            <path
+              d="M6,6H6a20.53,20.53,0,0,1,29,0l26.5,26.49L87.93,6a20.54,20.54,0,0,1,29,
+                    0h0a20.53,20.53,0,0,1,0,29L90.41,61.44,116.9,87.93a20.54,20.54,0,0,1,0,
+                    29h0a20.54,20.54,0,0,1-29,0L61.44,90.41,35,116.9a20.54,20.54,0,0,1-29,
+                    0H6a20.54,20.54,0,0,1,0-29L32.47,61.44,6,34.94A20.53,20.53,0,0,1,6,6Z"
+            />
           </svg>
         )}
       </div>
       <div className="item-name">
-        {listState === "edit" ? (
+        {listState === 'edit' ? (
           <form
             onSubmit={(e) => {
               editedItemSubmit(e);
-            }}
-          >
+            }}>
             <input
               onBlur={(e) => {
                 editedItemSubmit(e);
               }}
-              style={{ width: itemInput.length + 3 + "ch" }}
+              style={{ width: itemInput.length + 3 + 'ch' }}
               className="edit-item-input"
               type="text"
               value={itemInput}
               onChange={handleInputChange}
-              ref={inputRef}
-            ></input>
+              ref={inputRef}></input>
           </form>
         ) : (
           item

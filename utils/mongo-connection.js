@@ -1,5 +1,5 @@
-require("dotenv").config();
-const { MongoClient } = require("mongodb");
+require('dotenv').config();
+const { MongoClient } = require('mongodb');
 
 let cachedDb = null;
 

@@ -1,8 +1,8 @@
-import React from "react";
-import ResultItem from "./ResultItem";
+import React from 'react';
+import ResultItem from './ResultItem';
 
 const Results = ({ listAuthor, listTitle, gameState, items }) => {
-  if (gameState === "finished") {
+  if (gameState === 'finished') {
     let key = 1;
     let id = 1;
 
@@ -10,7 +10,7 @@ const Results = ({ listAuthor, listTitle, gameState, items }) => {
       <div className="results-container">
         <div className="ranked-list-title">
           <h2>{listTitle}</h2>
-          <h3>{listAuthor ? "Ranked by " + listAuthor : "Ranked"}</h3>
+          <h3>{listAuthor ? 'Ranked by ' + listAuthor : 'Ranked'}</h3>
         </div>
         <div className="ranked-items">
           {items
