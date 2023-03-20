@@ -32,7 +32,8 @@ const Controls = ({
   sourceListType,
   sourceRankedListChanged,
   sourceListURI,
-  setListAuthor
+  setListAuthor,
+  updateDraggableListItems
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -105,6 +106,7 @@ const Controls = ({
   const editListButton = () => {
     setListState('edit');
     setPreEditListCopy(items);
+    updateDraggableListItems(items);
     setPreListTitleCopy(listTitle);
   };
 
@@ -118,6 +120,7 @@ const Controls = ({
 
   const editListOK = () => {
     setListState('display');
+    setItems(items.map((item, index) => ({ ...item, id: index + 1 })));
     // editedTitleSubmit(titleInput);
     setPreEditListCopy([]);
   };

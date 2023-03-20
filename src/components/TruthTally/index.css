@@ -18,6 +18,10 @@
   flex-grow: 1;
 }
 
+.items-list li {
+  list-style-image: url(../../images/draggable-icon.svg);
+}
+
 .list-item {
   display: flex;
   justify-content: center;

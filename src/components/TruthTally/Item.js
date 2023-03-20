@@ -9,7 +9,8 @@ const Item = ({
   item,
   items,
   id,
-  handleRemoveItem
+  handleRemoveItem,
+  updateDraggableListItems
 }) => {
   //   const [editingItem, setEditingItem] = useState(false);
   //   const itemInput = useRef();
@@ -34,8 +35,6 @@ const Item = ({
     let dupe = false;
     const input = itemInput.toLowerCase().replace(/\s+/g, '');
     if (input === '') {
-      console.log('empty');
-      console.log(item);
       setItemInput(item);
       return;
     }

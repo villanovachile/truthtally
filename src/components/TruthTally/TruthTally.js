@@ -9,6 +9,8 @@ import LoadingSpinner from './LoadingSpinner';
 import ShareListModal from './ShareListModal';
 
 function TruthTally() {
+  const [draggableListItems, updateDraggableListItems] = useState([]);
+  const [items, setItems] = useState([]);
   const [sourceListChanged, setSourceListChanged] = useState(false);
 
   const [sourceRankedListChanged, setSourceRankedListChanged] = useState(false);
@@ -22,8 +24,6 @@ function TruthTally() {
   let navigate = useNavigate();
 
   const history = useLocation();
-
-  const [items, setItems] = useState([]);
 
   const [listTitle, setListTitle] = useState('');
 
@@ -77,6 +77,10 @@ function TruthTally() {
   }, [showShareModal]);
 
   useEffect(() => {
+    updateDraggableListItems(items);
+  }, [items]);
+
+  useEffect(() => {
     setItems([]);
     setSourceTitleChanged(false);
     const fetchURL = '/.netlify/functions/get_list?uri=' + uri;
@@ -100,7 +104,7 @@ function TruthTally() {
       try {
         setLoadingText('Loading...');
         let results = await fetch(fetchURL).then((response) => response.json());
-        console.log('MADE THE CALL');
+
         if (results !== 'not_found' && results.type === 'unranked') {
           setSourceListType('unranked');
           setListTitle(results.title);
@@ -133,6 +137,7 @@ function TruthTally() {
               }
             ]);
           });
+
           setListState('display');
           setGameState('start');
         } else if (results !== 'not_found' && results.type === 'ranked') {
@@ -300,7 +305,9 @@ function TruthTally() {
     sourceListURI,
     setSourceListURI,
     listAuthor,
-    setListAuthor
+    setListAuthor,
+    draggableListItems,
+    updateDraggableListItems
   };
 
   return (

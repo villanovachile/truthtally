@@ -157,7 +157,7 @@ const ShareListModal = ({
 
         let author;
         formData.listAuthor.replace(/\s+/g, '') !== '' ? (author = formData.listAuthor) : (author = null);
-        console.log(author);
+
         const unlisted = formData.isUnlisted;
 
         sourceListType === 'ranked' ? (source_uri = sourceListURI) : (source_uri = uri);
