@@ -218,7 +218,7 @@ const ShareListModal = ({
             <span>
               <input
                 type="checkbox"
-                id="input"
+                id="isUnlisted"
                 checked={formData.isUnlisted}
                 onChange={handleChange}
                 name="isUnlisted"
@@ -280,7 +280,7 @@ const ShareListModal = ({
               <span>
                 <input
                   type="checkbox"
-                  id="input"
+                  id="isUnlisted"
                   checked={formData.isUnlisted}
                   onChange={handleChange}
                   name="isUnlisted"
