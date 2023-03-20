@@ -76,9 +76,9 @@ function TruthTally() {
     window.sessionStorage.setItem('showShareModal', JSON.stringify(showShareModal));
   }, [showShareModal]);
 
-  useEffect(() => {
-    updateDraggableListItems(items);
-  }, [items]);
+  // useEffect(() => {
+  //   updateDraggableListItems(items);
+  // }, [items]);
 
   useEffect(() => {
     setItems([]);
@@ -193,6 +193,16 @@ function TruthTally() {
         id: nextItemId.current
       }
     ]);
+
+    updateDraggableListItems((prevItems) => [
+      ...prevItems,
+      {
+        item,
+        score: 0,
+        id: nextItemId.current
+      }
+    ]);
+    // updateDraggableListItems(items);
   };
 
   useEffect(() => {
@@ -218,6 +228,7 @@ function TruthTally() {
 
   const handleRemoveItem = (id) => {
     setItems((prevItems) => prevItems.filter((p) => p.id !== id));
+    updateDraggableListItems((prevItems) => prevItems.filter((p) => p.id !== id));
   };
 
   const updatePairsList = (a) => {

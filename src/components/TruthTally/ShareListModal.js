@@ -9,6 +9,7 @@ const ShareListModal = ({
   uri,
   navigate,
   items,
+  setItems,
   disableModalState,
   setShowShareModal,
   showShareModal,
@@ -18,7 +19,9 @@ const ShareListModal = ({
   gameState,
   sourceRankedListChanged,
   sourceListURI,
-  setSourceListURI
+  setSourceListURI,
+  updateDraggableListItems,
+  draggableListItems
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -49,7 +52,7 @@ const ShareListModal = ({
     e.preventDefault();
     if (gameState === 'start') {
       (async () => {
-        const tempList = await items.map((item) => ({ ...item, score: 0 }));
+        const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
         const tags = formData.listTags
           .replace(/^[,\s]+|[,\s]+$/g, '')
           .replace(/\s*,\s*/g, ',')
@@ -78,7 +81,7 @@ const ShareListModal = ({
     if (gameState === 'finished' && sourceListType === 'new') {
       // save unranked list and generate URI
       (async () => {
-        const tempList = await items.sort((a, b) => a.id - b.id).map((item) => ({ ...item, score: 0 }));
+        const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
         const tags = formData.listTags
           .replace(/^[,\s]+|[,\s]+$/g, '')
           .replace(/\s*,\s*/g, ',')

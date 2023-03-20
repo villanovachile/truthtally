@@ -55,6 +55,7 @@ const Item = ({
           const newArray = [...items];
           newArray.splice(i, 1, newItem);
           setItems(newArray);
+          updateDraggableListItems(newArray);
         }
       });
     } else {

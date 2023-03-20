@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-const AddItemForm = ({ setInputIdEdited, setEditingTitle, handleAddItem, items }) => {
+const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTitle, handleAddItem, items }) => {
   const itemInput = useRef();
 
   const handleSubmit = (e) => {

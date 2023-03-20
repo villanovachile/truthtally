@@ -39,6 +39,7 @@ const EditList = ({
         setEditingTitle={setEditingTitle}
         handleAddItem={handleAddItem}
         items={items}
+        updateDraggableListItems={updateDraggableListItems}
       />
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="edit-items">

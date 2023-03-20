@@ -10,7 +10,7 @@
   overflow: hidden;
   border: 1px;
   border-style: solid;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   justify-content: flex-start;
 }
 
