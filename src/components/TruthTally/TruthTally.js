@@ -350,7 +350,11 @@ function TruthTally() {
         ) : (
           listTitle
         )}
-        {sourceTitleChanged && sourceListType !== 'new' && '*'}
+        {((sourceTitleChanged && sourceListType !== 'new') ||
+          (sourceListChanged && sourceListType !== 'new') ||
+          (sourceTitleChanged && sourceListType === 'ranked')) &&
+          listState === 'display' &&
+          '*'}
 
         {gameState === 'finished' && (
           <svg
