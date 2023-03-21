@@ -66,8 +66,8 @@ const Controls = ({
     setPairs([]);
     setGameCompleted(false);
     setGameState('start');
-    nextItemId.current = 0;
-    currentIndex.current = 0;
+    // nextItemId.current = 0;
+    // currentIndex.current = 0;
     // navigate("/");
     return;
     // }
@@ -86,17 +86,20 @@ const Controls = ({
   };
 
   const startOver = () => {
-    if (uri === undefined) {
-      setItems([]);
-      setPairs([]);
-      setGameCompleted(false);
-      setGameState('start');
-      nextItemId.current = 0;
-      currentIndex.current = 0;
-      navigate('/');
-      return;
-    }
-    navigate(0);
+    // if (uri === undefined) {
+    // updateDraggableListItems([]);
+    // setItems([]);
+    const resetScores = items.map((item) => ({ ...item, score: 0 }));
+    setItems(resetScores);
+    setPairs([]);
+    setGameCompleted(false);
+    setGameState('start');
+    nextItemId.current = 0;
+    currentIndex.current = 0;
+    // navigate('/');
+    // return;
+    // }
+    // navigate(0);
   };
 
   const shareList = () => {
