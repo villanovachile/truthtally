@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Item = ({
   setEditingTitle,
@@ -10,7 +11,8 @@ const Item = ({
   items,
   id,
   handleRemoveItem,
-  updateDraggableListItems
+  updateDraggableListItems,
+  ...provided
 }) => {
   //   const [editingItem, setEditingItem] = useState(false);
   //   const itemInput = useRef();
@@ -73,7 +75,11 @@ const Item = ({
   //   }, [id, inputIdEdited]);
 
   return (
-    <div className="list-item">
+    <div
+      className={listState === 'display' ? 'list-item' : 'edit-list-item'}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={provided.innerRef}>
       <div className="remove-item">
         {listState === 'edit' && (
           <svg
@@ -116,6 +122,13 @@ const Item = ({
           item
         )}
       </div>
+      {listState === 'edit' && (
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+            <path d="M2 11h16v2H2zm0-4h16v2H2zm8 11l3-3H7l3 3zm0-16L7 5h6l-3-3z" />
+          </svg>
+        </div>
+      )}
     </div>
   );
 };

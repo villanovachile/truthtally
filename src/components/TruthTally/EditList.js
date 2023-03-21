@@ -44,31 +44,30 @@ const EditList = ({
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="edit-items">
           {(provided) => (
-            <ul {...provided.droppableProps} ref={provided.innerRef}>
+            <div className="edit-items-list" {...provided.droppableProps} ref={provided.innerRef}>
               {draggableListItems.map((item, index) => (
                 <Draggable key={item.id.toString()} draggableId={item.id.toString()} index={index}>
                   {(provided) => (
-                    <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                      <Item
-                        listState={listState}
-                        setItems={setItems}
-                        items={items}
-                        item={item.item}
-                        handleRemoveItem={handleRemoveItem}
-                        score={item.score}
-                        id={item.id}
-                        inputIdEdited={inputIdEdited}
-                        setInputIdEdited={setInputIdEdited}
-                        setEditingTitle={setEditingTitle}
-                        updateDraggableListItems={updateDraggableListItems}
-                        draggableListItems={draggableListItems}
-                      />
-                    </li>
+                    <Item
+                      {...provided}
+                      listState={listState}
+                      setItems={setItems}
+                      items={items}
+                      item={item.item}
+                      handleRemoveItem={handleRemoveItem}
+                      score={item.score}
+                      id={item.id}
+                      inputIdEdited={inputIdEdited}
+                      setInputIdEdited={setInputIdEdited}
+                      setEditingTitle={setEditingTitle}
+                      updateDraggableListItems={updateDraggableListItems}
+                      draggableListItems={draggableListItems}
+                    />
                   )}
                 </Draggable>
               ))}
               {provided.placeholder}
-            </ul>
+            </div>
           )}
         </Droppable>
       </DragDropContext>
