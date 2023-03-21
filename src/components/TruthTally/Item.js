@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Item = ({
   setEditingTitle,
@@ -14,11 +13,33 @@ const Item = ({
   updateDraggableListItems,
   ...provided
 }) => {
-  //   const [editingItem, setEditingItem] = useState(false);
-  //   const itemInput = useRef();
-
   const [itemInput, setItemInput] = useState(item);
   const inputRef = useRef(null);
+
+  useOnClickOutside(inputRef, (event) => {
+    if (document.activeElement === inputRef.current) {
+      editedItemSubmit(event);
+    }
+  });
+
+  function useOnClickOutside(ref, handler) {
+    useEffect(() => {
+      const listener = (event) => {
+        if (!ref.current || ref.current.contains(event.target)) {
+          return;
+        }
+        handler(event);
+      };
+
+      document.addEventListener('mousedown', listener);
+      document.addEventListener('touchmove', listener);
+
+      return () => {
+        document.removeEventListener('mousedown', listener);
+        document.removeEventListener('touchmove', listener);
+      };
+    }, [ref, handler]);
+  }
 
   function handleInputChange(event) {
     setItemInput(event.target.value);
@@ -61,18 +82,9 @@ const Item = ({
         }
       });
     } else {
-      //   setEditingItem(false);
-
       return;
     }
-    // setEditingItem(false);
   };
-
-  //   useEffect(() => {
-  //     if (inputIdEdited !== id) {
-  //       setEditingItem(false);
-  //     }
-  //   }, [id, inputIdEdited]);
 
   return (
     <div
@@ -116,7 +128,8 @@ const Item = ({
               type="text"
               value={itemInput}
               onChange={handleInputChange}
-              ref={inputRef}></input>
+              ref={inputRef}
+              onClick={() => inputRef.current.focus()}></input>
           </form>
         ) : (
           item
