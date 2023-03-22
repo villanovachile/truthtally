@@ -91,9 +91,22 @@ input::selection {
   text-align: center;
 }
 
-/* .list-item:hover .remove-item {
-  visibility: visible;
-} */
+.add-item {
+  display: flex;
+}
+
+.add-item-form form input[type='submit'] {
+  font-size: 1em;
+  min-width: 60px;
+  padding: 5px;
+  margin: 0 10px;
+  max-height: 25px;
+}
+
+.add-item-form form input[type='text'] {
+  padding: 5px;
+  margin: 10px;
+}
 
 .player-item {
   flex-grow: 1;
@@ -486,9 +499,17 @@ form {
   .controls {
     padding: 10px;
     background-color: rgb(119, 0, 0);
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 5px;
+    flex-wrap: wrap; */
   }
+  .controls button {
+    min-width: 80px;
+    margin: 5px;
+  }
+
   .share-modal {
     top: 50%;
     left: 50%;
@@ -509,7 +530,30 @@ form {
   }
 
   .list-title form input[type='text'] {
-    margin: 10px 0;
-    font-size: 1.5em;
+    font-size: 1.4em;
+    padding: 5px;
+    margin: 0px 10px 0px 10px;
+  }
+
+  .add-item-form form {
+    flex-direction: row;
+    align-content: center;
+    margin: 0px;
+  }
+
+  .add-item-form form input[type='text'] {
+    padding: 5px;
+    margin-left: 10px;
+
+    /* min-height: 20px; */
+  }
+
+  .add-item-form form input[type='submit'] {
+    font-size: 1.4em;
+    min-width: 60px;
+    padding: 5px;
+
+    /* margin: 10px 5px; */
+    min-height: 37.5px;
   }
 }

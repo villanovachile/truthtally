@@ -21,18 +21,20 @@ const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTit
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <input
-        type="text"
-        ref={itemInput}
-        onFocus={() => {
-          setInputIdEdited('add-item');
-          setEditingTitle(false);
-        }}
-        placeholder="Enter an item"
-      />
-      <input type="submit" value="Add Item" />
-    </form>
+    <div className="add-item-form">
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input
+          type="text"
+          ref={itemInput}
+          onFocus={() => {
+            setInputIdEdited('add-item');
+            setEditingTitle(false);
+          }}
+          placeholder="Enter an item"
+        />
+        <input type="submit" value="+" />
+      </form>
+    </div>
   );
 };
 
