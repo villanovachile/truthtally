@@ -427,6 +427,16 @@ function TruthTally() {
 
       {listState === 'edit' && gameState === 'start' && <EditList {...props} />}
 
+      {items.length < 3 && gameState === 'start' && (
+        <div className="start-info">
+          <h3>Getting Started</h3>
+          <ol>
+            <li>Enter a title for your list. </li>
+            <li>Enter 3 or more items and click "Rank List" to begin ranking.</li>
+          </ol>
+        </div>
+      )}
+
       {showShareModal && <ShareListModal {...props} />}
     </div>
   );

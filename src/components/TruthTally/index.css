@@ -13,10 +13,6 @@
   justify-content: flex-start;
 }
 
-.items-list {
-  flex-grow: 1;
-}
-
 .list-item,
 .edit-list-item {
   display: flex;
@@ -360,6 +356,14 @@ form {
 button[disabled] {
   pointer-events: none;
   opacity: 0.5;
+}
+
+.start-info {
+  margin: 0 auto 30px auto;
+  text-align: center;
+}
+.start-info li {
+  margin: 10px;
 }
 
 /* Mobile View */
