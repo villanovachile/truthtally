@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { Store } from 'react-notifications-component';
 import ItemsList from './ItemsList';
 import EditList from './EditList';
 import Stage from './Stage';
@@ -241,12 +242,45 @@ function TruthTally() {
   const editedTitleSubmit = (e) => {
     e.preventDefault();
 
-    titleInputRef.current.blur();
-
-    if (titleInput.trim() === '') {
+    if (!/[a-zA-Z]/.test(titleInput)) {
+      Store.addNotification({
+        title: 'Invalid Title',
+        message: 'The title must contain at least one alphabet character',
+        type: 'danger',
+        insert: 'top',
+        isMobile: true,
+        breakpoint: 768,
+        container: 'top-center',
+        animationIn: ['animate__animated', 'animate__slideInDown'],
+        animationOut: ['animate__animated', 'animate__slideUp'],
+        dismiss: {
+          duration: 3000
+        }
+      });
       setTitleInput(listTitle);
       return;
     }
+
+    titleInputRef.current.blur();
+
+    // if (titleInput.trim() === '') {
+    //   Store.addNotification({
+    //     title: 'Invalid Title',
+    //     message: 'A title is required',
+    //     type: 'danger',
+    //     insert: 'top',
+    //     isMobile: true,
+    //     breakpoint: 768,
+    //     container: 'top-center',
+    //     animationIn: ['animate__animated', 'animate__slideInDown'],
+    //     animationOut: ['animate__animated', 'animate__slideUp'],
+    //     dismiss: {
+    //       duration: 3000
+    //     }
+    //   });
+    //   setTitleInput(listTitle);
+    //   return;
+    // }
 
     if (titleInput.trim() !== '') {
       sourceListTitle !== titleInput ? setSourceTitleChanged(true) : setSourceTitleChanged(false);
@@ -354,8 +388,7 @@ function TruthTally() {
         {((sourceTitleChanged && sourceListType !== 'new') ||
           (sourceListChanged && sourceListType !== 'new') ||
           (sourceTitleChanged && sourceListType === 'ranked')) &&
-          listState === 'display' &&
-          '*'}
+          listState === 'display' && <h3>*</h3>}
 
         {gameState === 'finished' && (
           <svg

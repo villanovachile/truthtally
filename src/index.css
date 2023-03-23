@@ -100,6 +100,11 @@ li {
   font-weight: bold;
 }
 
+.rnc__notification-item--danger {
+  background-color: #9f000f !important;
+  border-left: 8px solid #b1abab !important;
+}
+
 /* Mobile Styles */
 
 /* Apply styles when screen size is less than or equal to 768px */

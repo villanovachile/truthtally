@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Store } from 'react-notifications-component';
 
 const Item = ({
   setEditingTitle,
@@ -82,6 +83,21 @@ const Item = ({
         }
       });
     } else {
+      setItemInput(item);
+      Store.addNotification({
+        title: 'Duplicate Item',
+        message: 'The item already exists in the list',
+        type: 'danger',
+        insert: 'top',
+        isMobile: true,
+        breakpoint: 768,
+        container: 'top-center',
+        animationIn: ['animate__animated', 'animate__slideInDown'],
+        animationOut: ['animate__animated', 'animate__slideUp'],
+        dismiss: {
+          duration: 3000
+        }
+      });
       return;
     }
   };
@@ -120,9 +136,9 @@ const Item = ({
               editedItemSubmit(e);
             }}>
             <input
-              onBlur={(e) => {
-                editedItemSubmit(e);
-              }}
+              // onBlur={(e) => {
+              //   editedItemSubmit(e);
+              // }}
               style={{ width: itemInput.length + 3 + 'ch' }}
               className="edit-item-input"
               type="text"

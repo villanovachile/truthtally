@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Store } from 'react-notifications-component';
 
 const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTitle, handleAddItem, items }) => {
   const itemInput = useRef();
@@ -17,7 +18,22 @@ const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTit
     if (!dupe && input) {
       handleAddItem(itemInput.current.value.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()));
       e.currentTarget.reset();
+      return;
     }
+    Store.addNotification({
+      title: 'Duplicate Item',
+      message: 'The item already exists in the list',
+      type: 'danger',
+      insert: 'top',
+      isMobile: true,
+      breakpoint: 768,
+      container: 'top-center',
+      animationIn: ['animate__animated', 'animate__slideInDown'],
+      animationOut: ['animate__animated', 'animate__slideUp'],
+      dismiss: {
+        duration: 3000
+      }
+    });
   };
 
   return (
