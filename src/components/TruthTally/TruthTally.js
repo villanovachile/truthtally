@@ -348,7 +348,7 @@ function TruthTally() {
               }}></input>
           </form>
         ) : (
-          listTitle
+          <h3>{listTitle}</h3>
         )}
         {((sourceTitleChanged && sourceListType !== 'new') ||
           (sourceListChanged && sourceListType !== 'new') ||
@@ -388,12 +388,6 @@ function TruthTally() {
       <Stage {...props} />
 
       <Results {...props} />
-
-      {gameState === 'finished' && (
-        <div className="new-list-button">
-          <button onClick={() => navigate('/')}>Create New List</button>
-        </div>
-      )}
 
       {listState === 'display' && gameState === 'start' && <ItemsList {...props} />}
 

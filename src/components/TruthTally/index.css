@@ -158,6 +158,17 @@ input::selection {
   justify-content: center;
 }
 
+.collapse-button {
+  display: none;
+}
+
+.controls-buttons {
+  padding: 10px;
+  background-color: rgb(119, 0, 0);
+  display: flex;
+  justify-content: center;
+}
+
 .stage-header {
   padding: 10px;
   text-align: center;
@@ -532,7 +543,7 @@ form {
   .list-title form input[type='text'] {
     font-size: 1.4em;
     padding: 5px;
-    margin: 0px 10px 0px 10px;
+    margin: 10px 10px 0px 10px;
   }
 
   .add-item-form form {
@@ -556,4 +567,43 @@ form {
     /* margin: 10px 5px; */
     min-height: 37.5px;
   }
+
+  .controls {
+    position: relative;
+  }
+  .collapse-button {
+    position: relative;
+    top: 15%;
+    border: 2px;
+    border-style: solid;
+    border-color: #ffffff;
+    border-radius: 100px;
+    background-color: #949191;
+    padding: 5px;
+    align-self: center;
+    display: unset;
+    position: relative;
+    margin-bottom: -30px;
+    transition: bottom 0.2s ease-in-out;
+  }
+
+  .collapse-div {
+    margin: auto;
+  }
+  .controls-buttons {
+    padding: 10px;
+    background-color: rgb(119, 0, 0);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    transition: padding 0.2s ease-in-out, max-height 0.2s ease-in-out;
+    margin-bottom: -20px;
+  }
+}
+
+button[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+  /* add any other styling you want for a disabled button */
 }

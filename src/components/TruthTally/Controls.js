@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Controls = ({
@@ -37,6 +37,41 @@ const Controls = ({
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [showContent, setShowContent] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const collapseIconStyle = {
+    // position: isCollapsed ? 'absolute' : 'relative',
+    // bottom: isCollapsed ? '0' : '20px'
+    // // right: '20px'
+  };
+
+  const toggleCollapse = () => {
+    setShowContent(!showContent);
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const contentStyle = {
+    maxHeight: showContent ? '1000px' : '0',
+    padding: showContent ? '10px 0px 10px 0px' : '0px'
+  };
+
+  useEffect(() => {
+    items.length > 2 ? setIsButtonDisabled(false) : setIsButtonDisabled(true);
+  }, [items]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setShowContent(true);
+        setIsCollapsed(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const genList = () => {
     const generatePairs = (arr) => {
@@ -64,6 +99,7 @@ const Controls = ({
     // if (uri === undefined) {
     setItems([]);
     setPairs([]);
+    updateDraggableListItems([]);
     setGameCompleted(false);
     setGameState('start');
     // nextItemId.current = 0;
@@ -130,18 +166,32 @@ const Controls = ({
 
   const shareButton = () => {
     if (uri === undefined && sourceListChanged === false && gameState === 'start') {
-      return items.length > 2 && listState === 'edit' ? <button onClick={() => shareList()}>Share List</button> : null;
+      return listState === 'edit' ? (
+        <button onClick={() => shareList()} disabled={isButtonDisabled}>
+          Share List
+        </button>
+      ) : null;
     } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && gameState === 'start') {
-      return items.length > 2 && listState !== 'edit' ? (
-        <button onClick={() => shareList()}>Share New List</button>
+      return listState !== 'edit' ? (
+        <button onClick={() => shareList()} disabled={isButtonDisabled}>
+          Share New List
+        </button>
       ) : null;
     } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && gameState === 'start') {
-      return items.length > 2 && listState !== 'edit' ? <button onClick={() => shareList()}>Share List</button> : null;
+      return listState !== 'edit' ? (
+        <button onClick={() => shareList()} disabled={isButtonDisabled}>
+          Share List
+        </button>
+      ) : null;
     } else if (gameState === 'finished') {
       return uri !== undefined && sourceListType === 'ranked' ? (
-        <button onClick={() => shareList()}>Share Ranked List</button>
+        <button onClick={() => shareList()} disabled={isButtonDisabled}>
+          Share Ranked List
+        </button>
       ) : (
-        <button onClick={() => shareList()}>Share Ranked List</button>
+        <button onClick={() => shareList()} disabled={isButtonDisabled}>
+          Share Ranked List
+        </button>
       );
     }
   };
@@ -152,73 +202,125 @@ const Controls = ({
 
   return (
     <div className="controls">
-      {listState === 'edit' && uri !== undefined && (
-        <>
-          <button
-            onClick={() => {
-              editListOK();
-            }}>
-            {' '}
-            OK
-          </button>
+      <div className={`controls-buttons${isCollapsed ? ' collapsed' : ''}`} style={contentStyle}>
+        {listState === 'edit' && uri !== undefined && (
+          <>
+            <button
+              onClick={() => {
+                editListOK();
+              }}>
+              {' '}
+              OK
+            </button>
 
-          <button
-            onClick={() => {
-              editListCancel();
-            }}>
-            Cancel
+            <button
+              onClick={() => {
+                editListCancel();
+              }}>
+              Cancel
+            </button>
+          </>
+        )}
+
+        {gameState === 'start' &&
+        ((listState !== 'edit' && uri !== undefined) || (listState === 'edit' && uri === undefined)) ? (
+          <button onClick={() => genList()} disabled={isButtonDisabled}>
+            Rank List
           </button>
-        </>
+        ) : null}
+
+        {gameState === 'start' && listState === 'edit' ? (
+          <button onClick={() => clearList()} disabled={items.length > 0 ? false : true}>
+            Clear
+          </button>
+        ) : null}
+
+        {gameState !== 'start' &&
+        gameState !== 'loading' &&
+        gameState !== 'preload' &&
+        (sourceListType === 'new' || sourceListType === 'unranked') ? (
+          <button onClick={() => startOver()}>Start Over</button>
+        ) : null}
+
+        {gameState === 'finished' &&
+        gameState !== 'loading' &&
+        gameState !== 'preload' &&
+        (sourceListType === 'new' || sourceRankedListChanged === true) ? (
+          <button onClick={() => rateAgain()}>Rank Again</button>
+        ) : null}
+
+        {gameState === 'finished' &&
+        gameState !== 'loading' &&
+        gameState !== 'preload' &&
+        sourceListType === 'ranked' &&
+        sourceRankedListChanged === false ? (
+          <button onClick={() => rateAgain()}>Rank this list</button>
+        ) : null}
+
+        {listState === 'display' && gameState !== 'loading' && gameState === 'start' && (
+          <>
+            <button
+              onClick={() => {
+                editListButton();
+              }}>
+              Edit List
+            </button>
+          </>
+        )}
+
+        {shareButton()}
+
+        {gameState !== 'start' && gameState !== 'loading' && gameState !== 'preload' && sourceListType === 'ranked' ? (
+          <button onClick={() => viewSourceList()}>See Unranked List</button>
+        ) : null}
+
+        {(gameState === 'finished' || uri !== undefined) && (
+          <button onClick={() => navigate('/')}>Create New List</button>
+        )}
+      </div>
+
+      {gameState !== 'loading' && (
+        <div className="collapse-div">
+          {!isCollapsed ? (
+            <svg
+              viewBox="0 0 1000 1000"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20px"
+              height="20px"
+              className="collapse-button"
+              style={collapseIconStyle}
+              onClick={toggleCollapse}>
+              <g fill="#FFFFFF" transform="matrix(-1, 0, 0, -1, 1000, 1000)">
+                <path
+                  d="M835.1,10l121.7,122.3L500,586.8L43.2,132.3L164.9,10L500,
+            343.5L835.1,10L835.1,10z M500,746.6L164.9,413.2L43.2,535.4L500,
+            990l456.8-454.6L835.1,413.2L500,746.6L500,746.6z"
+                />
+              </g>
+            </svg>
+          ) : (
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              viewBox="0 0 1000 1000"
+              width="20px"
+              height="20px"
+              className="collapse-button"
+              style={collapseIconStyle}
+              onClick={toggleCollapse}>
+              <g fill="#FFFFFF">
+                <path
+                  d="M835.1,10l121.7,122.3L500,586.8L43.2,132.3L164.9,10L500,
+            343.5L835.1,10L835.1,10z M500,746.6L164.9,413.2L43.2,535.4L500,
+            990l456.8-454.6L835.1,413.2L500,746.6L500,746.6z"
+                />
+              </g>
+            </svg>
+          )}
+        </div>
       )}
-
-      {items.length > 2 &&
-      gameState === 'start' &&
-      ((listState !== 'edit' && uri !== undefined) || (listState === 'edit' && uri === undefined)) ? (
-        <button onClick={() => genList()}>Rank List</button>
-      ) : null}
-
-      {items.length > 2 && gameState === 'start' && listState === 'edit' ? (
-        <button onClick={() => clearList()}>Clear</button>
-      ) : null}
-
-      {gameState !== 'start' &&
-      gameState !== 'loading' &&
-      gameState !== 'preload' &&
-      (sourceListType === 'new' || sourceListType === 'unranked') ? (
-        <button onClick={() => startOver()}>Start Over</button>
-      ) : null}
-
-      {gameState === 'finished' &&
-      gameState !== 'loading' &&
-      gameState !== 'preload' &&
-      (sourceListType === 'new' || sourceRankedListChanged === true) ? (
-        <button onClick={() => rateAgain()}>Rank Again</button>
-      ) : null}
-
-      {gameState === 'finished' &&
-      gameState !== 'loading' &&
-      gameState !== 'preload' &&
-      sourceListType === 'ranked' &&
-      sourceRankedListChanged === false ? (
-        <button onClick={() => rateAgain()}>Rank this list</button>
-      ) : null}
-
-      {listState === 'display' && gameState !== 'loading' && gameState === 'start' && (
-        <>
-          <button
-            onClick={() => {
-              editListButton();
-            }}>
-            Edit List
-          </button>
-        </>
-      )}
-
-      {shareButton()}
-
-      {gameState !== 'start' && gameState !== 'loading' && gameState !== 'preload' && sourceListType === 'ranked' ? (
-        <button onClick={() => viewSourceList()}>See Unranked List</button>
-      ) : null}
     </div>
   );
 };
