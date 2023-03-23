@@ -257,6 +257,7 @@ function TruthTally() {
 
   useEffect(() => {
     setTitleInput(listTitle);
+    document.title = 'Truth Tally - ' + listTitle;
   }, [listTitle]);
 
   const titleInputFocus = (e) => {
