@@ -331,7 +331,7 @@ form {
 }
 
 .list-title {
-  font-size: 1.1em;
+  font-size: 0.8em;
   color: white;
   background-color: #5f0000;
   padding: 10px 0px 5px 0px;
@@ -340,6 +340,10 @@ form {
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+.ranked-list-title h3 {
+  margin: 3px 10px 18px 10px;
 }
 
 .svg-button {
@@ -358,6 +362,11 @@ form {
 .svg-button:active path {
   fill: #ffffff;
   stroke: #ffffff;
+}
+
+button[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* Mobile View */
@@ -600,10 +609,16 @@ form {
     transition: padding 0.2s ease-in-out, max-height 0.2s ease-in-out;
     margin-bottom: -20px;
   }
-}
 
-button[disabled] {
-  pointer-events: none;
-  opacity: 0.5;
-  /* add any other styling you want for a disabled button */
+  .list-title {
+    font-size: 1.1em;
+    color: white;
+    background-color: #5f0000;
+    padding: 10px 0px 5px 0px;
+    margin: 0px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
 }
