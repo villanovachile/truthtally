@@ -366,6 +366,22 @@ button[disabled] {
   margin: 10px;
 }
 
+.info-icon {
+  font-size: 1em;
+  line-height: 1.4;
+  margin-left: 5px;
+  color: #fff;
+}
+
+.truthtally-container .tooltip {
+  background-color: #7d0101;
+  color: white;
+  font-size: 1em;
+  padding: 15px;
+  max-width: 300px;
+  opacity: 0.95;
+}
+
 /* Mobile View */
 
 @media screen and (max-width: 768px) {
@@ -606,5 +622,14 @@ button[disabled] {
     display: flex;
     justify-content: center;
     text-align: center;
+  }
+
+  .truthtally-container .tooltip {
+    background-color: #7d0101;
+    color: white;
+    font-size: 1.2em;
+    padding: 15px;
+    max-width: 200px;
+    opacity: 0.95;
   }
 }

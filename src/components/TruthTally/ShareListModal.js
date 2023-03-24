@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import 'react-tooltip/dist/react-tooltip.css';
 
 const ShareListModal = ({
   sourceListChanged,
@@ -203,13 +207,24 @@ const ShareListModal = ({
   return (
     <>
       {/* Display modal for unsaved unranked list */}
+
       {(sourceListChanged || sourceTitleChanged || uri === undefined) && gameState === 'start' && (
         <div className="share-modal">
           <form onSubmit={(e) => shareList(e)}>
             {/* <label htmlFor="input">Title (required):</label> */}
 
             {/* <input type="text" id="input" name="listTitle" placeholder="i.e., Beatles Albums" onChange={handleChange} value={formData.listTitle} required /> */}
-            <label htmlFor="input">Tags (separate with commas)(unranked):</label>
+            <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
+              <label htmlFor="input">Tags:</label>
+              <FontAwesomeIcon
+                className="info-icon"
+                data-tooltip-id="tagsTooltip"
+                data-tooltip-place="top"
+                icon={faInfoCircle}
+                data-tooltip-content="Tags: Enter keywords separated by commas to improve searchability and help others discover your list."
+              />
+              <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className="tooltip" />
+            </span>
             <input
               type="text"
               id="input"
@@ -227,6 +242,17 @@ const ShareListModal = ({
                 name="isUnlisted"
               />
               <label htmlFor="isUnlisted">Unlisted</label>
+
+              <FontAwesomeIcon
+                className="info-icon"
+                data-tooltip-id="unlistedTooltip"
+                data-tooltip-place="top"
+                icon={faInfoCircle}
+                data-tooltip-content=" Unlisted: Your list won't appear on the public shared lists page, but can still be shared with others
+                using a unique link."
+              />
+
+              <ReactTooltip id="unlistedTooltip" effect="solid" multiline={true} className="tooltip" />
             </span>
             <div className="share-modal-buttons">
               <button type="submit">Get Link</button>
@@ -261,17 +287,36 @@ const ShareListModal = ({
           (sourceListType === 'ranked' && sourceRankedListChanged === true)) && (
           <div className="share-modal">
             <form onSubmit={(e) => shareList(e)}>
-              <label htmlFor="input">Your name: (optional):</label>
-
+              <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
+                <label htmlFor="input">Your name:</label>
+                <FontAwesomeIcon
+                  className="info-icon"
+                  data-tooltip-id="authorTooltip"
+                  data-tooltip-place="top"
+                  icon={faInfoCircle}
+                  data-tooltip-content="Name: Enter your name or a nickname to display as the person who ranked the list when sharing ranked lists with others."
+                />
+                <ReactTooltip id="authorTooltip" effect="solid" multiline={true} className="tooltip" />
+              </span>
               <input
                 type="text"
                 id="input"
                 name="listAuthor"
-                placeholder=""
+                placeholder="(optional)"
                 onChange={handleChange}
                 value={formData.listAuthor}
               />
-              <label htmlFor="input">Tags (separate with commas) (ranked):</label>
+              <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
+                <label htmlFor="input">Tags:</label>
+                <FontAwesomeIcon
+                  className="info-icon"
+                  data-tooltip-id="tagsTooltip"
+                  data-tooltip-place="top"
+                  icon={faInfoCircle}
+                  data-tooltip-content="Tags: Enter keywords separated by commas to improve searchability and help others discover your list."
+                />
+                <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className="tooltip" />
+              </span>
               <input
                 type="text"
                 id="input"
@@ -289,6 +334,15 @@ const ShareListModal = ({
                   name="isUnlisted"
                 />
                 <label htmlFor="isUnlisted">Unlisted</label>
+                <FontAwesomeIcon
+                  className="info-icon"
+                  data-tooltip-id="unlistedTooltip"
+                  data-tooltip-place="top"
+                  icon={faInfoCircle}
+                  data-tooltip-content=" Unlisted: Your list won't appear on the public shared lists page, but can still be shared with others
+                using a unique link."
+                />
+                <ReactTooltip id="unlistedTooltip" effect="solid" multiline={true} className="tooltip" />
               </span>
               <div className="share-modal-buttons">
                 <button type="submit">Get Link</button>
