@@ -16,6 +16,22 @@ const Item = ({
 }) => {
   const [itemInput, setItemInput] = useState(item);
   const inputRef = useRef(null);
+  const [isEditingItem, setIsEditingItem] = useState(false);
+  const [itemMaxWidth, setItemMaxWidth] = useState('600px');
+
+  const toggleEditingItem = () => {
+    setIsEditingItem(!isEditingItem);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      console.log(window.innerWidth);
+      window.innerWidth > 768 ? setItemMaxWidth('600px') : setItemMaxWidth('60vw');
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useOnClickOutside(inputRef, (event) => {
     if (document.activeElement === inputRef.current) {
@@ -84,20 +100,21 @@ const Item = ({
       });
     } else {
       setItemInput(item);
-      Store.addNotification({
-        title: 'Duplicate Item',
-        message: 'The item already exists in the list',
-        type: 'danger',
-        insert: 'top',
-        isMobile: true,
-        breakpoint: 768,
-        container: 'top-center',
-        animationIn: ['animate__animated', 'animate__slideInDown'],
-        animationOut: ['animate__animated', 'animate__slideUp'],
-        dismiss: {
-          duration: 3000
-        }
-      });
+      itemInput !== item &&
+        Store.addNotification({
+          title: 'Duplicate Item',
+          message: 'The item already exists in the list',
+          type: 'danger',
+          insert: 'top',
+          isMobile: true,
+          breakpoint: 768,
+          container: 'top-center',
+          animationIn: ['animate__animated', 'animate__slideInDown'],
+          animationOut: ['animate__animated', 'animate__slideUp'],
+          dismiss: {
+            duration: 3000
+          }
+        });
       return;
     }
   };
@@ -130,25 +147,44 @@ const Item = ({
         )}
       </div>
       <div className="item-name">
-        {listState === 'edit' ? (
+        {listState === 'edit' && isEditingItem ? (
           <form
             onSubmit={(e) => {
               editedItemSubmit(e);
             }}>
             <input
-              // onBlur={(e) => {
-              //   editedItemSubmit(e);
-              // }}
-              style={{ width: itemInput.length + 3 + 'ch' }}
+              autoFocus
+              onBlur={() => {
+                toggleEditingItem();
+              }}
+              style={{ width: itemInput.length + 3 + 'ch', itemMaxWidth }}
               className="edit-item-input"
               type="text"
+              maxLength="100"
               value={itemInput}
               onChange={handleInputChange}
               ref={inputRef}
               onClick={() => inputRef.current.focus()}></input>
           </form>
         ) : (
-          item
+          <div
+            style={
+              listState === 'edit'
+                ? {
+                    backgroundColor: '#e0e0e0',
+                    cursor: 'pointer',
+                    width: itemInput.length + 3 + 'ch',
+                    maxWidth: itemMaxWidth,
+                    padding: '0px'
+                  }
+                : { backgroundColor: '#FFFFFF' }
+            }
+            onClick={() => {
+              listState === 'edit' && toggleEditingItem();
+            }}
+            title="Click to edit">
+            {item}
+          </div>
         )}
       </div>
       {listState === 'edit' && (

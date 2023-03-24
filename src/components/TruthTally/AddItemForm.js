@@ -9,6 +9,7 @@ const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTit
 
     let dupe = false;
     const input = itemInput.current.value.toLowerCase().replace(/\s+/g, '');
+
     items.forEach((item) => {
       if (item.item.toLowerCase().replace(/\s+/g, '') === input) {
         dupe = true;
@@ -20,20 +21,22 @@ const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTit
       e.currentTarget.reset();
       return;
     }
-    Store.addNotification({
-      title: 'Duplicate Item',
-      message: 'The item already exists in the list',
-      type: 'danger',
-      insert: 'top',
-      isMobile: true,
-      breakpoint: 768,
-      container: 'top-center',
-      animationIn: ['animate__animated', 'animate__slideInDown'],
-      animationOut: ['animate__animated', 'animate__slideUp'],
-      dismiss: {
-        duration: 3000
-      }
-    });
+    dupe &&
+      Store.addNotification({
+        title: 'Duplicate Item',
+        message: 'The item already exists in the list',
+        type: 'danger',
+        insert: 'top',
+        isMobile: true,
+        breakpoint: 768,
+        container: 'top-center',
+        animationIn: ['animate__animated', 'animate__slideInDown'],
+        animationOut: ['animate__animated', 'animate__slideUp'],
+        dismiss: {
+          duration: 3000
+        }
+      });
+    !input && e.currentTarget.reset();
   };
 
   return (
@@ -41,6 +44,7 @@ const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTit
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
           type="text"
+          maxLength="100"
           ref={itemInput}
           onFocus={() => {
             setInputIdEdited('add-item');

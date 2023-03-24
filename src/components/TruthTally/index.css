@@ -31,7 +31,7 @@
 
 .list-item .item-name form input[type='text'],
 .edit-list-item .item-name form input[type='text'] {
-  background-color: #f0f0f0;
+  background-color: #c7c7c7;
   color: #000000;
   margin: unset;
   font-size: 1em;
@@ -39,10 +39,6 @@
   letter-spacing: 2px;
   padding: unset;
   width: fit-content;
-}
-.list-item .item-name form input[type='text']:focus,
-.edit-list-item .item-name form input[type='text'] {
-  background-color: #dadada;
 }
 
 .list-item form,
