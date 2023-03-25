@@ -3,6 +3,7 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import 'react-tooltip/dist/react-tooltip.css';
+import { Store } from 'react-notifications-component';
 
 const ShareListModal = ({
   sourceListChanged,
@@ -60,7 +61,105 @@ const ShareListModal = ({
         const tags = formData.listTags
           .replace(/^[,\s]+|[,\s]+$/g, '')
           .replace(/\s*,\s*/g, ',')
-          .split(',');
+          .split(',')
+          .filter((tag) => tag !== '')
+          .reduce((uniqueTags, tag) => {
+            if (!uniqueTags.includes(tag)) {
+              uniqueTags.push(tag);
+            }
+            return uniqueTags;
+          }, []);
+
+        if (tags.length > 6) {
+          Store.addNotification({
+            title: 'Too many tags',
+            message: 'You cannot enter more than 6 tags',
+            type: 'danger',
+            insert: 'top',
+            isMobile: true,
+            breakpoint: 768,
+            container: 'top-center',
+            animationIn: ['animate__animated', 'animate__slideInDown'],
+            animationOut: ['animate__animated', 'animate__slideUp'],
+            dismiss: {
+              duration: 3000
+            }
+          });
+          return;
+        }
+
+        for (let i = 0; i < tags.length; i++) {
+          const tag = tags[i];
+          if (/\s/.test(tag)) {
+            Store.addNotification({
+              title: 'Invalid tag',
+              message: `Tag '${tag}' contains spaces. Tags cannot contain spaces.`,
+              type: 'danger',
+              insert: 'top',
+              isMobile: true,
+              breakpoint: 768,
+              container: 'top-center',
+              animationIn: ['animate__animated', 'animate__slideInDown'],
+              animationOut: ['animate__animated', 'animate__slideUp'],
+              dismiss: {
+                duration: 3000
+              }
+            });
+            return;
+          }
+          if (tag.length > 20) {
+            Store.addNotification({
+              title: 'Invalid tag',
+              message: `Tag '${tag}' is too long. Tags can only contain up to 20 characters.`,
+              type: 'danger',
+              insert: 'top',
+              isMobile: true,
+              breakpoint: 768,
+              container: 'top-center',
+              animationIn: ['animate__animated', 'animate__slideInDown'],
+              animationOut: ['animate__animated', 'animate__slideUp'],
+              dismiss: {
+                duration: 3000
+              }
+            });
+            return;
+          }
+          if (tag.length < 3) {
+            Store.addNotification({
+              title: 'Invalid tag',
+              message: `Tag '${tag}' is too short. Tags must contain at least 3 characters.`,
+              type: 'danger',
+              insert: 'top',
+              isMobile: true,
+              breakpoint: 768,
+              container: 'top-center',
+              animationIn: ['animate__animated', 'animate__slideInDown'],
+              animationOut: ['animate__animated', 'animate__slideUp'],
+              dismiss: {
+                duration: 3000
+              }
+            });
+            return;
+          }
+          if (!/^[a-zA-Z0-9]+$/.test(tag)) {
+            Store.addNotification({
+              title: 'Invalid tag',
+              message: `Tag '${tag}' contains special characters. Tags can only contain letters and numbers.`,
+              type: 'danger',
+              insert: 'top',
+              isMobile: true,
+              breakpoint: 768,
+              container: 'top-center',
+              animationIn: ['animate__animated', 'animate__slideInDown'],
+              animationOut: ['animate__animated', 'animate__slideUp'],
+              dismiss: {
+                duration: 3000
+              }
+            });
+            return;
+          }
+        }
+
         const title = listTitle;
         const type = 'unranked';
         const unlisted = formData.isUnlisted;
@@ -221,7 +320,7 @@ const ShareListModal = ({
                 data-tooltip-id="tagsTooltip"
                 data-tooltip-place="top"
                 icon={faInfoCircle}
-                data-tooltip-content="Tags: Enter keywords separated by commas to improve searchability and help others discover your list."
+                data-tooltip-content="Tags: Enter comma-separated keywords (up to 6, one-word and no longer than 20 characters) to improve searchability and discoverability."
               />
               <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className="tooltip" />
             </span>

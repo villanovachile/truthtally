@@ -103,6 +103,7 @@ li {
 .rnc__notification-item--danger {
   background-color: #9f000f !important;
   border-left: 8px solid #b1abab !important;
+  z-index: 9999 !important;
 }
 
 /* Mobile Styles */
