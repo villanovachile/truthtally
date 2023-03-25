@@ -31,6 +31,8 @@ function TruthTally() {
 
   const [listAuthor, setListAuthor] = useState();
 
+  const [sourceListTags, setSourceListTags] = useState([]);
+
   const [sourceItemsList, setSourceItemsList] = useState([]);
 
   const [sourceListTitle, setSourceListTitle] = useState();
@@ -60,6 +62,8 @@ function TruthTally() {
   const [shareButtonLabel, setShareButtonLabel] = useState();
 
   const [inputIdEdited, setInputIdEdited] = useState();
+
+  const [metaDescription, setMetaDescription] = useState();
 
   const currentIndex = useRef(0);
 
@@ -110,6 +114,7 @@ function TruthTally() {
           setListAuthor();
           setSourceListURI(results.source_uri);
           setIsRankingSharedList(false);
+          setSourceListTags(results.tags);
           let id = 0;
           results[uri].forEach((item) => {
             nextItemId.current++;
@@ -143,6 +148,7 @@ function TruthTally() {
           setIsRankingSharedList(false);
           setSourceListType('ranked');
           setListTitle(results.title);
+          setSourceListTags(results.tags);
           setListAuthor(results.author);
           setSourceListTitle(results.title);
           setSourceListURI(results.source_uri);
@@ -289,8 +295,11 @@ function TruthTally() {
   };
 
   useEffect(() => {
+    const rankedTitle = listAuthor ? ' - ranked by ' + listAuthor : ' ranked';
     setTitleInput(listTitle);
-    document.title = 'Truth Tally - ' + listTitle;
+    uri === undefined && (document.title = 'Create your list...');
+    sourceListType === 'unranked' && (document.title = listTitle);
+    sourceListType === 'ranked' && (document.title = listTitle + rankedTitle);
   }, [listTitle]);
 
   const titleInputFocus = (e) => {
@@ -354,7 +363,9 @@ function TruthTally() {
     draggableListItems,
     updateDraggableListItems,
     isRankingSharedList,
-    setIsRankingSharedList
+    setIsRankingSharedList,
+    sourceListTags,
+    setSourceListTags
   };
 
   return (
