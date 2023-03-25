@@ -26,7 +26,9 @@ const ShareListModal = ({
   sourceListURI,
   setSourceListURI,
   updateDraggableListItems,
-  draggableListItems
+  draggableListItems,
+  isRankingSharedList,
+  setIsRankingSharedList
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -383,6 +385,7 @@ const ShareListModal = ({
         (sourceListType === 'new' ||
           sourceListType === 'unranked' ||
           sourceTitleChanged ||
+          isRankingSharedList ||
           (sourceListType === 'ranked' && sourceRankedListChanged === true)) && (
           <div className="share-modal">
             <form onSubmit={(e) => shareList(e)}>

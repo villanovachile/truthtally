@@ -10,6 +10,7 @@ import LoadingSpinner from './LoadingSpinner';
 import ShareListModal from './ShareListModal';
 
 function TruthTally() {
+  const [isRankingSharedList, setIsRankingSharedList] = useState(false);
   const [draggableListItems, updateDraggableListItems] = useState([]);
   const [items, setItems] = useState([]);
   const [sourceListChanged, setSourceListChanged] = useState(false);
@@ -97,10 +98,6 @@ function TruthTally() {
       return;
     }
 
-    // if (gameState === "finished") {
-    //   return;
-    // }
-
     (async () => {
       try {
         setLoadingText('Loading...');
@@ -110,8 +107,9 @@ function TruthTally() {
           setSourceListType('unranked');
           setListTitle(results.title);
           setSourceItemsList([]);
+          setListAuthor();
           setSourceListURI(results.source_uri);
-          setListAuthor(null);
+          setIsRankingSharedList(false);
           let id = 0;
           results[uri].forEach((item) => {
             nextItemId.current++;
@@ -142,9 +140,10 @@ function TruthTally() {
           setListState('display');
           setGameState('start');
         } else if (results !== 'not_found' && results.type === 'ranked') {
+          setIsRankingSharedList(false);
           setSourceListType('ranked');
           setListTitle(results.title);
-          listAuthor !== null && setListAuthor(results.author);
+          setListAuthor(results.author);
           setSourceListTitle(results.title);
           setSourceListURI(results.source_uri);
           setSourceItemsList([]);
@@ -353,7 +352,9 @@ function TruthTally() {
     listAuthor,
     setListAuthor,
     draggableListItems,
-    updateDraggableListItems
+    updateDraggableListItems,
+    isRankingSharedList,
+    setIsRankingSharedList
   };
 
   return (

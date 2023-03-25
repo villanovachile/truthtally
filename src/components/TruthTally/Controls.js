@@ -33,7 +33,9 @@ const Controls = ({
   sourceRankedListChanged,
   sourceListURI,
   setListAuthor,
-  updateDraggableListItems
+  updateDraggableListItems,
+  isRankingSharedList,
+  setIsRankingSharedList
 }) => {
   let navigate = useNavigate();
   let { uri } = useParams();
@@ -91,7 +93,7 @@ const Controls = ({
       }
       return result;
     };
-
+    setListAuthor();
     updatePairsList(generatePairs(items));
   };
 
@@ -113,6 +115,8 @@ const Controls = ({
 
   const rateAgain = () => {
     const resetScores = items.map((item) => ({ ...item, score: 0 }));
+    sourceListType === 'ranked' && setIsRankingSharedList(true);
+
     setItems(resetScores);
     currentIndex.current = 0;
     genList();
