@@ -402,6 +402,7 @@ const ShareListModal = ({
                 <input
                   type="text"
                   id="input"
+                  maxLength="30"
                   name="listAuthor"
                   placeholder="(optional)"
                   onChange={handleChange}

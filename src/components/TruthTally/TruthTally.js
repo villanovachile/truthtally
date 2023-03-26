@@ -387,6 +387,7 @@ function TruthTally() {
               style={{ width: titleInput.length + 5 + 'ch' }}
               className="list-title"
               type="text"
+              maxLength="100"
               value={titleInput}
               onChange={handleTitleInputChange}
               ref={titleInputRef}
