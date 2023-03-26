@@ -25,11 +25,12 @@ const Item = ({
 
   useEffect(() => {
     const handleResize = () => {
-      console.log(window.innerWidth);
-      window.innerWidth > 768 ? setItemMaxWidth('600px') : setItemMaxWidth('60vw');
+      const initialWidth = window.innerWidth;
+      setItemMaxWidth(initialWidth > 768 ? '600px' : '60vw');
     };
 
     window.addEventListener('resize', handleResize);
+    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
