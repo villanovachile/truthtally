@@ -1,4 +1,5 @@
 const connectToDatabase = require('../../../utils/mongo-connection');
+const { generateToken } = require('../../../utils/generate-token');
 const randomstring = require('randomstring');
 const validator = require('validator');
 
@@ -82,10 +83,9 @@ const validatePayload = (input) => {
       throw new Error('source_uri must be no more than 8 alphanumeric characters.');
     }
   }
-  console.log(input);
+
   // Validate author
   if (input.hasOwnProperty('author')) {
-    console.log('THIS RAN');
     const author = input.author;
     if (author && !validator.isLength(author, { max: 30 })) {
       throw new Error('Author must be no more than 30 characters.');
@@ -95,12 +95,20 @@ const validatePayload = (input) => {
 };
 
 const handler = async (event) => {
+  const { headers } = event;
+  const token = generateToken();
+
+  if (!headers.authorization || headers.authorization !== `Bearer ${token}`) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ message: 'Unauthorized' })
+    };
+  }
+
   const input = JSON.parse(event.body);
 
   // Use the validatePayload function to validate the input payload
   const errors = validatePayload(input);
-
-  console.log(errors);
 
   // Check if there are any errors, and if so, return an HTTP 400 status code with the error messages
   if (errors.length > 0) {
