@@ -35,6 +35,8 @@ const ShareListModal = ({
 }) => {
   const [copied, setCopied] = useState(false);
 
+  const [showShareLoader, setShowShareLoader] = useState(false);
+
   const hideModal = () => {
     document.body.style.overflow = 'unset';
     setShowShareModal(false);
@@ -97,6 +99,7 @@ const ShareListModal = ({
           duration: 3000
         }
       });
+
       return;
     }
 
@@ -117,6 +120,7 @@ const ShareListModal = ({
             duration: 3000
           }
         });
+
         return;
       }
       if (tag.length > 20) {
@@ -134,9 +138,12 @@ const ShareListModal = ({
             duration: 3000
           }
         });
+
         return;
       }
       if (tag.length < 3) {
+        console.log('this fired');
+
         Store.addNotification({
           title: 'Invalid tag',
           message: `Tag '${tag}' is too short. Tags must contain at least 3 characters.`,
@@ -151,6 +158,7 @@ const ShareListModal = ({
             duration: 3000
           }
         });
+
         return;
       }
       if (!/^[a-zA-Z0-9]+$/.test(tag)) {
@@ -168,9 +176,12 @@ const ShareListModal = ({
             duration: 3000
           }
         });
+
         return;
       }
     }
+    setShowShareLoader(true);
+
     if (gameState === 'start') {
       (async () => {
         const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
@@ -192,6 +203,7 @@ const ShareListModal = ({
           navigate('/list/' + response);
         }
       })();
+
       return;
     }
 
@@ -204,10 +216,6 @@ const ShareListModal = ({
 
       (async () => {
         const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
-        // const tags = formData.listTags
-        //   .replace(/^[,\s]+|[,\s]+$/g, '')
-        //   .replace(/\s*,\s*/g, ',')
-        //   .split(',');
         const title = listTitle;
         const author = formData.listAuthor;
         const type = 'unranked';
@@ -226,10 +234,7 @@ const ShareListModal = ({
           // if URI is returned, save ranked list, and associate URI with saved ranked list
           let id = 1;
           const tempRankedList = await items.sort((a, b) => b.score - a.score).map((item) => ({ ...item, id: id++ }));
-          // const tags = formData.listTags
-          //   .replace(/^[,\s]+|[,\s]+$/g, '')
-          //   .replace(/\s*,\s*/g, ',')
-          //   .split(',');
+
           const title = listTitle;
           const type = 'ranked';
           const author = formData.listAuthor;
@@ -259,6 +264,7 @@ const ShareListModal = ({
           }
         }
       })();
+
       return;
     }
 
@@ -309,6 +315,7 @@ const ShareListModal = ({
           navigate('/list/' + response);
         }
       })();
+
       return;
     }
   };
@@ -372,6 +379,10 @@ const ShareListModal = ({
     return null;
   };
 
+  useEffect(() => {
+    console.log(showShareLoader);
+  }, [showShareLoader]);
+
   const shareChangedList = () => {
     const gameStartNewShare = (sourceListChanged || sourceTitleChanged || uri === undefined) && gameState === 'start';
     const gameCompletedNewShare =
@@ -385,77 +396,86 @@ const ShareListModal = ({
     if (gameStartNewShare || gameCompletedNewShare) {
       return (
         <div className="share-modal">
-          <form onSubmit={(e) => shareList(e)}>
-            {gameState === 'finished' && (
-              <>
-                <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
-                  <label htmlFor="input">Your name:</label>
-                  <FontAwesomeIcon
-                    className="info-icon"
-                    data-tooltip-id="authorTooltip"
-                    data-tooltip-place="top"
-                    icon={faInfoCircle}
-                    data-tooltip-content="Name: Enter your name or a nickname to display as the person who ranked the list when sharing ranked lists with others."
-                  />
-                  <ReactTooltip id="authorTooltip" effect="solid" multiline={true} className="tooltip" />
-                </span>
-                <input
-                  type="text"
-                  id="input"
-                  maxLength="30"
-                  name="listAuthor"
-                  placeholder="(optional)"
-                  onChange={handleChange}
-                  value={formData.listAuthor}
-                />
-              </>
-            )}
-            <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
-              <label htmlFor="input">Tags:</label>
-              <FontAwesomeIcon
-                className="info-icon"
-                data-tooltip-id="tagsTooltip"
-                data-tooltip-place="top"
-                icon={faInfoCircle}
-                data-tooltip-content="Tags: Enter keywords separated by commas to improve searchability and help others discover your list."
-              />
-              <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className="tooltip" />
-            </span>
-            <input
-              type="text"
-              id="input"
-              name="listTags"
-              placeholder={'(Optional)'}
-              onChange={handleChange}
-              value={formData.listTags}
-            />
+          {/* <div className="share-loading-container"></div> */}
 
-            <span>
-              <input
-                type="checkbox"
-                id="isUnlisted"
-                checked={formData.isUnlisted}
-                onChange={handleChange}
-                name="isUnlisted"
-              />
-              <label htmlFor="isUnlisted">Unlisted</label>
-              <FontAwesomeIcon
-                className="info-icon"
-                data-tooltip-id="unlistedTooltip"
-                data-tooltip-place="top"
-                icon={faInfoCircle}
-                data-tooltip-content=" Unlisted: Your list won't appear on the public shared lists page, but can still be shared with others
-        using a unique link."
-              />
-              <ReactTooltip id="unlistedTooltip" effect="solid" multiline={true} className="tooltip" />
-            </span>
-            <div className="share-modal-buttons">
-              <button type="submit">Get Link</button>
-              <button type="button" onClick={() => hideModal()}>
-                Cancel
-              </button>
+          {showShareLoader && (
+            <div className="share-modal-loading-spinner">
+              <div className="share-modal-spinner-circle"></div>
             </div>
-          </form>
+          )}
+          <div>
+            <form onSubmit={(e) => shareList(e)}>
+              {gameState === 'finished' && (
+                <>
+                  <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
+                    <label htmlFor="input">Your name:</label>
+                    <FontAwesomeIcon
+                      className="info-icon"
+                      data-tooltip-id="authorTooltip"
+                      data-tooltip-place="top"
+                      icon={faInfoCircle}
+                      data-tooltip-content="Name: Enter your name or a nickname to display as the person who ranked the list when sharing ranked lists with others."
+                    />
+                    <ReactTooltip id="authorTooltip" effect="solid" multiline={true} className="tooltip" />
+                  </span>
+                  <input
+                    type="text"
+                    id="input"
+                    maxLength="30"
+                    name="listAuthor"
+                    placeholder="(optional)"
+                    onChange={handleChange}
+                    value={formData.listAuthor}
+                  />
+                </>
+              )}
+              <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
+                <label htmlFor="input">Tags:</label>
+                <FontAwesomeIcon
+                  className="info-icon"
+                  data-tooltip-id="tagsTooltip"
+                  data-tooltip-place="top"
+                  icon={faInfoCircle}
+                  data-tooltip-content="Tags: Enter keywords separated by commas to improve searchability and help others discover your list."
+                />
+                <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className="tooltip" />
+              </span>
+              <input
+                type="text"
+                id="input"
+                name="listTags"
+                placeholder={'(Optional)'}
+                onChange={handleChange}
+                value={formData.listTags}
+              />
+
+              <span>
+                <input
+                  type="checkbox"
+                  id="isUnlisted"
+                  checked={formData.isUnlisted}
+                  onChange={handleChange}
+                  name="isUnlisted"
+                />
+                <label htmlFor="isUnlisted">Unlisted</label>
+                <FontAwesomeIcon
+                  className="info-icon"
+                  data-tooltip-id="unlistedTooltip"
+                  data-tooltip-place="top"
+                  icon={faInfoCircle}
+                  data-tooltip-content=" Unlisted: Your list won't appear on the public shared lists page, but can still be shared with others
+        using a unique link."
+                />
+                <ReactTooltip id="unlistedTooltip" effect="solid" multiline={true} className="tooltip" />
+              </span>
+              <div className="share-modal-buttons">
+                <button type="submit">Get Link</button>
+                <button type="button" onClick={() => hideModal()}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       );
     }
