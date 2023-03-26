@@ -91,13 +91,14 @@ const Item = ({
         if (item.id === id) {
           const newItem = {
             ...item,
-            item: itemInput.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase())
+            item: itemInput.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()).trim()
           };
           const newArray = [...items];
           newArray.splice(i, 1, newItem);
           setItems(newArray);
           updateDraggableListItems(newArray);
         }
+        setItemInput(itemInput.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()).trim());
       });
     } else {
       setItemInput(item);

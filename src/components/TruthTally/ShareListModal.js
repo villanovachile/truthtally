@@ -201,7 +201,7 @@ const ShareListModal = ({
       (sourceListType === 'new' || sourceListChanged || (sourceTitleChanged && sourceListType === 'unranked'))
     ) {
       // save unranked list and generate URI
-      console.log('Saving changed list');
+
       (async () => {
         const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
         // const tags = formData.listTags

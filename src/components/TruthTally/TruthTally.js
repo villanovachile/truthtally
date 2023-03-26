@@ -266,28 +266,10 @@ function TruthTally() {
 
     titleInputRef.current.blur();
 
-    // if (titleInput.trim() === '') {
-    //   Store.addNotification({
-    //     title: 'Invalid Title',
-    //     message: 'A title is required',
-    //     type: 'danger',
-    //     insert: 'top',
-    //     isMobile: true,
-    //     breakpoint: 768,
-    //     container: 'top-center',
-    //     animationIn: ['animate__animated', 'animate__slideInDown'],
-    //     animationOut: ['animate__animated', 'animate__slideUp'],
-    //     dismiss: {
-    //       duration: 3000
-    //     }
-    //   });
-    //   setTitleInput(listTitle);
-    //   return;
-    // }
-
     if (titleInput.trim() !== '') {
       sourceListTitle !== titleInput ? setSourceTitleChanged(true) : setSourceTitleChanged(false);
-      setListTitle(titleInput);
+      setListTitle(titleInput.trim());
+      setTitleInput(titleInput.trim());
     }
     setEditingTitle(false);
   };
@@ -422,7 +404,6 @@ function TruthTally() {
               listState === 'edit' && setEditingTitle(!editingTitle);
             }}
             title="Click to edit">
-            {console.log('editing')}
             <h3>{listTitle}</h3>
           </div>
         )}
