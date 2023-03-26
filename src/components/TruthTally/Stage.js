@@ -48,13 +48,13 @@ const Stage = ({
         </div>
 
         <div className="stage-container">
-          <div className="item-card" onClick={(e) => nextRound(pairs[currentIndex.current][0])}>
+          <button className="item-card" onClick={(e) => nextRound(pairs[currentIndex.current][0])}>
             {pairs[currentIndex.current][0].item}
-          </div>
+          </button>
           <div className="item-card-divider">vs.</div>
-          <div className="item-card" key={key++} onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
+          <button className="item-card" key={key++} onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
             {pairs[currentIndex.current][1].item}
-          </div>
+          </button>
         </div>
       </>
     );
