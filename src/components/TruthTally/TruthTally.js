@@ -15,6 +15,8 @@ function TruthTally() {
   const [items, setItems] = useState([]);
   const [sourceListChanged, setSourceListChanged] = useState(false);
 
+  const [titleMaxWidth, setTitleMaxWidth] = useState('600px');
+
   const [sourceRankedListChanged, setSourceRankedListChanged] = useState(false);
 
   const [sourceTitleChanged, setSourceTitleChanged] = useState(false);
@@ -310,6 +312,17 @@ function TruthTally() {
     !titleInputRef && titleInputRef.current.focus();
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const initialWidth = window.innerWidth;
+      setTitleMaxWidth(initialWidth > 768 ? '650px' : '90vw');
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const props = {
     items,
     setItems,
@@ -374,7 +387,7 @@ function TruthTally() {
       <Controls {...props} />
 
       <div className="list-title">
-        {(listState === 'edit' && gameState === 'start') || (editingTitle && gameState === 'finished') ? (
+        {listState === 'edit' || (editingTitle && gameState === 'finished') ? (
           <form
             style={{ width: titleInput.length + 5 + 'ch' }}
             onBlur={(e) => {
@@ -384,6 +397,7 @@ function TruthTally() {
               editedTitleSubmit(e);
             }}>
             <input
+              autoFocus
               style={{ width: titleInput.length + 5 + 'ch' }}
               className="list-title"
               type="text"
@@ -396,8 +410,31 @@ function TruthTally() {
               }}></input>
           </form>
         ) : (
+          /* (
           <h3>{listTitle}</h3>
+        )} */
+
+          <div
+            style={
+              listState === 'edit'
+                ? {
+                    backgroundColor: '#7a0000',
+                    cursor: 'pointer',
+                    width: titleInput.length + 9 + 'ch',
+                    maxWidth: titleMaxWidth,
+                    padding: '0px'
+                  }
+                : { backgroundColor: '#5f0000' }
+            }
+            onClick={() => {
+              listState === 'edit' && setEditingTitle(!editingTitle);
+            }}
+            title="Click to edit">
+            {console.log('editing')}
+            <h3>{listTitle}</h3>
+          </div>
         )}
+
         {((sourceTitleChanged && sourceListType !== 'new') ||
           (sourceListChanged && sourceListType !== 'new') ||
           (sourceTitleChanged && sourceListType === 'ranked')) &&
