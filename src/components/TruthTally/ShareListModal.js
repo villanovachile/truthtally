@@ -84,6 +84,8 @@ const ShareListModal = ({
         return uniqueTags;
       }, []);
 
+    const author = formData.listAuthor;
+
     if (tags.length > 6) {
       Store.addNotification({
         title: 'Too many tags',
@@ -142,8 +144,6 @@ const ShareListModal = ({
         return;
       }
       if (tag.length < 3) {
-        console.log('this fired');
-
         Store.addNotification({
           title: 'Invalid tag',
           message: `Tag '${tag}' is too short. Tags must contain at least 3 characters.`,
@@ -189,18 +189,47 @@ const ShareListModal = ({
         const title = listTitle;
         const type = 'unranked';
         const unlisted = formData.isUnlisted;
-        const newList = { items: tempList, unlisted: unlisted, title: title, tags: tags, type: type };
-        let results = await fetch('/.netlify/functions/add_list', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newList)
-        });
-        const response = await results.json();
-        if (response !== undefined) {
-          navigate('/list/' + response);
+        const newList = {
+          items: tempList,
+          unlisted: unlisted,
+          title: title,
+          ...(tags.length > 0 && { tags: tags }),
+          type: type
+        };
+        try {
+          let results = await fetch('/.netlify/functions/add_list', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newList)
+          });
+
+          if (results.status >= 200 && results.status < 300) {
+            const response = await results.json();
+            navigate('/list/' + response);
+          } else {
+            const errorResponse = await results.json();
+            throw new Error(errorResponse.errors);
+          }
+        } catch (error) {
+          console.log('error caught:', error);
+          setShowShareLoader(false);
+          Store.addNotification({
+            title: 'Error sharing list',
+            message: `There was an error sharing the list. Please try again`,
+            type: 'danger',
+            insert: 'top',
+            isMobile: true,
+            breakpoint: 768,
+            container: 'top-center',
+            animationIn: ['animate__animated', 'animate__slideInDown'],
+            animationOut: ['animate__animated', 'animate__slideUp'],
+            dismiss: {
+              duration: 3000
+            }
+          });
         }
       })();
 
@@ -217,38 +246,17 @@ const ShareListModal = ({
       (async () => {
         const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
         const title = listTitle;
-        const author = formData.listAuthor;
         const type = 'unranked';
         const unlisted = formData.isUnlisted;
-        const newList = { items: tempList, unlisted: unlisted, title: title, tags: tags, type: type, author: author };
-        let results = await fetch('/.netlify/functions/add_list', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newList)
-        });
-        const unrankedURI = await results.json();
-        if (unrankedURI !== undefined) {
-          // if URI is returned, save ranked list, and associate URI with saved ranked list
-          let id = 1;
-          const tempRankedList = await items.sort((a, b) => b.score - a.score).map((item) => ({ ...item, id: id++ }));
-
-          const title = listTitle;
-          const type = 'ranked';
-          const author = formData.listAuthor;
-          const unlisted = formData.isUnlisted;
-          const sourceListURI = unrankedURI;
-          const newList = {
-            items: tempRankedList,
-            unlisted: unlisted,
-            title: title,
-            tags: tags,
-            type: type,
-            source_uri: sourceListURI,
-            author: author
-          };
+        const newList = {
+          items: tempList,
+          unlisted: unlisted,
+          title: title,
+          ...(tags.length > 0 && { tags: tags }),
+          type: type,
+          ...(author.replace(/\s+/g, '') !== '' && { author: author })
+        };
+        try {
           let results = await fetch('/.netlify/functions/add_list', {
             method: 'POST',
             headers: {
@@ -258,10 +266,83 @@ const ShareListModal = ({
             body: JSON.stringify(newList)
           });
 
-          const response = await results.json();
-          if (response !== undefined) {
-            navigate('/list/' + response);
+          if (results.status >= 200 && results.status < 300) {
+            const unrankedURI = await results.json();
+
+            // if URI is returned, save ranked list, and associate URI with saved ranked list
+            let id = 1;
+            const tempRankedList = await items.sort((a, b) => b.score - a.score).map((item) => ({ ...item, id: id++ }));
+
+            const title = listTitle;
+            const type = 'ranked';
+            const unlisted = formData.isUnlisted;
+            const sourceListURI = unrankedURI;
+            const newList = {
+              items: tempRankedList,
+              unlisted: unlisted,
+              title: title,
+              ...(tags.length > 0 && { tags: tags }),
+              type: type,
+              source_uri: sourceListURI,
+              ...(author.replace(/\s+/g, '') !== '' && { author: author })
+            };
+
+            try {
+              let results = await fetch('/.netlify/functions/add_list', {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newList)
+              });
+
+              if (results.status >= 200 && results.status < 300) {
+                const response = await results.json();
+                navigate('/list/' + response);
+              } else {
+                const errorResponse = await results.json();
+                throw new Error(errorResponse.errors);
+              }
+            } catch (error) {
+              console.log('error caught:', error);
+              setShowShareLoader(false);
+              Store.addNotification({
+                title: 'Error sharing list',
+                message: `There was an error sharing the list. Please try again`,
+                type: 'danger',
+                insert: 'top',
+                isMobile: true,
+                breakpoint: 768,
+                container: 'top-center',
+                animationIn: ['animate__animated', 'animate__slideInDown'],
+                animationOut: ['animate__animated', 'animate__slideUp'],
+                dismiss: {
+                  duration: 3000
+                }
+              });
+            }
+          } else {
+            const errorResponse = await results.json();
+            throw new Error(errorResponse.errors);
           }
+        } catch (error) {
+          console.log('error caught:', error);
+          setShowShareLoader(false);
+          Store.addNotification({
+            title: 'Error sharing list',
+            message: `There was an error sharing the list. Please try again`,
+            type: 'danger',
+            insert: 'top',
+            isMobile: true,
+            breakpoint: 768,
+            container: 'top-center',
+            animationIn: ['animate__animated', 'animate__slideInDown'],
+            animationOut: ['animate__animated', 'animate__slideUp'],
+            dismiss: {
+              duration: 3000
+            }
+          });
         }
       })();
 
@@ -279,15 +360,10 @@ const ShareListModal = ({
         let id = 1;
         let source_uri;
         const tempRankedList = await items.sort((a, b) => b.score - a.score).map((item) => ({ ...item, id: id++ }));
-        const tags = formData.listTags
-          .replace(/^[,\s]+|[,\s]+$/g, '')
-          .replace(/\s*,\s*/g, ',')
-          .split(',');
+
+        console.log(tags.length);
         const title = listTitle;
         const type = 'ranked';
-
-        let author;
-        formData.listAuthor.replace(/\s+/g, '') !== '' ? (author = formData.listAuthor) : (author = null);
 
         const unlisted = formData.isUnlisted;
 
@@ -297,22 +373,46 @@ const ShareListModal = ({
           items: tempRankedList,
           unlisted: unlisted,
           title: title,
-          tags: tags,
+          ...(tags.length > 0 && { tags: tags }),
           type: type,
           source_uri: source_uri,
-          author: author
+          ...(author.replace(/\s+/g, '') !== '' && { author: author })
         };
-        let results = await fetch('/.netlify/functions/add_list', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newList)
-        });
-        const response = await results.json();
-        if (response !== undefined) {
-          navigate('/list/' + response);
+
+        try {
+          let results = await fetch('/.netlify/functions/add_list', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newList)
+          });
+
+          if (results.status >= 200 && results.status < 300) {
+            const response = await results.json();
+            navigate('/list/' + response);
+          } else {
+            const errorResponse = await results.json();
+            throw new Error(errorResponse.errors);
+          }
+        } catch (error) {
+          console.log('error caught:', error);
+          setShowShareLoader(false);
+          Store.addNotification({
+            title: 'Error sharing list',
+            message: `There was an error sharing the list. Please try again`,
+            type: 'danger',
+            insert: 'top',
+            isMobile: true,
+            breakpoint: 768,
+            container: 'top-center',
+            animationIn: ['animate__animated', 'animate__slideInDown'],
+            animationOut: ['animate__animated', 'animate__slideUp'],
+            dismiss: {
+              duration: 3000
+            }
+          });
         }
       })();
 
@@ -379,9 +479,7 @@ const ShareListModal = ({
     return null;
   };
 
-  useEffect(() => {
-    console.log(showShareLoader);
-  }, [showShareLoader]);
+  useEffect(() => {}, [showShareLoader]);
 
   const shareChangedList = () => {
     const gameStartNewShare = (sourceListChanged || sourceTitleChanged || uri === undefined) && gameState === 'start';
