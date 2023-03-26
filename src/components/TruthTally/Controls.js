@@ -83,6 +83,7 @@ const Controls = ({
           result.push([arr[i], arr[j]]);
         }
       }
+      setListState('display');
       setLoadingText('Generating pairs...');
       setGameCompleted(false);
       setGameState('loading');
@@ -274,7 +275,11 @@ const Controls = ({
 
         {shareButton()}
 
-        {gameState !== 'start' && gameState !== 'loading' && gameState !== 'preload' && sourceListType === 'ranked' ? (
+        {gameState !== 'start' &&
+        gameState !== 'loading' &&
+        gameState !== 'preload' &&
+        gameState !== 'inProgress' &&
+        sourceListType === 'ranked' ? (
           <button onClick={() => viewSourceList()}>See Unranked List</button>
         ) : null}
 
