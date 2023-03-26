@@ -84,10 +84,6 @@ function TruthTally() {
     window.sessionStorage.setItem('showShareModal', JSON.stringify(showShareModal));
   }, [showShareModal]);
 
-  // useEffect(() => {
-  //   updateDraggableListItems(items);
-  // }, [items]);
-
   useEffect(() => {
     setItems([]);
     setSourceTitleChanged(false);
@@ -410,10 +406,6 @@ function TruthTally() {
               }}></input>
           </form>
         ) : (
-          /* (
-          <h3>{listTitle}</h3>
-        )} */
-
           <div
             style={
               listState === 'edit'

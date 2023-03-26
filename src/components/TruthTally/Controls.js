@@ -278,7 +278,7 @@ const Controls = ({
           <button onClick={() => viewSourceList()}>See Unranked List</button>
         ) : null}
 
-        {(gameState === 'finished' || uri !== undefined) && (
+        {(gameState === 'finished' || uri !== undefined) && gameState !== 'preload' && (
           <button onClick={() => navigate('/')}>Create New List</button>
         )}
       </div>
