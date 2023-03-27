@@ -5,6 +5,7 @@ const handler = async (event) => {
 
   try {
     const database = await connectToDatabase(process.env.MONGODB_URI);
+    const database = await connectToDatabase(process.env.MONGODB_URI);
     const collection = database.collection(process.env.MONGODB_COLLECTION);
     const results = await collection.find({ [input]: { $exists: true } }).toArray();
 
