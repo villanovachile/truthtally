@@ -138,10 +138,10 @@ const ShareListModal = ({
 
         return;
       }
-      if (tag.length < 3) {
+      if (tag.length < 2) {
         Store.addNotification({
           title: 'Invalid tag',
-          message: `Tag '${tag}' is too short. Tags must contain at least 3 characters.`,
+          message: `Tag '${tag}' is too short. Tags must contain at least 2 characters.`,
           type: 'danger',
           insert: 'top',
           isMobile: true,

@@ -55,8 +55,8 @@ const validatePayload = (input) => {
     } else {
       const tagSet = new Set();
       input.tags.forEach((tag, index) => {
-        if (!validator.isLength(tag, { min: 3, max: 20 })) {
-          errors.push(`Tag at index ${index} must be between 3 and 20 characters`);
+        if (!validator.isLength(tag, { min: 2, max: 20 })) {
+          errors.push(`Tag at index ${index} must be between 2 and 20 characters`);
         }
         if (!validator.isAlphanumeric(tag)) {
           errors.push(`Tag at index ${index} must contain only alphanumeric characters`);
