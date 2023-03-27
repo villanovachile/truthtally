@@ -73,6 +73,7 @@ const Controls = (props) => {
           result.push([arr[i], arr[j]]);
         }
       }
+      updateDraggableListItems(items);
       setListState('display');
       setLoadingText('Generating pairs...');
       setRankingCompleted(false);
