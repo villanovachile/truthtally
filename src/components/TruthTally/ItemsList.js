@@ -1,8 +1,8 @@
 import React from 'react';
 import Item from './Item';
 
-const ItemsList = ({ listState, items, handleAddItem, gameState, handleRemoveItem }) => {
-  // if (gameState === "start") {
+const ItemsList = (props) => {
+  const { listState, items, handleRemoveItem } = props;
 
   return (
     <div className="items-list">
@@ -11,7 +11,6 @@ const ItemsList = ({ listState, items, handleAddItem, gameState, handleRemoveIte
           listState={listState}
           item={item.item}
           handleRemoveItem={handleRemoveItem}
-          score={item.score}
           id={item.id}
           key={item.id.toString()}
         />

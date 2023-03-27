@@ -1,16 +1,18 @@
 import React from 'react';
 
-const Stage = ({
-  gameState,
-  setGameState,
-  items,
-  pairs,
-  setPairs,
-  setItems,
-  currentIndex,
-  setLoadingText,
-  setGameCompleted
-}) => {
+const Stage = (props) => {
+  const {
+    gameState,
+    setGameState,
+    items,
+    pairs,
+    setPairs,
+    setItems,
+    currentIndex,
+    setLoadingText,
+    setRankingCompleted
+  } = props;
+
   if (pairs.length && gameState === 'inProgress') {
     let key = 1;
 
@@ -32,7 +34,7 @@ const Stage = ({
         if (currentIndex.current === pairs.length - 1) {
           currentIndex.current = 0;
           setPairs([]);
-          setGameCompleted(true);
+          setRankingCompleted(true);
           setLoadingText('Tabulating results...');
           setGameState('loading');
         } else {

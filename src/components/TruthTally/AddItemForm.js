@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { Store } from 'react-notifications-component';
 
-const AddItemForm = ({ updateDraggableListItems, setInputIdEdited, setEditingTitle, handleAddItem, items }) => {
+const AddItemForm = (props) => {
+  const { setInputIdEdited, setEditingTitle, handleAddItem, items } = props;
   const itemInput = useRef();
 
   const handleSubmit = (e) => {

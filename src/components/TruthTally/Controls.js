@@ -1,53 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const Controls = ({
-  listState,
-  setListState,
-  shareListButtonLabel,
-  setShowModal,
-  setShowShareModal,
-  items,
-  setItems,
-  nextItemId,
-  setPairs,
-  updatePairsList,
-  gameState,
-  setGameState,
-  currentIndex,
-  setLoadingText,
-  setGameCompleted,
-  sourceListChanged,
-  setSourceListChanged,
-  setPreEditListCopy,
-  preEditListCopy,
-  setPreListTitleCopy,
-  preListTitleCopy,
-  setListTitle,
-  listTitle,
-  sourceTitleChanged,
-  setEditingTitle,
-  editedTitleSubmit,
-  titleInput,
-  sourceListType,
-  sourceRankedListChanged,
-  sourceListURI,
-  setListAuthor,
-  updateDraggableListItems,
-  isRankingSharedList,
-  setIsRankingSharedList
-}) => {
+const Controls = (props) => {
+  const {
+    listState,
+    setListState,
+    setShowShareModal,
+    items,
+    setItems,
+    nextItemId,
+    setPairs,
+    updatePairsList,
+    gameState,
+    setGameState,
+    currentIndex,
+    setLoadingText,
+    setRankingCompleted,
+    sourceListChanged,
+    setPreEditListCopy,
+    preEditListCopy,
+    setPreListTitleCopy,
+    preListTitleCopy,
+    setListTitle,
+    listTitle,
+    sourceTitleChanged,
+    setEditingTitle,
+    sourceListType,
+    sourceRankedListChanged,
+    sourceListURI,
+    setListAuthor,
+    updateDraggableListItems,
+    setIsRankingSharedList
+  } = props;
+
   let navigate = useNavigate();
   let { uri } = useParams();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showContent, setShowContent] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
-  const collapseIconStyle = {
-    // position: isCollapsed ? 'absolute' : 'relative',
-    // bottom: isCollapsed ? '0' : '20px'
-    // // right: '20px'
-  };
 
   const toggleCollapse = () => {
     setShowContent(!showContent);
@@ -85,7 +75,7 @@ const Controls = ({
       }
       setListState('display');
       setLoadingText('Generating pairs...');
-      setGameCompleted(false);
+      setRankingCompleted(false);
       setGameState('loading');
       // Shuffle the array of pairs
       for (let i = result.length - 1; i > 0; i--) {
@@ -103,7 +93,7 @@ const Controls = ({
     setItems([]);
     setPairs([]);
     updateDraggableListItems([]);
-    setGameCompleted(false);
+    setRankingCompleted(false);
     setGameState('start');
     // nextItemId.current = 0;
     // currentIndex.current = 0;
@@ -121,7 +111,7 @@ const Controls = ({
     setItems(resetScores);
     currentIndex.current = 0;
     genList();
-    setGameCompleted(false);
+    setRankingCompleted(false);
     setGameState('inProgress');
     setListAuthor();
   };
@@ -133,7 +123,7 @@ const Controls = ({
     const resetScores = items.map((item) => ({ ...item, score: 0 }));
     setItems(resetScores);
     setPairs([]);
-    setGameCompleted(false);
+    setRankingCompleted(false);
     setGameState('start');
     nextItemId.current = 0;
     currentIndex.current = 0;
@@ -298,7 +288,6 @@ const Controls = ({
               width="20px"
               height="20px"
               className="collapse-button"
-              style={collapseIconStyle}
               onClick={toggleCollapse}>
               <g fill="#FFFFFF" transform="matrix(-1, 0, 0, -1, 1000, 1000)">
                 <path
@@ -318,7 +307,6 @@ const Controls = ({
               width="20px"
               height="20px"
               className="collapse-button"
-              style={collapseIconStyle}
               onClick={toggleCollapse}>
               <g fill="#FFFFFF">
                 <path

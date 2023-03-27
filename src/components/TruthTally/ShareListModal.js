@@ -8,27 +8,17 @@ import { Store } from 'react-notifications-component';
 const ShareListModal = ({
   sourceListChanged,
   sourceTitleChanged,
-  currentItemsList,
-  sourceItemsList,
-  setSourceItemsList,
   uri,
   navigate,
   items,
-  setItems,
-  disableModalState,
   setShowShareModal,
-  showShareModal,
   listTitle,
   sourceListType,
-  setSourceListType,
   gameState,
   sourceRankedListChanged,
   sourceListURI,
-  setSourceListURI,
-  updateDraggableListItems,
   draggableListItems,
   isRankingSharedList,
-  setIsRankingSharedList,
   listAuthor,
   sourceListTags,
   setSourceListTags
@@ -506,7 +496,7 @@ const ShareListModal = ({
 
   const shareChangedList = () => {
     const gameStartNewShare = (sourceListChanged || sourceTitleChanged || uri === undefined) && gameState === 'start';
-    const gameCompletedNewShare =
+    const rankingCompletedNewShare =
       gameState === 'finished' &&
       (sourceListType === 'new' ||
         sourceListType === 'unranked' ||
@@ -514,7 +504,7 @@ const ShareListModal = ({
         isRankingSharedList ||
         (sourceListType === 'ranked' && sourceRankedListChanged === true));
 
-    if (gameStartNewShare || gameCompletedNewShare) {
+    if (gameStartNewShare || rankingCompletedNewShare) {
       return (
         <div className="share-modal">
           {/* <div className="share-loading-container"></div> */}

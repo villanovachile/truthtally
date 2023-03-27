@@ -1,7 +1,8 @@
 import React from 'react';
 import ResultItem from './ResultItem';
 
-const Results = ({ listAuthor, listTitle, gameState, items }) => {
+const Results = (props) => {
+  const { listAuthor, listTitle, gameState, items } = props;
   if (gameState === 'finished') {
     let key = 1;
     let id = 1;

@@ -1,19 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Store } from 'react-notifications-component';
 
-const Item = ({
-  setEditingTitle,
-  inputIdEdited,
-  setInputIdEdited,
-  listState,
-  setItems,
-  item,
-  items,
-  id,
-  handleRemoveItem,
-  updateDraggableListItems,
-  ...provided
-}) => {
+const Item = (props) => {
+  const {
+    setEditingTitle,
+    inputIdEdited,
+    setInputIdEdited,
+    listState,
+    setItems,
+    item,
+    items,
+    id,
+    handleRemoveItem,
+    updateDraggableListItems,
+    ...provided
+  } = props;
+
   const [itemInput, setItemInput] = useState(item);
   const inputRef = useRef(null);
   const [isEditingItem, setIsEditingItem] = useState(false);

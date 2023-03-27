@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const LoadingSpinner = ({ gameState, setGameState, loadingText, gameCompleted }) => {
+const LoadingSpinner = (props) => {
+  const { gameState, setGameState, loadingText, rankingCompleted } = props;
   const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
@@ -9,12 +10,12 @@ const LoadingSpinner = ({ gameState, setGameState, loadingText, gameCompleted })
 
       const timer = setTimeout(() => {
         setShowSpinner(false);
-        gameCompleted === false ? setGameState('inProgress') : setGameState('finished');
+        rankingCompleted === false ? setGameState('inProgress') : setGameState('finished');
       }, 3000);
 
       return () => clearTimeout(timer);
     }
-  }, [gameState, setGameState, gameCompleted]);
+  }, [gameState, setGameState, rankingCompleted]);
 
   if (gameState === 'loading' || gameState === 'preload') {
     return (

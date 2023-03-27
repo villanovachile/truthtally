@@ -1,6 +1,7 @@
 import React from 'react';
 
-const ResultItem = ({ item, id }) => {
+const ResultItem = (props) => {
+  const { item, id } = props;
   let rankedItem = `${id}. ${item}`;
   return <div className="ranked-item">{rankedItem}</div>;
 };

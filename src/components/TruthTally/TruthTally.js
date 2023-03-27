@@ -55,17 +55,13 @@ function TruthTally() {
 
   const [listState, setListState] = useState();
 
-  const [gameCompleted, setGameCompleted] = useState();
+  const [rankingCompleted, setRankingCompleted] = useState();
 
   const [loadingText, setLoadingText] = useState('');
 
   const [pairs, setPairs] = useState([]);
 
-  const [shareButtonLabel, setShareButtonLabel] = useState();
-
   const [inputIdEdited, setInputIdEdited] = useState();
-
-  const [metaDescription, setMetaDescription] = useState();
 
   const currentIndex = useRef(0);
 
@@ -306,8 +302,8 @@ function TruthTally() {
     setItems,
     gameState,
     setGameState,
-    gameCompleted,
-    setGameCompleted,
+    rankingCompleted,
+    setRankingCompleted,
     loadingText,
     setLoadingText,
     pairs,
@@ -324,8 +320,6 @@ function TruthTally() {
     setShowShareModal,
     listState,
     setListState,
-    shareButtonLabel,
-    setShareButtonLabel,
     sourceListChanged,
     setSourceListChanged,
     preEditListCopy,
