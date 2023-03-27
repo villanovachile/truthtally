@@ -14,8 +14,6 @@ const Stage = (props) => {
   } = props;
 
   if (pairs.length && gameState === 'inProgress') {
-    let key = 1;
-
     function nextRound(currentSelection) {
       if (currentIndex.current <= pairs.length - 1) {
         items.forEach((item, i) => {
@@ -54,7 +52,7 @@ const Stage = (props) => {
             {pairs[currentIndex.current][0].item}
           </button>
           <div className="item-card-divider">vs.</div>
-          <button className="item-card" key={key++} onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
+          <button className="item-card" onClick={(e) => nextRound(pairs[currentIndex.current][1])}>
             {pairs[currentIndex.current][1].item}
           </button>
         </div>
