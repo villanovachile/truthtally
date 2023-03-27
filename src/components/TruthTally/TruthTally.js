@@ -10,64 +10,43 @@ import LoadingSpinner from './LoadingSpinner';
 import ShareListModal from './ShareListModal';
 
 function TruthTally() {
-  const [isRankingSharedList, setIsRankingSharedList] = useState(false);
-  const [draggableListItems, updateDraggableListItems] = useState([]);
-  const [items, setItems] = useState([]);
-  const [sourceListChanged, setSourceListChanged] = useState(false);
-
-  const [titleMaxWidth, setTitleMaxWidth] = useState('600px');
-
-  const [sourceRankedListChanged, setSourceRankedListChanged] = useState(false);
-
-  const [sourceTitleChanged, setSourceTitleChanged] = useState(false);
-
-  const [sourceListURI, setSourceListURI] = useState();
-
   let { uri } = useParams();
-
   let navigate = useNavigate();
-
   const history = useLocation();
-
-  const [listTitle, setListTitle] = useState('');
-
-  const [listAuthor, setListAuthor] = useState();
-
-  const [sourceListTags, setSourceListTags] = useState([]);
-
-  const [sourceItemsList, setSourceItemsList] = useState([]);
-
-  const [sourceListTitle, setSourceListTitle] = useState();
-
-  const [sourceListType, setSourceListType] = useState();
-
-  const [showShareModal, setShowShareModal] = useState(false);
-
-  const [preEditListCopy, setPreEditListCopy] = useState([]);
-
-  const [preListTitleCopy, setPreListTitleCopy] = useState();
-
+  const [draggableListItems, updateDraggableListItems] = useState([]);
   const [editingTitle, setEditingTitle] = useState(false);
-
-  const [titleInput, setTitleInput] = useState();
-
   const [gameState, setGameState] = useState('preload');
-
-  const [listState, setListState] = useState();
-
-  const [rankingCompleted, setRankingCompleted] = useState();
-
-  const [loadingText, setLoadingText] = useState('');
-
-  const [pairs, setPairs] = useState([]);
-
   const [inputIdEdited, setInputIdEdited] = useState();
-
+  const [isRankingSharedList, setIsRankingSharedList] = useState(false);
+  const [items, setItems] = useState([]);
+  const [listAuthor, setListAuthor] = useState();
+  const [listState, setListState] = useState();
+  const [listTitle, setListTitle] = useState('');
+  const [loadingText, setLoadingText] = useState('');
+  const [pairs, setPairs] = useState([]);
+  const [preEditListCopy, setPreEditListCopy] = useState([]);
+  const [preListTitleCopy, setPreListTitleCopy] = useState();
+  const [rankingCompleted, setRankingCompleted] = useState();
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [sourceItemsList, setSourceItemsList] = useState([]);
+  const [sourceListChanged, setSourceListChanged] = useState(false);
+  const [sourceListTags, setSourceListTags] = useState([]);
+  const [sourceListTitle, setSourceListTitle] = useState();
+  const [sourceListType, setSourceListType] = useState();
+  const [sourceListURI, setSourceListURI] = useState();
+  const [sourceRankedListChanged, setSourceRankedListChanged] = useState(false);
+  const [sourceTitleChanged, setSourceTitleChanged] = useState(false);
+  const [titleInput, setTitleInput] = useState();
+  const [titleMaxWidth, setTitleMaxWidth] = useState('600px');
   const currentIndex = useRef(0);
-
   const nextItemId = useRef(0);
 
-  const titleInputRef = useRef(null);
+  const isListEditMode = listState === 'edit';
+  const sourceListTypeNew = sourceListType === 'new';
+  const sourceListTypeRanked = sourceListType === 'ranked';
+  const sourceListTypeUnranked = sourceListType === 'unranked';
+  const finishedGameState = gameState === 'finished';
+  const startGameState = gameState === 'start';
 
   useEffect(() => {
     const storedValue = window.sessionStorage.getItem('showShareModal');
@@ -80,6 +59,47 @@ function TruthTally() {
     window.sessionStorage.setItem('showShareModal', JSON.stringify(showShareModal));
   }, [showShareModal]);
 
+  useEffect(() => {
+    let currentListItemNames = [];
+    let sourceListItemNames = [];
+
+    items.forEach((item) => {
+      currentListItemNames.push(item.item);
+    });
+    sourceItemsList.forEach((item) => {
+      sourceListItemNames.push(item.item);
+    });
+
+    if (uri !== undefined) {
+      JSON.stringify(currentListItemNames) === JSON.stringify(sourceListItemNames)
+        ? setSourceListChanged(false)
+        : setSourceListChanged(true);
+      JSON.stringify(items) === JSON.stringify(sourceItemsList)
+        ? setSourceRankedListChanged(false)
+        : setSourceRankedListChanged(true);
+    }
+  }, [items, sourceItemsList, uri]);
+
+  useEffect(() => {
+    const rankedTitle = listAuthor ? ' - ranked by ' + listAuthor : ' ranked';
+    setTitleInput(listTitle);
+    uri === undefined && (document.title = 'Create your list...');
+    sourceListTypeUnranked && (document.title = listTitle);
+    sourceListTypeRanked && (document.title = listTitle + rankedTitle);
+  }, [listTitle]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const initialWidth = window.innerWidth;
+      setTitleMaxWidth(initialWidth > 768 ? '650px' : '90vw');
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Make initial list fetch, return early if uri is undefined
   useEffect(() => {
     setItems([]);
     setSourceTitleChanged(false);
@@ -177,7 +197,21 @@ function TruthTally() {
         }
       } catch (error) {
         console.log('Error: ', error);
-        navigate('/list/404');
+        navigate('/');
+        Store.addNotification({
+          title: 'Error loading list',
+          message: 'There was a problem loading this list',
+          type: 'danger',
+          insert: 'top',
+          isMobile: true,
+          breakpoint: 768,
+          container: 'top-center',
+          animationIn: ['animate__animated', 'animate__slideInDown'],
+          animationOut: ['animate__animated', 'animate__slideUp'],
+          dismiss: {
+            duration: 3000
+          }
+        });
       }
     })();
   }, [history, navigate, uri]);
@@ -202,29 +236,7 @@ function TruthTally() {
         id: nextItemId.current
       }
     ]);
-    // updateDraggableListItems(items);
   };
-
-  useEffect(() => {
-    let currentListItemNames = [];
-    let sourceListItemNames = [];
-
-    items.forEach((item) => {
-      currentListItemNames.push(item.item);
-    });
-    sourceItemsList.forEach((item) => {
-      sourceListItemNames.push(item.item);
-    });
-
-    if (uri !== undefined) {
-      JSON.stringify(currentListItemNames) === JSON.stringify(sourceListItemNames)
-        ? setSourceListChanged(false)
-        : setSourceListChanged(true);
-      JSON.stringify(items) === JSON.stringify(sourceItemsList)
-        ? setSourceRankedListChanged(false)
-        : setSourceRankedListChanged(true);
-    }
-  }, [items, sourceItemsList, uri]);
 
   const handleRemoveItem = (id) => {
     setItems((prevItems) => prevItems.filter((p) => p.id !== id));
@@ -234,6 +246,7 @@ function TruthTally() {
   const updatePairsList = (a) => {
     setPairs(a);
   };
+
   function handleTitleInputChange(event) {
     setTitleInput(event.target.value);
   }
@@ -260,7 +273,7 @@ function TruthTally() {
       return;
     }
 
-    titleInputRef.current.blur();
+    document.activeElement.blur();
 
     if (titleInput.trim() !== '') {
       sourceListTitle !== titleInput ? setSourceTitleChanged(true) : setSourceTitleChanged(false);
@@ -270,32 +283,9 @@ function TruthTally() {
     setEditingTitle(false);
   };
 
-  useEffect(() => {
-    const rankedTitle = listAuthor ? ' - ranked by ' + listAuthor : ' ranked';
-    setTitleInput(listTitle);
-    uri === undefined && (document.title = 'Create your list...');
-    sourceListType === 'unranked' && (document.title = listTitle);
-    sourceListType === 'ranked' && (document.title = listTitle + rankedTitle);
-  }, [listTitle]);
-
   const titleInputFocus = (e) => {
     listTitle === 'Add a List Title...' && e.target.select();
   };
-
-  useEffect(() => {
-    !titleInputRef && titleInputRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const initialWidth = window.innerWidth;
-      setTitleMaxWidth(initialWidth > 768 ? '650px' : '90vw');
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const props = {
     items,
@@ -359,7 +349,7 @@ function TruthTally() {
       <Controls {...props} />
 
       <div className="list-title">
-        {listState === 'edit' || (editingTitle && gameState === 'finished') ? (
+        {isListEditMode || (editingTitle && finishedGameState) ? (
           <form
             style={{ width: titleInput.length + 5 + 'ch' }}
             onBlur={(e) => {
@@ -376,7 +366,6 @@ function TruthTally() {
               maxLength="100"
               value={titleInput}
               onChange={handleTitleInputChange}
-              ref={titleInputRef}
               onClick={(e) => {
                 titleInputFocus(e);
               }}></input>
@@ -384,7 +373,7 @@ function TruthTally() {
         ) : (
           <div
             style={
-              listState === 'edit'
+              isListEditMode
                 ? {
                     backgroundColor: '#7a0000',
                     cursor: 'pointer',
@@ -395,19 +384,19 @@ function TruthTally() {
                 : { backgroundColor: '#5f0000' }
             }
             onClick={() => {
-              listState === 'edit' && setEditingTitle(!editingTitle);
+              isListEditMode && setEditingTitle(!editingTitle);
             }}
             title="Click to edit">
             <h3>{listTitle}</h3>
           </div>
         )}
 
-        {((sourceTitleChanged && sourceListType !== 'new') ||
-          (sourceListChanged && sourceListType !== 'new') ||
-          (sourceTitleChanged && sourceListType === 'ranked')) &&
-          listState === 'display' && <h3>*</h3>}
+        {((sourceTitleChanged && !sourceListTypeNew) ||
+          (sourceListChanged && !sourceListTypeNew) ||
+          (sourceTitleChanged && sourceListTypeRanked)) &&
+          !isListEditMode && <h3>*</h3>}
 
-        {gameState === 'finished' && (
+        {finishedGameState && (
           <svg
             fill="#FFFFFF"
             version="1.1"
@@ -440,11 +429,11 @@ function TruthTally() {
 
       <RankedList {...props} />
 
-      {listState === 'display' && gameState === 'start' && <ItemsList {...props} />}
+      {!isListEditMode && startGameState && <ItemsList {...props} />}
 
-      {listState === 'edit' && gameState === 'start' && <EditList {...props} />}
+      {isListEditMode && startGameState && <EditList {...props} />}
 
-      {items.length < 3 && gameState === 'start' && (
+      {items.length < 3 && startGameState && (
         <div className="start-info">
           <h3>Getting Started</h3>
           <ol>
