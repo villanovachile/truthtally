@@ -8,6 +8,24 @@ const AddItemForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (items.length >= 50) {
+      Store.addNotification({
+        title: 'Too many items',
+        message: 'The list cannot contain more than 50 items',
+        type: 'danger',
+        insert: 'top',
+        isMobile: true,
+        breakpoint: 768,
+        container: 'top-center',
+        animationIn: ['animate__animated', 'animate__slideInDown'],
+        animationOut: ['animate__animated', 'animate__slideUp'],
+        dismiss: {
+          duration: 3000
+        }
+      });
+      return;
+    }
+
     let dupe = false;
     const input = itemInput.current.value.toLowerCase().replace(/\s+/g, '');
 
