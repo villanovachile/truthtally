@@ -348,7 +348,7 @@ function TruthTally() {
       <Controls {...props} />
 
       <div className="list-title">
-        {isListEditMode || (editingTitle && finishedGameState) ? (
+        {isListEditMode & editingTitle || (editingTitle && finishedGameState) ? (
           <form
             style={{ width: titleInput.length + 5 + 'ch' }}
             onBlur={(e) => {
@@ -385,7 +385,7 @@ function TruthTally() {
             onClick={() => {
               isListEditMode && setEditingTitle(!editingTitle);
             }}
-            title="Click to edit">
+            title={isListEditMode ? 'Click to edit' : null}>
             <h3>{listTitle}</h3>
           </div>
         )}
@@ -409,6 +409,7 @@ function TruthTally() {
               setEditingTitle(true);
               setInputIdEdited('title');
             }}>
+            <title>Edit title</title>
             <g>
               <path
                 d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z 

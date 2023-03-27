@@ -141,6 +141,7 @@ const Item = (props) => {
             height={10}
             className="svg-button"
             onClick={() => handleRemoveItem(id)}>
+            <title>Remove item</title>
             <path
               d="M6,6H6a20.53,20.53,0,0,1,29,0l26.5,26.49L87.93,6a20.54,20.54,0,0,1,29,
                     0h0a20.53,20.53,0,0,1,0,29L90.41,61.44,116.9,87.93a20.54,20.54,0,0,1,0,
@@ -194,7 +195,7 @@ const Item = (props) => {
       {listState === 'edit' && (
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-            <title>Drag list item</title>
+            <title>Drag to rearrange</title>
             <path d="M2 11h16v2H2zm0-4h16v2H2zm8 11l3-3H7l3 3zm0-16L7 5h6l-3-3z" />
           </svg>
         </div>
