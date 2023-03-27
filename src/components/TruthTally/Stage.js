@@ -46,7 +46,7 @@ const Stage = (props) => {
     return (
       <>
         <div className="stage-header">
-          Battle {currentIndex.current + 1} of {pairs.length}{' '}
+          Round {currentIndex.current + 1} of {pairs.length}{' '}
         </div>
 
         <div className="stage-container">
