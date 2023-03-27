@@ -39,6 +39,16 @@ const Controls = (props) => {
   const [showContent, setShowContent] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const isSourceListRanked = sourceListType === 'ranked';
+  const isSourceListUnranked = sourceListType === 'unranked';
+  const isSourceListNew = sourceListType === 'new';
+  const startGameState = gameState === 'start';
+  const finishedGameState = gameState === 'finished';
+  const inProgressGameState = gameState === 'inProgress';
+  const isListEditMode = listState === 'edit';
+  const showLoadingScreen = gameState === 'loading';
+  const isPreload = gameState === 'preload';
+
   const toggleCollapse = () => {
     setShowContent(!showContent);
     setIsCollapsed(!isCollapsed);
@@ -90,24 +100,17 @@ const Controls = (props) => {
   };
 
   const clearList = () => {
-    // if (uri === undefined) {
     setItems([]);
     setPairs([]);
     updateDraggableListItems([]);
     setRankingCompleted(false);
     setGameState('start');
-    // nextItemId.current = 0;
-    // currentIndex.current = 0;
-    // navigate("/");
     return;
-    // }
-    // navigate("/");
-    // navigate(0);
   };
 
-  const rateAgain = () => {
+  const rankAgain = () => {
     const resetScores = items.map((item) => ({ ...item, score: 0 }));
-    sourceListType === 'ranked' && setIsRankingSharedList(true);
+    isSourceListRanked && setIsRankingSharedList(true);
 
     setItems(resetScores);
     currentIndex.current = 0;
@@ -118,9 +121,6 @@ const Controls = (props) => {
   };
 
   const startOver = () => {
-    // if (uri === undefined) {
-    // updateDraggableListItems([]);
-    // setItems([]);
     const resetScores = items.map((item) => ({ ...item, score: 0 }));
     setItems(resetScores);
     setPairs([]);
@@ -128,10 +128,6 @@ const Controls = (props) => {
     setGameState('start');
     nextItemId.current = 0;
     currentIndex.current = 0;
-    // navigate('/');
-    // return;
-    // }
-    // navigate(0);
   };
 
   const shareList = () => {
@@ -161,30 +157,26 @@ const Controls = (props) => {
   };
 
   const shareButton = () => {
-    if (uri === undefined && sourceListChanged === false && gameState === 'start') {
-      return listState === 'edit' ? (
+    if (uri === undefined && !sourceListChanged && startGameState) {
+      return isListEditMode ? (
         <button onClick={() => shareList()} disabled={isButtonDisabled}>
           Share List
         </button>
       ) : null;
-    } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && gameState === 'start') {
-      return listState !== 'edit' ? (
+    } else if (uri !== undefined && (sourceListChanged || sourceTitleChanged) && startGameState) {
+      return !isListEditMode ? (
         <button onClick={() => shareList()} disabled={isButtonDisabled}>
           Share New List
         </button>
       ) : null;
-    } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && gameState === 'start') {
-      return listState !== 'edit' ? (
+    } else if (uri !== undefined && !sourceListChanged && !sourceTitleChanged && startGameState) {
+      return !isListEditMode ? (
         <button onClick={() => shareList()} disabled={isButtonDisabled}>
           Share List
         </button>
       ) : null;
-    } else if (gameState === 'finished') {
-      return uri !== undefined && sourceListType === 'ranked' ? (
-        <button onClick={() => shareList()} disabled={isButtonDisabled}>
-          Share Ranked List
-        </button>
-      ) : (
+    } else if (finishedGameState) {
+      return (
         <button onClick={() => shareList()} disabled={isButtonDisabled}>
           Share Ranked List
         </button>
@@ -199,7 +191,7 @@ const Controls = (props) => {
   return (
     <div className="controls">
       <div className={`controls-buttons${isCollapsed ? ' collapsed' : ''}`} style={contentStyle}>
-        {listState === 'edit' && uri !== undefined && (
+        {isListEditMode && uri !== undefined && (
           <>
             <button
               onClick={() => {
@@ -218,42 +210,31 @@ const Controls = (props) => {
           </>
         )}
 
-        {gameState === 'start' &&
-        ((listState !== 'edit' && uri !== undefined) || (listState === 'edit' && uri === undefined)) ? (
+        {startGameState && ((!isListEditMode && uri !== undefined) || (isListEditMode && uri === undefined)) ? (
           <button onClick={() => genList()} disabled={isButtonDisabled}>
             Rank List
           </button>
         ) : null}
 
-        {gameState === 'start' && listState === 'edit' ? (
+        {startGameState && isListEditMode ? (
           <button onClick={() => clearList()} disabled={items.length > 0 ? false : true}>
             Clear
           </button>
         ) : null}
 
-        {gameState !== 'start' &&
-        gameState !== 'loading' &&
-        gameState !== 'preload' &&
-        (sourceListType === 'new' || sourceListType === 'unranked') ? (
+        {!startGameState && !showLoadingScreen && !isPreload && (isSourceListNew || isSourceListUnranked) ? (
           <button onClick={() => startOver()}>Start Over</button>
         ) : null}
 
-        {gameState === 'finished' &&
-        gameState !== 'loading' &&
-        gameState !== 'preload' &&
-        (sourceListType === 'new' || sourceRankedListChanged === true) ? (
-          <button onClick={() => rateAgain()}>Rank Again</button>
+        {finishedGameState && !showLoadingScreen && !isPreload && (isSourceListNew || sourceRankedListChanged) ? (
+          <button onClick={() => rankAgain()}>Rank Again</button>
         ) : null}
 
-        {gameState === 'finished' &&
-        gameState !== 'loading' &&
-        gameState !== 'preload' &&
-        sourceListType === 'ranked' &&
-        sourceRankedListChanged === false ? (
-          <button onClick={() => rateAgain()}>Rank this list</button>
+        {finishedGameState && !showLoadingScreen && !isPreload && isSourceListRanked && !sourceRankedListChanged ? (
+          <button onClick={() => rankAgain()}>Rank this list</button>
         ) : null}
 
-        {listState === 'display' && gameState !== 'loading' && gameState === 'start' && (
+        {!isListEditMode && !showLoadingScreen && startGameState && (
           <>
             <button
               onClick={() => {
@@ -266,21 +247,16 @@ const Controls = (props) => {
 
         {shareButton()}
 
-        {gameState !== 'start' &&
-        gameState !== 'loading' &&
-        gameState !== 'preload' &&
-        gameState !== 'inProgress' &&
-        sourceListType === 'ranked' ? (
+        {!startGameState && !showLoadingScreen && !isPreload && !inProgressGameState && isSourceListRanked ? (
           <button onClick={() => viewSourceList()}>See Unranked List</button>
         ) : null}
 
-        {(gameState === 'finished' || uri !== undefined) &&
-          gameState !== 'preload' &&
-          gameState !== 'loading' &&
-          gameState !== 'inProgress' && <button onClick={() => navigate('/')}>Create New List</button>}
+        {(finishedGameState || uri !== undefined) && !isPreload && !showLoadingScreen && !inProgressGameState && (
+          <button onClick={() => navigate('/')}>Create New List</button>
+        )}
       </div>
 
-      {gameState !== 'loading' && (
+      {!showLoadingScreen && (
         <div className="collapse-div">
           {!isCollapsed ? (
             <svg
@@ -293,8 +269,8 @@ const Controls = (props) => {
               <g fill="#FFFFFF" transform="matrix(-1, 0, 0, -1, 1000, 1000)">
                 <path
                   d="M835.1,10l121.7,122.3L500,586.8L43.2,132.3L164.9,10L500,
-            343.5L835.1,10L835.1,10z M500,746.6L164.9,413.2L43.2,535.4L500,
-            990l456.8-454.6L835.1,413.2L500,746.6L500,746.6z"
+                  343.5L835.1,10L835.1,10z M500,746.6L164.9,413.2L43.2,535.4L500,
+                  990l456.8-454.6L835.1,413.2L500,746.6L500,746.6z"
                 />
               </g>
             </svg>
@@ -312,8 +288,8 @@ const Controls = (props) => {
               <g fill="#FFFFFF">
                 <path
                   d="M835.1,10l121.7,122.3L500,586.8L43.2,132.3L164.9,10L500,
-            343.5L835.1,10L835.1,10z M500,746.6L164.9,413.2L43.2,535.4L500,
-            990l456.8-454.6L835.1,413.2L500,746.6L500,746.6z"
+                  343.5L835.1,10L835.1,10z M500,746.6L164.9,413.2L43.2,535.4L500,
+                  990l456.8-454.6L835.1,413.2L500,746.6L500,746.6z"
                 />
               </g>
             </svg>
