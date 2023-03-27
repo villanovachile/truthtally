@@ -26,6 +26,11 @@ const ShareListModal = ({
   const [copied, setCopied] = useState(false);
 
   const [showShareLoader, setShowShareLoader] = useState(false);
+  const startGameStart = gameState === 'start';
+  const finishedGameState = gameState === 'finished';
+  const isSourceListUnranked = sourceListType === 'unranked';
+  const isSourceListRanked = sourceListType === 'ranked';
+  const isSourceListNew = sourceListType === 'new';
 
   const hideModal = () => {
     document.body.style.overflow = 'unset';
@@ -178,14 +183,13 @@ const ShareListModal = ({
       try {
         const response = await fetch('/.netlify/functions/get_token');
         const token = await response.text();
-
         const headers = {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         };
 
-        if (gameState === 'start') {
+        if (startGameStart) {
           (async () => {
             const tempList = await draggableListItems.map((item, index) => ({ ...item, id: index + 1, score: 0 }));
 
@@ -239,8 +243,8 @@ const ShareListModal = ({
 
         //game is finished, but unranked list was never saved, is new, or is a modified shared list
         if (
-          gameState === 'finished' &&
-          (sourceListType === 'new' || sourceListChanged || (sourceTitleChanged && sourceListType === 'unranked'))
+          finishedGameState &&
+          (isSourceListNew || sourceListChanged || (sourceTitleChanged && isSourceListUnranked))
         ) {
           // save unranked list and generate URI
 
@@ -348,9 +352,9 @@ const ShareListModal = ({
 
         //game is finished, and source is saved unranked list, or source list type is ranked and title has been modified
         if (
-          (gameState === 'finished' && sourceListType === 'unranked' && !sourceListChanged) ||
+          (finishedGameState && isSourceListUnranked && !sourceListChanged) ||
           isRankingSharedList ||
-          ((sourceRankedListChanged === true || sourceTitleChanged) && sourceListType === 'ranked')
+          ((sourceRankedListChanged || sourceTitleChanged) && isSourceListRanked)
         ) {
           // save unranked list and generate URI
           (async () => {
@@ -363,7 +367,7 @@ const ShareListModal = ({
 
             const unlisted = formData.isUnlisted;
 
-            sourceListType === 'ranked' ? (source_uri = sourceListURI) : (source_uri = uri);
+            isSourceListRanked ? (source_uri = sourceListURI) : (source_uri = uri);
 
             const newList = {
               items: tempRankedList,
@@ -433,6 +437,8 @@ const ShareListModal = ({
     // END OF FETCH REQUESTS
   };
 
+  useEffect(() => {}, [showShareLoader]);
+
   const copyLink = (e) => {
     e.preventDefault();
     const url = window.location.href;
@@ -444,14 +450,9 @@ const ShareListModal = ({
 
   const shareUnchangedList = () => {
     const unchangedRankedList =
-      uri !== undefined &&
-      sourceListType === 'ranked' &&
-      !sourceTitleChanged &&
-      gameState === 'finished' &&
-      sourceRankedListChanged === false;
+      uri !== undefined && isSourceListRanked && !sourceTitleChanged && finishedGameState && !sourceRankedListChanged;
 
-    const unchangedUnrankedList =
-      !sourceListChanged && !sourceTitleChanged && uri !== undefined && gameState === 'start';
+    const unchangedUnrankedList = !sourceListChanged && !sourceTitleChanged && uri !== undefined && startGameStart;
 
     const displayCopyLink = () => {
       return (
@@ -487,28 +488,23 @@ const ShareListModal = ({
         displayMobileShare();
       }
     }
-
     // If the conditions are not met, return null
     return null;
   };
 
-  useEffect(() => {}, [showShareLoader]);
-
   const shareChangedList = () => {
-    const gameStartNewShare = (sourceListChanged || sourceTitleChanged || uri === undefined) && gameState === 'start';
+    const gameStartNewShare = (sourceListChanged || sourceTitleChanged || uri === undefined) && startGameStart;
     const rankingCompletedNewShare =
-      gameState === 'finished' &&
-      (sourceListType === 'new' ||
-        sourceListType === 'unranked' ||
+      finishedGameState &&
+      (isSourceListNew ||
+        isSourceListUnranked ||
         sourceTitleChanged ||
         isRankingSharedList ||
-        (sourceListType === 'ranked' && sourceRankedListChanged === true));
+        (isSourceListRanked && sourceRankedListChanged));
 
     if (gameStartNewShare || rankingCompletedNewShare) {
       return (
         <div className="share-modal">
-          {/* <div className="share-loading-container"></div> */}
-
           {showShareLoader && (
             <div className="share-modal-loading-spinner">
               <div className="share-modal-spinner-circle"></div>
@@ -516,7 +512,7 @@ const ShareListModal = ({
           )}
           <div>
             <form onSubmit={(e) => shareList(e)}>
-              {gameState === 'finished' && (
+              {finishedGameState && (
                 <>
                   <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
                     <label htmlFor="input">Your name:</label>
