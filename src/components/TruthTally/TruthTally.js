@@ -83,10 +83,9 @@ function TruthTally() {
   useEffect(() => {
     const rankedTitle = listAuthor ? ' - ranked by ' + listAuthor : ' ranked';
     setTitleInput(listTitle);
-    uri === undefined && (document.title = 'Create your list...');
-    sourceListTypeUnranked && (document.title = listTitle);
-    sourceListTypeRanked && (document.title = listTitle + rankedTitle);
-  }, [listTitle]);
+    !finishedGameState && (document.title = listTitle + ' - Truth Tally');
+    finishedGameState && (document.title = listTitle + rankedTitle + ' - Truth Tally');
+  }, [listTitle, gameState, listAuthor]);
 
   useEffect(() => {
     const handleResize = () => {
