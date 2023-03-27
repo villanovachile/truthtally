@@ -5,7 +5,7 @@ import ItemsList from './ItemsList';
 import EditList from './EditList';
 import Stage from './Stage';
 import Controls from './Controls';
-import Results from './Results';
+import RankedList from './RankedList';
 import LoadingSpinner from './LoadingSpinner';
 import ShareListModal from './ShareListModal';
 
@@ -438,7 +438,7 @@ function TruthTally() {
 
       <Stage {...props} />
 
-      <Results {...props} />
+      <RankedList {...props} />
 
       {listState === 'display' && gameState === 'start' && <ItemsList {...props} />}
 

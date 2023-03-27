@@ -1,7 +1,7 @@
 import React from 'react';
-import ResultItem from './ResultItem';
+import RankedItem from './RankedItem';
 
-const Results = (props) => {
+const RankedList = (props) => {
   const { listAuthor, listTitle, gameState, items } = props;
   if (gameState === 'finished') {
     let key = 1;
@@ -17,7 +17,7 @@ const Results = (props) => {
           {items
             .sort((a, b) => b.score - a.score)
             .map((item) => (
-              <ResultItem item={item.item} id={id++} key={key++} />
+              <RankedItem item={item.item} id={id++} key={key++} />
             ))}
         </div>
       </div>
@@ -25,4 +25,4 @@ const Results = (props) => {
   }
 };
 
-export default Results;
+export default RankedList;
