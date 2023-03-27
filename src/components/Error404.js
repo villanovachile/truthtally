@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Error404 = () => {
+  document.title = 'Error 404 - Not Found';
   return (
     <div className="error404-div">
       <h1>Error 404</h1>
