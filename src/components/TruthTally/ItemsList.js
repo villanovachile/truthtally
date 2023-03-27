@@ -17,7 +17,6 @@ const ItemsList = (props) => {
       ))}
     </div>
   );
-  // }
 };
 
 export default ItemsList;
