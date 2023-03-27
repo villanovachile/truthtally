@@ -1,5 +1,4 @@
 const connectToDatabase = require('../../../utils/mongo-connection');
-const { generateToken } = require('../../../utils/generate-token');
 const randomstring = require('randomstring');
 const validator = require('validator');
 
@@ -95,50 +94,57 @@ const validatePayload = (input) => {
 };
 
 const handler = async (event) => {
-  const { headers } = event;
-  const token = generateToken();
-
-  if (!headers.authorization || headers.authorization !== `Bearer ${token}`) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ message: 'Unauthorized' })
-    };
-  }
-
-  const input = JSON.parse(event.body);
-
-  // Use the validatePayload function to validate the input payload
-  const errors = validatePayload(input);
-
-  // Check if there are any errors, and if so, return an HTTP 400 status code with the error messages
-  if (errors.length > 0) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ errors })
-    };
-  }
-
   try {
     const database = await connectToDatabase(process.env.MONGODB_URI);
-    const collection = database.collection(process.env.MONGODB_COLLECTION);
-    let newURI = randomstring.generate(8);
+    const collection = database.collection(process.env.MONGODB_COLLECTION_TOKEN);
 
-    await collection.insertOne({
-      [newURI]: input.items,
-      views: 0,
-      rating: 0,
-      title: input.title,
-      type: input.type,
-      unlisted: input.unlisted,
-      ...(input.author && { author: input.author }),
-      ...(input.tags && input.tags.length > 0 && { tags: input.tags }),
-      ...(input.source_uri && { source_uri: input.source_uri })
-    });
+    // Query the database to get the token
+    const result = await collection.findOne({ _id: 'token' });
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(newURI)
-    };
+    // Get the token from the Authorization header of the request
+    const token = event.headers.authorization.replace('Bearer ', '');
+
+    if (!result || result.token !== token) {
+      return { statusCode: 401, body: 'Unauthorized' };
+    }
+
+    const input = JSON.parse(event.body);
+
+    // Use the validatePayload function to validate the input payload
+    const errors = validatePayload(input);
+
+    // Check if there are any errors, and if so, return an HTTP 400 status code with the error messages
+    if (errors.length > 0) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ errors })
+      };
+    }
+
+    try {
+      const database = await connectToDatabase(process.env.MONGODB_URI);
+      const collection = database.collection(process.env.MONGODB_COLLECTION);
+      let newURI = randomstring.generate(8);
+
+      await collection.insertOne({
+        [newURI]: input.items,
+        views: 0,
+        rating: 0,
+        title: input.title,
+        type: input.type,
+        unlisted: input.unlisted,
+        ...(input.author && { author: input.author }),
+        ...(input.tags && input.tags.length > 0 && { tags: input.tags }),
+        ...(input.source_uri && { source_uri: input.source_uri })
+      });
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(newURI)
+      };
+    } catch (error) {
+      return { statusCode: 500, body: error.toString() };
+    }
   } catch (error) {
     return { statusCode: 500, body: error.toString() };
   }

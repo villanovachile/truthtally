@@ -182,7 +182,8 @@ const ShareListModal = ({
     (async () => {
       try {
         const response = await fetch('/.netlify/functions/get_token');
-        const token = await response.text();
+        const data = await response.json();
+        const token = data.token;
         const headers = {
           Accept: 'application/json',
           'Content-Type': 'application/json',
