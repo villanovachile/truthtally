@@ -359,6 +359,9 @@ function TruthTally() {
             }}>
             <input
               autoFocus
+              onFocus={(e) => {
+                titleInputFocus(e);
+              }}
               style={{ width: titleInput.length + 5 + 'ch' }}
               className="list-title"
               type="text"
