@@ -44,7 +44,7 @@ form {
   background-color: #5f0000;
 }
 
-input[type="text"] {
+input[type='text'] {
   flex-grow: 1;
   border-width: 0 0 1px 0;
   margin: 15px 10px 15px 15px;
@@ -56,18 +56,19 @@ input[type="text"] {
   color: #f1f1f1;
   letter-spacing: 2px;
   outline: none;
+  width: 90%;
 }
 
-input[type="text"]::-webkit-input-placeholder {
+input[type='text']::-webkit-input-placeholder {
   color: #ffffff;
   letter-spacing: 2px;
 }
 
-input[type="text"]:focus {
+input[type='text']:focus {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-input[type="submit"],
+input[type='submit'],
 button {
   display: block;
   font-size: 0.6em;
@@ -85,7 +86,7 @@ button {
 }
 
 button,
-input[type="submit"] {
+input[type='submit'] {
   outline: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -97,6 +98,12 @@ ol {
 li {
   text-align: left;
   font-weight: bold;
+}
+
+.rnc__notification-item--danger {
+  background-color: #9f000f !important;
+  border-left: 8px solid #b1abab !important;
+  z-index: 9999 !important;
 }
 
 /* Mobile Styles */
@@ -139,12 +146,12 @@ li {
     flex-direction: column;
   }
 
-  input[type="text"] {
+  input[type='text'] {
     margin: 10px 0;
     font-size: 1.5em;
   }
 
-  input[type="submit"],
+  input[type='submit'],
   button {
     font-size: 1em;
     margin: 10px 0;

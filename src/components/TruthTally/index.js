@@ -1,3 +1,3 @@
-import "./index.css";
-export * from "./TruthTally";
-export { default } from "./TruthTally";
+import './index.css';
+export * from './TruthTally';
+export { default } from './TruthTally';
