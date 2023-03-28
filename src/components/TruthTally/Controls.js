@@ -30,6 +30,7 @@ const Controls = (props) => {
     sourceListURI,
     setListAuthor,
     updateDraggableListItems,
+    draggableListItems,
     setIsRankingSharedList
   } = props;
 
@@ -76,6 +77,7 @@ const Controls = (props) => {
   }, []);
 
   const genList = () => {
+    setItems(items.map((item, index) => ({ ...item, id: index + 1, score: 0 })));
     const generatePairs = (arr) => {
       const result = [];
       for (let i = 0; i < arr.length; i++) {
@@ -84,6 +86,7 @@ const Controls = (props) => {
         }
       }
       updateDraggableListItems(items);
+      updateDraggableListItems(draggableListItems.map((item, index) => ({ ...item, id: index + 1 })));
       setListState('display');
       setLoadingText('Generating pairs...');
       setRankingCompleted(false);
@@ -109,10 +112,8 @@ const Controls = (props) => {
   };
 
   const rankAgain = () => {
-    const resetScores = items.map((item) => ({ ...item, score: 0 }));
     isSourceListRanked && setIsRankingSharedList(true);
-
-    setItems(resetScores);
+    items.sort((a, b) => a.id - b.id);
     currentIndex.current = 0;
     genList();
     setRankingCompleted(false);
@@ -121,6 +122,7 @@ const Controls = (props) => {
   };
 
   const startOver = () => {
+    isSourceListNew && setListState('edit');
     const resetScores = items.map((item) => ({ ...item, score: 0 }));
     setItems(resetScores);
     setPairs([]);
@@ -152,7 +154,6 @@ const Controls = (props) => {
   const editListOK = () => {
     setListState('display');
     setItems(items.map((item, index) => ({ ...item, id: index + 1 })));
-    // editedTitleSubmit(titleInput);
     setPreEditListCopy([]);
   };
 
