@@ -58,13 +58,16 @@ const validatePayload = (input) => {
         if (!validator.isLength(tag, { min: 2, max: 20 })) {
           errors.push(`Tag at index ${index} must be between 2 and 20 characters`);
         }
-        if (!validator.isAlphanumeric(tag)) {
+        if (!validator.matches(tag, /^[a-zA-Z0-9]+$/)) {
           errors.push(`Tag at index ${index} must contain only alphanumeric characters`);
         }
-        if (tagSet.has(tag)) {
+        if (tagSet.has(tag.toLowerCase())) {
           errors.push(`Tag at index ${index} is a duplicate`);
         } else {
-          tagSet.add(tag);
+          tagSet.add(tag.toLowerCase());
+        }
+        if (tag.includes(' ')) {
+          errors.push(`Tag at index ${index} must not contain any spaces`);
         }
       });
     }
@@ -125,16 +128,16 @@ const handler = async (event) => {
       const database = await connectToDatabase(process.env.MONGODB_URI);
       const collection = database.collection(process.env.MONGODB_COLLECTION);
       let newURI = randomstring.generate(8);
-
+      const tags = input.tags.map((tag) => tag.toLowerCase());
       await collection.insertOne({
         [newURI]: input.items,
         views: 0,
         rating: 0,
         title: input.title,
-        type: input.type,
+        type: input.type.toLowerCase(),
         unlisted: input.unlisted,
         ...(input.author && { author: input.author }),
-        ...(input.tags && input.tags.length > 0 && { tags: input.tags }),
+        ...(input.tags && input.tags.length > 0 && { tags: tags }),
         ...(input.source_uri && { source_uri: input.source_uri })
       });
 
