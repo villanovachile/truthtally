@@ -71,6 +71,7 @@ const ShareListModal = ({
       .replace(/^[,\s]+|[,\s]+$/g, '')
       .replace(/\s*,\s*/g, ',')
       .split(',')
+      .map((tag) => tag.trim().toLowerCase())
       .filter((tag) => tag !== '')
       .reduce((uniqueTags, tag) => {
         if (!uniqueTags.includes(tag)) {
