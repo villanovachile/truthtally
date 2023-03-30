@@ -36,7 +36,7 @@ const AddItemForm = (props) => {
     });
 
     if (!dupe && input) {
-      handleAddItem(itemInput.current.value.replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()));
+      handleAddItem(itemInput.current.value.trim().replace(/(^|\s)[a-z]/g, (f) => f.toUpperCase()));
       e.currentTarget.reset();
       return;
     }
