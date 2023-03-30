@@ -128,7 +128,7 @@ const handler = async (event) => {
       const database = await connectToDatabase(process.env.MONGODB_URI);
       const collection = database.collection(process.env.MONGODB_COLLECTION);
       let newURI = randomstring.generate(8);
-      const tags = input.tags.map((tag) => tag.toLowerCase());
+      const tags = input.tags && input.tags.length > 0 ? input.tags.map((tag) => tag.toLowerCase()) : [];
       await collection.insertOne({
         [newURI]: input.items,
         views: 0,
