@@ -130,7 +130,8 @@ const handler = async (event) => {
       let newURI = randomstring.generate(8);
       const tags = input.tags && input.tags.length > 0 ? input.tags.map((tag) => tag.toLowerCase()) : [];
       await collection.insertOne({
-        [newURI]: input.items,
+        uri: newURI,
+        items: input.items,
         views: 0,
         rating: 0,
         title: input.title,

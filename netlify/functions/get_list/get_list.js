@@ -6,13 +6,13 @@ const handler = async (event) => {
   try {
     const database = await connectToDatabase(process.env.MONGODB_URI);
     const collection = database.collection(process.env.MONGODB_COLLECTION);
-    const results = await collection.find({ [input]: { $exists: true } }).toArray();
+    const results = await collection.find({ uri: { $eq: input } }).toArray();
 
     if (results.length > 0) {
       let viewCount = results[0].views;
       const currentDate = new Date();
       await collection.updateOne(
-        { [input]: { $exists: true } },
+        { uri: { $eq: input } },
         {
           $set: {
             views: viewCount + 1,

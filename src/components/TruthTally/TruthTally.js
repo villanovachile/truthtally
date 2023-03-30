@@ -129,7 +129,7 @@ function TruthTally() {
           setIsRankingSharedList(false);
           setSourceListTags(results.tags);
           let id = 0;
-          results[uri].forEach((item) => {
+          results.items.forEach((item) => {
             nextItemId.current++;
 
             setSourceItemsList((prevItems) => [
@@ -167,7 +167,7 @@ function TruthTally() {
           setSourceListURI(results.source_uri);
           setSourceItemsList([]);
 
-          results[uri].forEach((item) => {
+          results.items.forEach((item) => {
             nextItemId.current++;
 
             setSourceItemsList((prevItems) => [
