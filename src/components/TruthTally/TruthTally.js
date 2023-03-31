@@ -34,6 +34,7 @@ function TruthTally() {
   const [sourceListTitle, setSourceListTitle] = useState();
   const [sourceListType, setSourceListType] = useState();
   const [sourceListURI, setSourceListURI] = useState();
+  const [sourceListAuthor, setSourceListAuthor] = useState();
   const [sourceRankedListChanged, setSourceRankedListChanged] = useState(false);
   const [sourceTitleChanged, setSourceTitleChanged] = useState(false);
   const [titleInput, setTitleInput] = useState();
@@ -125,6 +126,7 @@ function TruthTally() {
           setListTitle(results.title);
           setSourceItemsList([]);
           setListAuthor();
+          setSourceListAuthor(results.author);
           setSourceListURI(results.source_uri);
           setIsRankingSharedList(false);
           setSourceListTags(results.tags);
@@ -332,6 +334,8 @@ function TruthTally() {
     setSourceRankedListChanged,
     sourceListURI,
     setSourceListURI,
+    sourceListAuthor,
+    setSourceListAuthor,
     listAuthor,
     setListAuthor,
     draggableListItems,
@@ -390,6 +394,9 @@ function TruthTally() {
             }}
             title={isListEditMode ? 'Click to edit' : null}>
             <h3>{listTitle}</h3>
+            {startGameState && !sourceListChanged && !sourceTitleChanged && !isListEditMode && (
+              <h5>created by: {sourceListAuthor}</h5>
+            )}
           </div>
         )}
 

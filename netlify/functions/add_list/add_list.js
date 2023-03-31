@@ -132,14 +132,14 @@ const handler = async (event) => {
       await collection.insertOne({
         uri: newURI,
         items: input.items,
-        views: 0,
-        rating: 0,
         title: input.title,
+        ...(input.author && { author: input.author }),
         type: input.type.toLowerCase(),
         unlisted: input.unlisted,
-        ...(input.author && { author: input.author }),
         ...(input.tags && input.tags.length > 0 && { tags: tags }),
-        ...(input.source_uri && { source_uri: input.source_uri })
+        ...(input.source_uri && { source_uri: input.source_uri }),
+        views: 0,
+        rating: 0
       });
 
       return {
