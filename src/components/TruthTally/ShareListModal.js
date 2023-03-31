@@ -199,11 +199,12 @@ const ShareListModal = ({
             const type = 'unranked';
             const unlisted = formData.isUnlisted;
             const newList = {
-              items: tempList,
-              unlisted: unlisted,
               title: title,
-              ...(tags.length > 0 && { tags: tags }),
-              type: type
+              ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+              items: tempList,
+              type: type,
+              unlisted: unlisted,
+              ...(tags.length > 0 && { tags: tags })
             };
 
             try {
@@ -256,12 +257,12 @@ const ShareListModal = ({
             const type = 'unranked';
             const unlisted = formData.isUnlisted;
             const newList = {
-              items: tempList,
-              unlisted: unlisted,
               title: title,
-              ...(tags.length > 0 && { tags: tags }),
+              ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+              items: tempList,
               type: type,
-              ...(author.replace(/\s+/g, '') !== '' && { author: author })
+              unlisted: unlisted,
+              ...(tags.length > 0 && { tags: tags })
             };
             try {
               let results = await fetch('/.netlify/functions/add_list', {
@@ -284,13 +285,13 @@ const ShareListModal = ({
                 const unlisted = formData.isUnlisted;
                 const sourceListURI = unrankedURI;
                 const newList = {
-                  items: tempRankedList,
-                  unlisted: unlisted,
                   title: title,
-                  ...(tags.length > 0 && { tags: tags }),
+                  ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+                  items: tempRankedList,
                   type: type,
+                  unlisted: unlisted,
                   source_uri: sourceListURI,
-                  ...(author.replace(/\s+/g, '') !== '' && { author: author })
+                  ...(tags.length > 0 && { tags: tags })
                 };
 
                 try {
@@ -372,13 +373,13 @@ const ShareListModal = ({
             isSourceListRanked ? (source_uri = sourceListURI) : (source_uri = uri);
 
             const newList = {
-              items: tempRankedList,
-              unlisted: unlisted,
               title: title,
-              ...(tags.length > 0 && { tags: tags }),
+              ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+              items: tempRankedList,
               type: type,
+              unlisted: unlisted,
               source_uri: source_uri,
-              ...(author.replace(/\s+/g, '') !== '' && { author: author })
+              ...(tags.length > 0 && { tags: tags })
             };
 
             try {
@@ -514,30 +515,27 @@ const ShareListModal = ({
           )}
           <div>
             <form onSubmit={(e) => shareList(e)}>
-              {finishedGameState && (
-                <>
-                  <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
-                    <label htmlFor="input">Your name:</label>
-                    <FontAwesomeIcon
-                      className="info-icon"
-                      data-tooltip-id="authorTooltip"
-                      data-tooltip-place="top"
-                      icon={faInfoCircle}
-                      data-tooltip-content="Name: Enter your name or a nickname to display as the person who ranked the list when sharing ranked lists with others."
-                    />
-                    <ReactTooltip id="authorTooltip" effect="solid" multiline={true} className="tooltip" />
-                  </span>
-                  <input
-                    type="text"
-                    id="input"
-                    maxLength="30"
-                    name="listAuthor"
-                    placeholder="(optional)"
-                    onChange={handleChange}
-                    value={formData.listAuthor}
-                  />
-                </>
-              )}
+              <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
+                <label htmlFor="input">Your name:</label>
+                <FontAwesomeIcon
+                  className="info-icon"
+                  data-tooltip-id="authorTooltip"
+                  data-tooltip-place="top"
+                  icon={faInfoCircle}
+                  data-tooltip-content="Name: Enter your name or a nickname to display as the person who created or ranked the list when sharing unranked or ranked lists with others."
+                />
+                <ReactTooltip id="authorTooltip" effect="solid" multiline={true} className="tooltip" />
+              </span>
+              <input
+                type="text"
+                id="input"
+                maxLength="30"
+                name="listAuthor"
+                placeholder="(optional)"
+                onChange={handleChange}
+                value={formData.listAuthor}
+              />
+
               <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>
                 <label htmlFor="input">Tags:</label>
                 <FontAwesomeIcon
@@ -545,7 +543,7 @@ const ShareListModal = ({
                   data-tooltip-id="tagsTooltip"
                   data-tooltip-place="top"
                   icon={faInfoCircle}
-                  data-tooltip-content="Tags: Enter keywords separated by commas to improve searchability and help others discover your list."
+                  data-tooltip-content="Tags: Add up to 6 tags, using single words without spaces and up to 20 characters each, to improve searchability and aid others in discovering your list."
                 />
                 <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className="tooltip" />
               </span>
@@ -553,11 +551,10 @@ const ShareListModal = ({
                 type="text"
                 id="input"
                 name="listTags"
-                placeholder={'(Optional)'}
+                placeholder={'(optional)'}
                 onChange={handleChange}
                 value={formData.listTags}
               />
-
               <span>
                 <input
                   type="checkbox"

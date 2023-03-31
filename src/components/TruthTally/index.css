@@ -333,6 +333,10 @@ form {
   margin: 10px 0px 10px 0px;
 }
 
+.list-title h5 {
+  margin: 2px;
+}
+
 .ranked-list-title h3 {
   margin: 3px 10px 18px 10px;
 }
