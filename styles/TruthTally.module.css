@@ -1,0 +1,682 @@
+.truthtally-container {
+  background: white;
+  min-width: 375px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  margin: auto;
+  box-shadow: 0 2px 0 rgb(119, 0, 0);
+  overflow: hidden;
+  border: 1px;
+  border-style: solid;
+  justify-content: flex-start;
+}
+
+.list-item,
+.edit-list-item {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  font-size: 1.2em;
+  border-bottom: solid 2px #eeeeee;
+  letter-spacing: 2px;
+  color: #2f2366;
+}
+
+.edit-list-item {
+  justify-content: space-between;
+}
+
+.list-item .item-name form input[type="text"],
+.edit-list-item .item-name form input[type="text"] {
+  background-color: #c7c7c7;
+  color: #000000;
+  margin: unset;
+  font-size: 1em;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: unset;
+  width: fit-content;
+}
+
+.list-item form,
+.edit-list-item form {
+  background-color: unset;
+  max-width: 600px;
+}
+
+.list-title form input[type="text"] {
+  font-size: 1em;
+  color: rgb(255, 252, 252);
+  background-color: #7a0000;
+  padding: 10px;
+  margin: 0px !important;
+  letter-spacing: 0px;
+  text-align: center;
+  width: fit-content;
+  max-width: 90vw;
+  text-transform: none;
+  display: block;
+  font-size: 1.17em;
+
+  font-weight: bold;
+}
+
+.truthtruth-container input::selection {
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+
+.list-title form input[type="text"]:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.list-title form {
+  background-color: unset;
+  width: fit-content !important;
+  max-width: 690px;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+.add-item {
+  display: flex;
+}
+
+.add-item-form form input[type="submit"] {
+  font-size: 1em;
+  min-width: 60px;
+  padding: 5px;
+  margin: 0 10px;
+  max-height: 25px;
+}
+
+.add-item-form form input[type="text"] {
+  padding: 5px;
+  margin: 10px;
+}
+
+.player-item {
+  flex-grow: 1;
+  line-height: 3.5em;
+  padding-left: 10px;
+}
+
+.stage-container {
+  background: #5f0000;
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+  height: 300px;
+  padding: 20px 10px 20px 10px;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 1px;
+  border-color: white;
+  border-style: solid;
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+}
+
+.item-card-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+}
+
+.controls {
+  padding: 10px;
+  background-color: rgb(119, 0, 0);
+  display: flex;
+  justify-content: center;
+}
+
+.collapse-button {
+  display: none;
+}
+
+.controls-buttons {
+  padding: 10px;
+  background-color: rgb(119, 0, 0);
+  display: flex;
+  justify-content: center;
+}
+
+.stage-header {
+  padding: 10px;
+  text-align: center;
+  background-color: #9d0000;
+  color: white;
+  font-size: 1.1em;
+}
+
+.remove-item {
+  font-size: 1.15em;
+  border: none;
+  outline: none;
+  color: #ef5350;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+  padding: 0;
+  background: none;
+}
+
+.results-container {
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+}
+
+.ranked-items {
+  display: table;
+  text-align: left;
+  margin: auto;
+  font-size: 1em;
+}
+
+.new-list-button {
+  margin: 10px auto 0 auto;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+
+  background-color: #dedede;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid #ccc;
+  border-top-color: #000;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+.loading-text {
+  font-size: 24px;
+  margin-top: 16px;
+  margin: auto;
+  animation: flash-loading 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flash-loading {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.item-card:active {
+  animation: flash-selection 1.9s;
+}
+
+@keyframes flash-selection {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: rgb(57, 1, 1);
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+.truthtally-container form {
+  align-items: center;
+}
+
+.share-modal form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.share-modal label {
+  color: white;
+}
+
+.share-modal input[type="text"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 300px;
+  font-size: 1rem;
+}
+
+.share-modal input[type="checkbox"] {
+  margin-left: 20px;
+}
+
+.share-modal .share-modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.share-modal-buttons button {
+  margin: 10px;
+}
+
+.share-modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  z-index: 7999;
+  padding: 2px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.9);
+  border-radius: 1px;
+}
+
+.modal-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.list-title {
+  font-size: 0.8em;
+  color: white;
+  background-color: #5f0000;
+  padding: 10px 0px 5px 0px;
+  margin: 0px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.list-title h3 {
+  margin: 10px 0px 10px 0px;
+}
+
+.list-title h5 {
+  margin: 2px;
+}
+
+.ranked-list-title h3 {
+  margin: 3px 10px 18px 10px;
+}
+
+.svg-button {
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: auto 0 auto 0;
+  min-width: 15px;
+  min-height: 15px;
+}
+
+.svg-button:hover {
+  opacity: 0.8;
+}
+
+.svg-button:active path {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+.truthtally-container button[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.start-info {
+  margin: 0 auto 30px auto;
+  text-align: center;
+}
+.start-info li {
+  margin: 10px;
+}
+
+.info-icon {
+  font-size: 1em;
+  line-height: 1.4;
+  margin-left: 5px;
+  color: #fff;
+}
+
+.truthtally-container .tooltip {
+  background-color: #7d0101;
+  color: white;
+  font-size: 1em;
+  padding: 15px;
+  max-width: 300px;
+  opacity: 0.95;
+}
+
+button.item-card {
+  background-color: #5f0000;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.share-modal-loading-spinner {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100%);
+  width: calc(100%);
+  background-color: #989898;
+  opacity: 0.7;
+}
+
+.share-modal-spinner-circle {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #db3434;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+
+  animation: share-modal-spin 1s linear infinite;
+}
+
+@keyframes share-modal-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/***************** Mobile View *****************/
+
+@media screen and (max-width: 768px) {
+  .truthtally-container {
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .items-list {
+    flex-direction: column;
+    justify-content: left;
+    justify-content: flex-end;
+  }
+
+  .list-item,
+  .edit-list-item {
+    font-size: 1.3em;
+    letter-spacing: normal;
+    padding: 10px;
+  }
+
+  .player-item {
+    line-height: 2.5em;
+  }
+
+  .truthtruth-container form {
+    flex-direction: column;
+  }
+
+  .items-list form {
+    width: 100%;
+  }
+
+  .items-list form input[type="text"] {
+    margin: 10px 0;
+    font-size: 1.5em;
+  }
+
+  .truthtruth-container input[type="submit"],
+  .truthtruth-container button {
+    font-size: 1em;
+    margin: 10px 0;
+  }
+
+  .stage-container {
+    flex-direction: column;
+    padding: 10px;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+  }
+
+  .item-card {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    padding: 0px;
+    background-color: #8d3333;
+    border-radius: 10px;
+    border: 5px;
+    border-style: solid;
+    border-color: #aea1a1;
+    color: #fff;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .item-card-divider {
+    width: 100%;
+    background-color: #9d0000;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .stage-header {
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+
+  .remove-item {
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .remove-item {
+    font-size: 1.15em;
+    border: none;
+    outline: none;
+    visibility: visible;
+    color: #ef5350;
+    cursor: pointer;
+    margin: 0 10px 0 0;
+    padding: 0;
+    background: none;
+  }
+
+  .results-container {
+    padding: 10px;
+    font-size: 1.5em;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    flex-grow: 1;
+  }
+
+  .ranked-items {
+    margin: 0 0 0 20vw;
+  }
+
+  .loading-container {
+    height: auto;
+    flex-direction: column;
+    padding: 10px;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .spinner {
+    width: 75px;
+    height: 75px;
+    border-width: 3px;
+  }
+
+  .loading-text {
+    font-size: 1.7em;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  .controls {
+    padding: 10px;
+    background-color: rgb(119, 0, 0);
+  }
+  .controls button {
+    min-width: 80px;
+    margin: 5px;
+  }
+
+  .share-modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .list-item .item-name form input[type="text"] {
+    max-width: 80vw;
+  }
+
+  .edit-list-item .item-name form input[type="text"] {
+    max-width: 65vw;
+  }
+
+  .list-title input[type="text"]::-webkit-input-placeholder {
+    color: #ffffff;
+    letter-spacing: 2px;
+  }
+
+  .list-title form input[type="text"] {
+    padding: 10px;
+    margin: 10px 10px 0px 10px;
+    display: block;
+    font-size: 1.17em;
+    font-weight: bold;
+  }
+
+  .add-item-form form {
+    flex-direction: row;
+    align-content: center;
+    margin: 0px;
+  }
+
+  .add-item-form form input[type="text"] {
+    padding: 5px;
+    margin-left: 10px;
+  }
+
+  .add-item-form form input[type="submit"] {
+    font-size: 1.4em;
+    min-width: 60px;
+    padding: 5px;
+    min-height: 37.5px;
+  }
+
+  .controls {
+    position: relative;
+  }
+  .collapse-button {
+    position: relative;
+    top: 15%;
+    border: 2px;
+    border-style: solid;
+    border-color: #ffffff;
+    border-radius: 100px;
+    background-color: #949191;
+    padding: 5px;
+    align-self: center;
+    display: unset;
+    position: relative;
+    margin-bottom: -30px;
+    transition: bottom 0.2s ease-in-out;
+  }
+
+  .collapse-div {
+    margin: auto;
+  }
+  .controls-buttons {
+    padding: 10px;
+    background-color: rgb(119, 0, 0);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    transition: padding 0.2s ease-in-out, max-height 0.2s ease-in-out;
+    margin-bottom: -20px;
+  }
+
+  .list-title {
+    font-size: 1.1em;
+    color: white;
+    background-color: #5f0000;
+    padding: 25px 0px 5px 0px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .truthtally-container .tooltip {
+    background-color: #7d0101;
+    color: white;
+    font-size: 1.2em;
+    padding: 15px;
+    max-width: 200px;
+    opacity: 0.95;
+  }
+  button.item-card {
+    font-size: 1.8em;
+    background-color: #8d3333;
+  }
+}
