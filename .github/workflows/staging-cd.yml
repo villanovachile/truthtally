@@ -20,5 +20,4 @@ jobs:
             git checkout ${{ github.event.pull_request.head.ref }}
             npm i --omit=dev
             npm run build
-            ${{ RESTART_PM2_STAGING }}
-            
+            pm2 restart ${{ secrets.STAGING_NAME }}
