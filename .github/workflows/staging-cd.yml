@@ -18,6 +18,7 @@ jobs:
             git checkout main
             git pull
             git checkout ${{ github.event.pull_request.head.ref }}
+            npm i --omit=dev
             npm run build
             ${{ RESTART_PM2_STAGING }}
             
