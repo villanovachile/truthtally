@@ -21,4 +21,6 @@ jobs:
             npm i --omit=dev
             npm run build
             ${{ RESTART_PM2_STAGING }}
-            
+
+      - name: Publish Summary
+        run: echo -e "| Deploy to Staging |  |\n| --- | --- |\n| Deployment Successful | [https://dev.truthtallyranker.com](https://dev.truthtallyranker.com) |" >> $GITHUB_STEP_SUMMARY
