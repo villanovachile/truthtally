@@ -1,0 +1,23 @@
+name: Deploy to Staging
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP_ADDRESS }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.STAGING_PATH }}
+            git checkout main
+            git pull
+            git checkout ${{ github.event.pull_request.head.ref }}
+            npm run build
+            ${{ RESTART_PM2_STAGING }}
+            
