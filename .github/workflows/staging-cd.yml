@@ -37,7 +37,7 @@ jobs:
               | Name | Link |
               | --- | --- |
               | 🔨 Latest commit | [${latestCommitSha.substring(0, 7)}](${latestCommitUrl}) |
-              | 😎 Deploy Preview | ${{ secrets.DEPLOY_PREVIEW_URL }}`;
+              | 😎 Deploy Preview | https://truthtallyranker.com`;
 
             const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number });
             const existingComment = comments.find(comment => comment.user.login === commentAuthor && comment.body.includes(commentIdentifier));
