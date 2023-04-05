@@ -41,8 +41,8 @@ jobs:
             });
 
             const mergedPR = prList.data.find(pr => pr.merge_commit_sha === context.sha);
-            console.log(prList);
-            console.log(steps.build_step.outcome);
+            console.log('Steps outcome:')
+            console.log(${{ steps.build_step.outcome }});
             return !!mergedPR;
 
       - name: Update PR comment
