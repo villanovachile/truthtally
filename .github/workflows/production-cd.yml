@@ -27,7 +27,7 @@ jobs:
             npm i
             npm run build
             pm2 restart ${{ secrets.PRODUCTION_NAME }}
-            
+
       - name: Check if commit originated from a PR
         id: check_pr
         uses: actions/github-script@v5
@@ -47,6 +47,7 @@ jobs:
         if: steps.check_pr.outputs.result == 'true' && success()
         uses: actions/github-script@v5
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const prList = await github.rest.pulls.list({
               owner: context.repo.owner,
@@ -69,15 +70,15 @@ jobs:
             const existingComment = comments.find(comment => comment.user.login === commentAuthor && comment.body.includes(commentIdentifier));
 
             if (existingComment) {
-              const updatedCommentBody = existingComment.body + `\n\n### ✅ Commits merged and deployed at https://truthtallyranker.com!`;
+              const updatedCommentBody = existingComment.body.replace(/(✅ Deploy preview ready)/, '✅ Commits merged and deployed');
               await github.rest.issues.updateComment({ owner, repo, comment_id: existingComment.id, body: updatedCommentBody });
             } else {
               console.log("No existing comment found. Creating a new comment.");
               await github.rest.issues.createComment({ owner, repo, issue_number, body: `### ✅ Commits merged and deployed at https://truthtallyranker.com!` });
             }
 
-      - name: Stop staging environment
-        if: steps.check_pr.outputs.result == 'true' && success()
+      - name: Stop staging environment if build successful
+        if: ${{ steps.build_step.outcome == 'success' && steps.check_pr.outputs.result == 'true' }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.IP_ADDRESS }}
