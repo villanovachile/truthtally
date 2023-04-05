@@ -1,0 +1,65 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: write-all
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP_ADDRESS }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.PRODUCTION_PATH }}
+            git checkout main
+            git pull
+            npm ci
+            npm run build
+            pm2 restart ${{ secrets.PRODUCTION_NAME }}
+
+      - name: Update PR comment
+        if: success()
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prList = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "closed",
+            });
+
+            const mergedPR = prList.data.find(pr => pr.merge_commit_sha === context.sha);
+
+            if (!mergedPR) {
+              console.log("No matching PR found for this commit.");
+              return;
+            }
+
+            const { owner, repo, number: issue_number } = mergedPR;
+            const commentAuthor = "github-actions[bot]";
+            const commentIdentifier = "<!-- deploy-comment -->";
+
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number });
+            const existingComment = comments.find(comment => comment.user.login === commentAuthor && comment.body.includes(commentIdentifier));
+
+            if (existingComment) {
+              const updatedCommentBody = existingComment.body + `\n\n### ✅ Commits merged and deployed at https://truthtallyranker.com!`;
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existingComment.id, body: updatedCommentBody });
+            } else {
+              console.log("No existing comment found to update.");
+            }
+
+      - name: Publish Summary
+        if: success()
+        run: echo -e "Production Deployment Successful!" >> $GITHUB_STEP_SUMMARY
