@@ -1,0 +1,168 @@
+body {
+  background: #e8e7e7;
+  font-family: arial;
+}
+
+header {
+  color: #fff;
+  padding: 5px 10px;
+  text-align: center;
+  background-color: #5f0000;
+  border-bottom: solid 2px #970101;
+  font-size: 1.3em;
+}
+
+.main-container {
+  background: #ffffff;
+  min-width: 375px;
+  max-width: 700px;
+  height: 100%;
+  margin: auto;
+  box-shadow: 0 2px 0 rgb(119, 0, 0);
+  /* border-radius: 6px; */
+  overflow: hidden;
+  border: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow-y: scroll;
+}
+
+.error404-div {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+}
+
+/* Form & Buttons */
+
+form {
+  display: flex;
+  background-color: #5f0000;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  border-width: 0 0 1px 0;
+  margin: 15px 10px 15px 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #7a0000;
+  border-style: none;
+  text-shadow: none;
+  color: #f1f1f1;
+  letter-spacing: 2px;
+  outline: none;
+  width: 90%;
+}
+
+input[type="text"]::-webkit-input-placeholder {
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+input[type="text"]:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+input[type="submit"],
+button {
+  display: block;
+  font-size: 0.6em;
+  margin: 1px 7px 1px 7px;
+  padding: 10px;
+  background-color: #8d3333;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-shadow: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+button,
+input[type="submit"] {
+  outline: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+ol {
+  display: table;
+  margin: 0 auto;
+}
+li {
+  text-align: left;
+  font-weight: bold;
+}
+
+.rnc__notification-item--danger {
+  background-color: #9f000f !important;
+  border-left: 8px solid #b1abab !important;
+  z-index: 9999 !important;
+}
+
+.rnc__base {
+  left: 0px;
+  top: -10px;
+}
+
+/* Mobile Styles */
+
+/* Apply styles when screen size is less than or equal to 768px */
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    font-size: 16px;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+  }
+
+  #root {
+    width: 100%;
+  }
+
+  header {
+    font-size: 1.6em;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main-container {
+    width: 100%;
+    height: 100vh;
+    max-height: -webkit-fill-available;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  input[type="text"] {
+    margin: 10px 0;
+    font-size: 1.5em;
+  }
+
+  input[type="submit"],
+  button {
+    font-size: 1em;
+    margin: 10px 0;
+  }
+
+  li {
+    font-size: 1em;
+  }
+}
