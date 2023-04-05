@@ -27,7 +27,6 @@ jobs:
             npm i
             npm run build
             pm2 restart ${{ secrets.PRODUCTION_NAME }}
-            pm2 stop ${{ secrets.STAGING_NAME }}
 
       - name: Update PR comment
         if: success()
