@@ -3,6 +3,8 @@ name: Deploy to Staging
 on:
   pull_request:
     branches: [main]
+    
+permissions: write-all
 
 jobs:
   build:
@@ -32,12 +34,12 @@ jobs:
             const latestCommitSha = context.payload.pull_request.head.sha;
             const latestCommitUrl = context.payload.pull_request.head.repo.html_url + '/commit/' + latestCommitSha;
             const commentBody = `${commentIdentifier}
-              |### ✅ Deploy preview ready!
-              |
+              ### ✅ Deploy preview ready!
+              
               | Name | Link |
               | --- | --- |
               | 🔨 Latest commit | [${latestCommitSha.substring(0, 7)}](${latestCommitUrl}) |
-              | 😎 Deploy Preview | ${{ secrets.DEPLOY_PREVIEW_URL }}`;
+              | 😎 Deploy Preview | https://dev.truthtallyranker.com`;
 
             const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number });
             const existingComment = comments.find(comment => comment.user.login === commentAuthor && comment.body.includes(commentIdentifier));
