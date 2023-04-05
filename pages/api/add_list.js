@@ -1,4 +1,6 @@
 import connectToDatabase from '@/utils/mongo-connection';
+import { generateToken } from '@/utils/generate-token';
+import corsMiddleware from '@/middlewares/cors';
 import randomstring from 'randomstring';
 import validator from 'validator';
 
@@ -98,16 +100,13 @@ const validatePayload = (input) => {
 
 export default async function handler(req, res) {
   try {
-    const database = await connectToDatabase(process.env.MONGODB_URI);
-    const collection = database.collection(process.env.MONGODB_COLLECTION_TOKEN);
-
-    // Query the database to get the token
-    const result = await collection.findOne({ _id: 'token' });
+    await corsMiddleware(req, res);
+    const newToken = await generateToken();
 
     // Get the token from the Authorization header of the request
     const token = req.headers.authorization.replace('Bearer ', '');
 
-    if (!result || result.token !== token) {
+    if (!newToken || newToken !== token) {
       res.status(401).send('Unauthorized');
       return;
     }
