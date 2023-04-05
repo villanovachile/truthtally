@@ -24,7 +24,7 @@ jobs:
             cd ${{ secrets.PRODUCTION_PATH }}
             git checkout main
             git pull
-            npm ci
+            npm i
             npm run build
             pm2 restart ${{ secrets.PRODUCTION_NAME }}
             pm2 stop ${{ secrets.STAGING_NAME }}
