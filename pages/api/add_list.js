@@ -1,5 +1,6 @@
 import connectToDatabase from '@/utils/mongo-connection';
 import { generateToken } from '@/utils/generate-token';
+import corsMiddleware from '@/middlewares/cors';
 import randomstring from 'randomstring';
 import validator from 'validator';
 
@@ -99,6 +100,7 @@ const validatePayload = (input) => {
 
 export default async function handler(req, res) {
   try {
+    await corsMiddleware(req, res);
     const newToken = await generateToken();
 
     // Get the token from the Authorization header of the request
