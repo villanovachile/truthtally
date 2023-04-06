@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Layout from '@/components/Layout';
 import '@/styles/globals.css';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css/animate.min.css';
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }) {
 
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </>
   );
 }
