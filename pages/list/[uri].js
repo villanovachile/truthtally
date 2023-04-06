@@ -29,9 +29,7 @@ const TruthTallyURI = ({ uri, listData }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
 
-      <div className="main-container">
-        <TruthTally uri={uri} listData={listData} />
-      </div>
+      <TruthTally uri={uri} listData={listData} />
     </>
   );
 };
