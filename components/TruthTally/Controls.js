@@ -237,7 +237,7 @@ const Controls = (props) => {
           <button onClick={() => startOver()}>Start Over</button>
         ) : null}
 
-        {finishedGameState && !showLoadingScreen && !isPreload && (isSourceListNew || sourceRankedListChanged) ? (
+        {!showLoadingScreen && !isPreload && inProgressGameState ? (
           <button onClick={() => rankAgain()}>Rank Again</button>
         ) : null}
 
