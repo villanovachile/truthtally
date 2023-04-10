@@ -13,11 +13,13 @@ const RankedList = (props) => {
           <h3>{listAuthor ? 'Ranked by ' + listAuthor : 'Ranked'}</h3>
         </div>
         <div className={styles['ranked-items']}>
-          {items
-            .sort((a, b) => b.score - a.score)
-            .map((item, index) => (
-              <RankedItem item={item.item} id={index + 1} key={index} />
-            ))}
+          <ol>
+            {items
+              .sort((a, b) => b.score - a.score)
+              .map((item, index) => (
+                <RankedItem item={item.item} id={index + 1} key={index.toString()} />
+              ))}
+          </ol>
         </div>
       </div>
     )

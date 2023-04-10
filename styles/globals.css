@@ -19,7 +19,6 @@ header {
   height: 100%;
   margin: auto;
   box-shadow: 0 2px 0 rgb(119, 0, 0);
-  /* border-radius: 6px; */
   overflow: hidden;
   border: 1px;
   display: flex;
@@ -44,7 +43,7 @@ form {
   background-color: #5f0000;
 }
 
-input[type="text"] {
+input[type='text'] {
   flex-grow: 1;
   border-width: 0 0 1px 0;
   margin: 15px 10px 15px 15px;
@@ -59,16 +58,16 @@ input[type="text"] {
   width: 90%;
 }
 
-input[type="text"]::-webkit-input-placeholder {
+input[type='text']::-webkit-input-placeholder {
   color: #ffffff;
   letter-spacing: 2px;
 }
 
-input[type="text"]:focus {
+input[type='text']:focus {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-input[type="submit"],
+input[type='submit'],
 button {
   display: block;
   font-size: 0.6em;
@@ -86,15 +85,15 @@ button {
 }
 
 button,
-input[type="submit"] {
+input[type='submit'] {
   outline: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ol {
   display: table;
-  margin: 0 auto;
 }
+
 li {
   text-align: left;
   font-weight: bold;
@@ -151,12 +150,12 @@ li {
     flex-direction: column;
   }
 
-  input[type="text"] {
+  input[type='text'] {
     margin: 10px 0;
     font-size: 1.5em;
   }
 
-  input[type="submit"],
+  input[type='submit'],
   button {
     font-size: 1em;
     margin: 10px 0;
