@@ -2,6 +2,7 @@
   background: white;
   min-width: 375px;
   width: 100%;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;

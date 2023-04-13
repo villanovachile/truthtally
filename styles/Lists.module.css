@@ -1,0 +1,63 @@
+.lists-container {
+  text-align: center;
+}
+
+.list-pagination {
+  padding: 15px;
+  margin: 10px;
+}
+
+a.pagination-page,
+a.pagination-current-page {
+  width: 3px;
+  height: 3px;
+  padding: 5px;
+  margin: 3px;
+  color: white;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+
+a.pagination-page {
+  background: #5e0000;
+}
+
+a.pagination-current-page {
+  background: #ab0101;
+}
+
+.list-cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.list-card {
+  box-shadow: -1px 0px 20px 0px #e4e4e4;
+  margin: 5px;
+  padding: 10px;
+  background: #f8f7f7;
+}
+
+.list-card p,
+.list-card h3 {
+  margin: 3px;
+  padding: 3px;
+  font-size: 1em;
+}
+
+.list-card a {
+  color: #5e0000;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .list-cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .list-cards-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
