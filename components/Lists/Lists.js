@@ -5,6 +5,7 @@ import styles from '@/styles/Lists.module.css';
 const Lists = ({ ...props }) => {
   const { lists, totalCount, type, totalPages, currentPage } = props;
   const listType = type === 'ranked' ? 'Ranked' : 'Unranked';
+
   return (
     <>
       <div className={styles['lists-container']}>

@@ -27,6 +27,7 @@ a.pagination-current-page {
 }
 
 .list-cards-container {
+  margin: 15px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
@@ -58,6 +59,6 @@ a.pagination-current-page {
 
 @media screen and (max-width: 480px) {
   .list-cards-container {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -10,7 +10,7 @@ const ListCard = ({ lists }) => {
           <Link href={`/list/${list.uri}`}>
             <h3>{list.title}</h3>
           </Link>
-          <p>{list.author && 'created by ' + list.author}</p>
+          <p>{list.author && list.type === 'unranked' ? 'created by ' + list.author : 'ranked by ' + list.author}</p>
         </div>
       ))}
     </>

@@ -1,8 +1,15 @@
 import Lists from '@/components/Lists/Lists';
+import { useRouter } from 'next/router';
 
 const ListsIndex = (lists) => {
-  // console.log(lists.totalCount);
-  // console.log(lists.lists);
+  const router = useRouter();
+  if (lists.error === 'invalid_type') {
+    if (typeof window !== 'undefined') {
+      router.push('/lists/');
+    }
+    return null;
+  }
+
   return (
     <Lists
       lists={lists.lists}
@@ -15,11 +22,31 @@ const ListsIndex = (lists) => {
 };
 
 export async function getServerSideProps(context) {
+  const pageNumber = !context.query.page || context.query.page < 1 ? 1 : context.query.page;
   const { type } = context.params;
-  const { page } = context.query;
+  const { title, tags } = context.query;
+
+  if (type !== 'ranked' && type !== 'unranked') {
+    return {
+      props: {
+        error: 'invalid_type'
+      }
+    };
+  }
 
   try {
-    const response = await fetch(`${process.env.API_URL}/api/get_lists?type=${type}&page=${page}`);
+    let apiUrl = `${process.env.API_URL}/api/get_lists?type=${type}`;
+    if (title) {
+      apiUrl += `&title=${title}`;
+    }
+    if (tags) {
+      apiUrl += `&tags=${tags}`;
+    }
+    if (pageNumber) {
+      apiUrl += `&page=${pageNumber}`;
+    }
+
+    const response = await fetch(apiUrl);
     const lists = await response.json();
 
     return {
