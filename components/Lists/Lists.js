@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ListCard from './ListCard';
+import SearchFilterSort from './SearchFilterSort';
 import styles from '@/styles/Lists.module.css';
 
 const Lists = ({ ...props }) => {
@@ -15,9 +16,11 @@ const Lists = ({ ...props }) => {
           Page {currentPage} of {totalPages}
         </p>
         <p>Type: {type}</p>
+        <SearchFilterSort type={type} />
         <div className={styles['list-cards-container']}>
           <ListCard lists={lists} />
         </div>
+
         <div className={styles['list-pagination']}>
           <span>PAGE: </span>
           {Array.from({ length: totalPages }, (_, i) => {

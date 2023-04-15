@@ -51,6 +51,25 @@ a.pagination-current-page {
   text-decoration: none;
 }
 
+.search-filter-sort {
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
+}
+
+.search-filter-sort form input[type='text'],
+.search-filter-sort form select,
+.search-filter-sort form input[type='submit'] {
+  padding: 5px;
+  margin: 5px;
+}
+
+.search-filter-sort form select {
+  width: 100px;
+  padding: 5px;
+  margin: 5px;
+}
+
 @media screen and (max-width: 768px) {
   .list-cards-container {
     grid-template-columns: repeat(2, 1fr);
