@@ -3,8 +3,6 @@ import connectToDatabase from '@/utils/mongo-connection';
 export default async function handler(req, res) {
   const { type, page, tags, title, items, all, sort, limit } = req.query;
 
-  console.log(limit);
-
   let sortOrder;
 
   switch (sort) {
@@ -28,9 +26,6 @@ export default async function handler(req, res) {
       sortOrder = { title: 1 };
       break;
   }
-
-  console.log('sortOrder:', sortOrder);
-  console.log('sort:', sort);
 
   try {
     let query = { type: type };
@@ -66,14 +61,13 @@ export default async function handler(req, res) {
 
     const totalCount = await collection.countDocuments(query);
 
-    const totalPages = Math.ceil(totalCount / 12);
+    const totalPages = Math.ceil(totalCount / 24);
 
     const currentPage = page > totalPages ? 1 : page;
-    const itemsPerPage = 12;
+    const itemsPerPage = 24;
     const skip = (currentPage - 1) * itemsPerPage;
     const limitItems = limit ? limit : itemsPerPage;
 
-    // const lists = await collection.find(query).skip(skip).limit(limit).toArray();
     const lists = await collection.find(query).sort(sortOrder).skip(skip).limit(parseInt(limitItems, 10)).toArray();
 
     const results = {

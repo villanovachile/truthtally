@@ -1,9 +1,22 @@
 import ListCard from '@/components/Lists/ListCard';
 import styles from '@/styles/Lists.module.css';
+import Link from 'next/link';
 
 const ListsIndex = (props) => {
   return (
     <div className={styles['lists-index-container']}>
+      <div className={styles['lists-links-container']}>
+        <div className={styles['unranked-lists-link-div']}>
+          <Link href="/lists/unranked">
+            <h2>Unranked Lists</h2>
+          </Link>
+        </div>
+        <div className={styles['ranked-lists-link-div']}>
+          <Link href="/lists/ranked">
+            <h2>Ranked Lists</h2>
+          </Link>
+        </div>
+      </div>
       <h2>Latest Unranked Lists</h2>
       <div className={styles['list-cards-container']}>
         <ListCard lists={props.unrankedListsNewest.lists} />

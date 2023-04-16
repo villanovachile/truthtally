@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ListCard from './ListCard';
+import Pagination from './Pagination';
 import SearchFilterSort from './SearchFilterSort';
 import styles from '@/styles/Lists.module.css';
 
@@ -13,32 +14,26 @@ const Lists = ({ ...props }) => {
     <>
       <div className={styles['lists-container']}>
         <h1>{listType} Lists</h1>
-        <p>Total number of lists: {totalCount} </p>
-        <p>
-          Page {currentPage} of {totalPages}
-        </p>
-        <p>Type: {type}</p>
-        <SearchFilterSort type={type} />
-        <div className={styles['list-cards-container']}>
-          <ListCard lists={lists} />
-        </div>
 
-        <div className={styles['list-pagination']}>
-          <span>PAGE: </span>
-          {Array.from({ length: totalPages }, (_, i) => {
-            const currentParams = new URLSearchParams(navigate.asPath.split('?')[1]);
-            currentParams.set('page', i + 1);
-            const queryString = currentParams.toString();
-            return (
-              <Link
-                className={styles[i + 1 === parseInt(currentPage) ? 'pagination-current-page' : 'pagination-page']}
-                key={i}
-                href={`/lists/${type}?${queryString}`}>
-                {i + 1}
-              </Link>
-            );
-          })}
-        </div>
+        <SearchFilterSort type={type} />
+        {totalCount > 0 && (
+          <>
+            <Pagination totalPages={totalPages} currentPage={currentPage} type={type} />
+            <p>
+              <b>Total: {totalCount} </b>
+            </p>
+            <div className={styles['list-cards-container']}>
+              <ListCard lists={lists} />
+            </div>
+
+            <Pagination totalPages={totalPages} currentPage={currentPage} type={type} />
+          </>
+        )}
+        {totalCount === 0 && (
+          <>
+            <p>No results found</p>
+          </>
+        )}
       </div>
     </>
   );

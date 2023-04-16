@@ -9,7 +9,33 @@
   margin: 30px;
 }
 
-.lists-index-container h1 {
+.lists-index-container h2 {
+  margin-bottom: 0px;
+}
+
+.lists-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 30px;
+}
+
+.ranked-lists-link-div,
+.unranked-lists-link-div {
+  min-width: 250px;
+  height: 75px;
+  background-color: #5e0000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.ranked-lists-link-div a h2,
+.unranked-lists-link-div a h2 {
+  color: white;
+  text-decoration: none;
+  margin: 15px;
 }
 
 .list-pagination {
@@ -65,7 +91,7 @@ a.pagination-current-page {
 }
 
 .search-filter-sort {
-  max-width: 400px;
+  max-width: 600px;
   text-align: center;
   margin: auto;
 }
@@ -74,23 +100,31 @@ a.pagination-current-page {
 .search-filter-sort form select,
 .search-filter-sort form input[type='submit'] {
   padding: 5px;
-  margin: 5px;
+  margin: 10px 5px 10px 5px;
+  width: unset;
+  /* min-height: 40px; */
 }
 
 .search-filter-sort form select {
-  width: 100px;
   padding: 5px;
   margin: 5px;
 }
-
+.search-filter-sort form {
+  display: flex;
+  /* background-color: #5f0000; */
+  max-width: 600px;
+  margin: auto;
+  padding: 0px 10px 0px 10px;
+}
 @media screen and (max-width: 768px) {
   .list-cards-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
-}
-
-@media screen and (max-width: 480px) {
-  .list-cards-container {
-    grid-template-columns: repeat(2, 1fr);
+  .lists-links-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    /* margin: 30px; */
   }
 }
