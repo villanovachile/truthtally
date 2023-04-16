@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import ListCard from './ListCard';
 import SearchFilterSort from './SearchFilterSort';
 import styles from '@/styles/Lists.module.css';
@@ -6,6 +7,7 @@ import styles from '@/styles/Lists.module.css';
 const Lists = ({ ...props }) => {
   const { lists, totalCount, type, totalPages, currentPage } = props;
   const listType = type === 'ranked' ? 'Ranked' : 'Unranked';
+  const navigate = useRouter();
 
   return (
     <>
@@ -24,11 +26,14 @@ const Lists = ({ ...props }) => {
         <div className={styles['list-pagination']}>
           <span>PAGE: </span>
           {Array.from({ length: totalPages }, (_, i) => {
+            const currentParams = new URLSearchParams(navigate.asPath.split('?')[1]);
+            currentParams.set('page', i + 1);
+            const queryString = currentParams.toString();
             return (
               <Link
                 className={styles[i + 1 === parseInt(currentPage) ? 'pagination-current-page' : 'pagination-page']}
                 key={i}
-                href={`/lists/${type}?page=${i + 1}`}>
+                href={`/lists/${type}?${queryString}`}>
                 {i + 1}
               </Link>
             );

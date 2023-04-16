@@ -24,7 +24,7 @@ const ListsIndex = (lists) => {
 export async function getServerSideProps(context) {
   const pageNumber = !context.query.page || context.query.page < 1 ? 1 : context.query.page;
   const { type } = context.params;
-  const { title, tags } = context.query;
+  const { title, tags, items, all, sort } = context.query;
 
   if (type !== 'ranked' && type !== 'unranked') {
     return {
@@ -42,8 +42,17 @@ export async function getServerSideProps(context) {
     if (tags) {
       apiUrl += `&tags=${tags}`;
     }
+    if (items) {
+      apiUrl += `&items=${items}`;
+    }
+    if (all) {
+      apiUrl += `&all=${all}`;
+    }
     if (pageNumber) {
       apiUrl += `&page=${pageNumber}`;
+    }
+    if (sort) {
+      apiUrl += `&sort=${sort}`;
     }
 
     const response = await fetch(apiUrl);

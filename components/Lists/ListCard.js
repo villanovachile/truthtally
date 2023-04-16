@@ -2,7 +2,6 @@ import Link from 'next/link';
 import styles from '@/styles/Lists.module.css';
 
 const ListCard = ({ lists }) => {
-  // const { title, author, items, type } = props;
   return (
     <>
       {lists.map((list, index) => (
@@ -10,7 +9,11 @@ const ListCard = ({ lists }) => {
           <Link href={`/list/${list.uri}`}>
             <h3>{list.title}</h3>
           </Link>
-          <p>{list.author && list.type === 'unranked' ? 'created by ' + list.author : 'ranked by ' + list.author}</p>
+          <p>
+            {list.type === 'unranked'
+              ? list.author && 'created by ' + list.author
+              : list.author && 'ranked by ' + list.author}
+          </p>
         </div>
       ))}
     </>
