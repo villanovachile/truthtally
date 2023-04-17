@@ -1,6 +1,7 @@
 .feature-container {
   display: flex;
   align-items: center;
+  margin: 30px;
 }
 
 .feature-container p {
@@ -35,9 +36,25 @@
   width: 300px;
 }
 
+.feature-container-description,
+.feature-container-image {
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
 @media (max-width: 768px) {
   .feature-container {
     flex-direction: column;
     text-align: center;
+  }
+  .feature-container:nth-of-type(even) {
+    flex-direction: column-reverse;
+  }
+  .feature-container:nth-of-type(even) .feature-container-description {
+    order: 1;
+  }
+  .feature-container:nth-of-type(even) .feature-container-image {
+    order: 2;
   }
 }

@@ -13,6 +13,7 @@ header {
   font-size: 1em;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 header a {
@@ -21,9 +22,12 @@ header a {
 }
 
 #title {
-  min-width: 200px;
   display: flex;
   align-items: center;
+}
+
+#title img {
+  margin: 0px 30px 0px 10px;
 }
 
 .nav a {
@@ -219,7 +223,7 @@ li {
     position: relative;
     width: 30px;
     height: 24px;
-    right: -50px;
+    right: -130px;
     top: 0px;
   }
 
@@ -270,5 +274,16 @@ li {
   .bm-item {
     display: inline-block;
     padding: 10px;
+  }
+  #title img,
+  #tile a,
+  #title {
+    margin: unset;
+    width: 25px;
+  }
+  #main-content {
+    margin: 5px 15px 5px 15px;
+
+    align-items: normal;
   }
 }

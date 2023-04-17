@@ -28,7 +28,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    let query = { type: type };
+    let query = { type: type, unlisted: false };
 
     if (tags) {
       const tagArray = tags.split(',');

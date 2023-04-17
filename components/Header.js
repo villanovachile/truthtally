@@ -7,13 +7,12 @@ const Header = () => {
   return (
     <header>
       <Link href="/" id="title">
-        Truth Tally
         <Image
           src="/images/logo192.png"
           alt="Truth Tally logo"
-          width={20}
-          height={20}
-          style={{ margin: '0px 0px 0px 20px' }}
+          width={25}
+          height={25}
+          style={{ margin: '0px 50px 0px 0px' }}
         />
       </Link>
 

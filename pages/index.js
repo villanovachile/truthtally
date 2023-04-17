@@ -1,36 +1,82 @@
 import Link from 'next/link';
 import ListCard from '@/components/Lists/ListCard';
 import styles from '@/styles/Home.module.css';
-
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const Home = (props) => {
+  const navigate = useRouter();
   return (
     <>
-      <h1> Truth Tally</h1>
       <div className={styles['feature-container']}>
-        <Image src="/images/pexels-cottonbro-studio-3693108.jpg" alt="music" height="400" width="267"></Image>
-        <span>
+        <div className={styles['feature-container-image']}>
+          <Image
+            src="/images/truthtally-home-feature.png"
+            alt="Truth Tally Home Feature"
+            height="256"
+            width="400"></Image>
+        </div>
+        <div className={styles['feature-container-description']}>
           <p>
             Welcome to Truth Tally, the app that lets you create and rank custom lists of your favorite things. With
-            Truth Tally, you can easily organize your interests, from music and movies to books, art, and science. Once
-            you&rsquo;ve added your items, you can rank them in order of preference, allowing you to see which ones
-            truly matter to you.
+            Truth Tally, you can easily organize your interests, from music and movies to books, art, science, and more.
           </p>
+          <button onClick={() => navigate.push('/list')}>Create a List</button>
+          <button onClick={() => navigate.push('/lists')}>Browse Lists</button>
+        </div>
+      </div>
+      <div className={styles['feature-container']}>
+        <div className={styles['feature-container-description']}>
+          <h3>Create a list</h3>
           <p>
-            But that&rsquo;s not all. With Truth Tally, you can also share your lists with your friends, both unranked
-            and ranked. Show them what you&rsquo;re into and get their feedback, or challenge them to create their own
-            lists and see how they compare to yours.
+            The first step to using Truth Tally is to create a list of your favorite things. Whether you&rsquo;re a
+            music buff, a movie fanatic, or an art lover, you can easily add items to your list using our user-friendly
+            interface. You can create as many lists as you want, and each list can include up to 50 items.
           </p>
+        </div>
+        <div className={styles['feature-container-image']}>
+          <Image
+            src="/images/truthtally-home-flow-01.png"
+            alt="Truth Tally Home Feature"
+            height="300"
+            width="400"></Image>
+        </div>
+      </div>
+
+      <div className={styles['feature-container']}>
+        <div className={styles['feature-container-image']}>
+          <Image
+            src="/images/truthtally-home-flow-02.png"
+            alt="Truth Tally Home Feature"
+            height="300"
+            width="400"></Image>
+        </div>
+        <div className={styles['feature-container-description']}>
+          <h3>Rank the items in your list</h3>
           <p>
-            And if you&rsquo;re looking for inspiration, check out our premade lists, featuring curated selections of
-            the best in pop culture, history, and more. Whether you&rsquo;re a casual fan or a serious aficionado,
-            you&rsquo;ll find something to love on Truth Tally.
+            Once you&rsquo;ve created your list, it&rsquo;s time to rank the items. Our unique ranking system generates
+            pairs of items for you to choose from. Simply select your preferred item from each pair, and our algorithm
+            will calculate the score for each item based on your preferences.
           </p>
+        </div>
+      </div>
+
+      <div className={styles['feature-container']}>
+        <div className={styles['feature-container-description']}>
+          <h3>Rank the items in your list</h3>
           <p>
-            So why wait? <Link href="/list/">Create a list</Link> and start organizing your truth.
+            Finally, it&rsquo;s time to share your list with friends! You can easily share your unranked and ranked
+            lists with your friends via social media, email, or any other messaging platform. See if your friends agree
+            with your rankings, or challenge them to create their own lists and see how they compare to yours.
           </p>
-        </span>
+        </div>
+        <div className={styles['feature-container-image']}>
+          <Image
+            src="/images/truthtally-home-flow-03.png"
+            alt="Truth Tally Home Feature"
+            height="300"
+            width="400"></Image>
+        </div>
       </div>
 
       <div className={styles['lists-index-container']}>

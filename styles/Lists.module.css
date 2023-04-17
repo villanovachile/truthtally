@@ -117,6 +117,7 @@ a.pagination-current-page {
   max-width: 600px;
   margin: auto;
   padding: 0px 10px 0px 10px;
+  align-items: center;
 }
 @media screen and (max-width: 768px) {
   .list-cards-container {
@@ -128,5 +129,8 @@ a.pagination-current-page {
     justify-content: center;
     align-content: center;
     /* margin: 30px; */
+  }
+  .search-filter-sort form {
+    align-items: unset;
   }
 }
