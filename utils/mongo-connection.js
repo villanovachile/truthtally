@@ -11,8 +11,7 @@ async function connectToDatabase(uri) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     maxPoolSize: 100,
-    minPoolSize: 0,
-    maxIdleTimeMS: 10000
+    minPoolSize: 0
   });
 
   cachedDb = client.db(process.env.MONGODB_DATABASE);

@@ -1,0 +1,17 @@
+#nav-mobile {
+  display: none;
+}
+#nav-desktop {
+  display: contents;
+}
+
+@media screen and (max-width: 768px) {
+  #nav-desktop {
+    display: none;
+  }
+  #nav-mobile,
+  #nav-mobile a {
+    padding: 15px;
+    display: contents;
+  }
+}

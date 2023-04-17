@@ -37,7 +37,7 @@ const ListsIndex = (props) => {
   );
 };
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   try {
     const [unrankedNewest, rankedNewest, unrankedPopular, rankedPopular] = await Promise.all([
       fetch(`${process.env.API_URL}/api/get_lists?type=unranked&sort=newest&limit=8`),

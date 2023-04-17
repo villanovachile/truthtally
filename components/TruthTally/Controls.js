@@ -37,7 +37,6 @@ const Controls = (props) => {
   } = props;
 
   let router = useRouter();
-  // let { uri } = useParams();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showContent, setShowContent] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
