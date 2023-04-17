@@ -9,7 +9,7 @@ const NotFoundPage = () => {
         <h1>Error 404</h1>
         <Image src="/images/logo192.png" alt="Truth Tally logo" width={100} height={100} />
         <h2>Not Found</h2>
-        <Link href="/">Start a new list</Link>
+        <Link href="/list">CREATE A NEW LIST</Link>
       </div>
     </>
   );
