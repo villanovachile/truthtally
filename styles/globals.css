@@ -22,10 +22,17 @@ header a {
 
 #title {
   min-width: 200px;
+  display: flex;
+  align-items: center;
 }
 
 .nav a {
   padding: 0px 10px 0px 10px;
+}
+
+#main-content p a {
+  color: #5e0000;
+  text-decoration: none;
 }
 
 footer,
@@ -210,8 +217,8 @@ li {
   /* Position and sizing of burger button */
   .bm-burger-button {
     position: relative;
-    width: 36px;
-    height: 30px;
+    width: 30px;
+    height: 24px;
     right: -50px;
     top: 0px;
   }
@@ -228,8 +235,8 @@ li {
 
   /* Position and sizing of clickable cross button */
   .bm-cross-button {
-    height: 24px;
-    width: 24px;
+    height: 30px;
+    width: 30px;
   }
 
   /* Color/shape of close button cross */
@@ -240,6 +247,7 @@ li {
   .bm-menu-wrap {
     position: fixed;
     height: 100%;
+    width: 100% !important;
     top: 0px;
   }
 
@@ -247,7 +255,7 @@ li {
   .bm-menu {
     background: #000000;
     padding: 1 0.5em 0.5em 0;
-    font-size: 1.15em;
+    font-size: 1em;
     opacity: 0.9;
   }
 

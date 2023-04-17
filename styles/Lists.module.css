@@ -29,6 +29,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .ranked-lists-link-div a h2,
@@ -70,6 +71,7 @@ a.pagination-current-page {
 
 .list-card {
   box-shadow: -1px 0px 20px 0px #e4e4e4;
+  min-height: 75px;
   margin: 5px;
   padding: 10px;
   background: #f8f7f7;

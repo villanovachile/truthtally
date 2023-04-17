@@ -37,7 +37,7 @@ const ListsIndex = (props) => {
   );
 };
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   try {
     const [unrankedNewest, rankedNewest, unrankedPopular, rankedPopular] = await Promise.all([
       fetch(`${process.env.API_URL}/api/get_lists?type=unranked&sort=newest&limit=8`),
@@ -57,7 +57,8 @@ export async function getStaticProps(context) {
         rankedListsNewest,
         unrankedListsPopular,
         rankedListsPopular
-      }
+      },
+      revalidate: 3600
     };
   } catch (error) {
     console.error(error);
