@@ -1,6 +1,6 @@
 import ListCard from '@/components/Lists/ListCard';
-import styles from '@/styles/Lists.module.css';
 import Link from 'next/link';
+import styles from '@/styles/Lists.module.css';
 
 const ListsIndex = (props) => {
   return (

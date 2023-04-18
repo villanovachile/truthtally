@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const NotFoundPage = () => {
-  // document.title = "Error 404 - Not Found";
   return (
     <>
       <div className="error404-div">

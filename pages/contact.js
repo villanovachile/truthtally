@@ -125,7 +125,7 @@ const Contact = () => {
   };
 
   return (
-    <>
+    <div style={{ textAlign: 'left', margin: '30px' }}>
       <h1>Contact</h1>
       <div className={styles.contact}>
         {isFormVisible ? (
@@ -185,7 +185,7 @@ const Contact = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

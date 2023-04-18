@@ -107,7 +107,6 @@ const TruthTally = ({ uri, listData }) => {
   useEffect(() => {
     setItems([]);
     setSourceTitleChanged(false);
-    // const fetchURL = "/.netlify/functions/get_list?uri=" + uri;
 
     if (uri === undefined) {
       setLoadingText('Loading...');
@@ -200,7 +199,7 @@ const TruthTally = ({ uri, listData }) => {
         }
       } catch (error) {
         console.log('Error: ', error);
-        router.push('/');
+        router.push('/list/404');
         Store.addNotification({
           title: 'Error loading list',
           message: 'There was a problem loading this list',

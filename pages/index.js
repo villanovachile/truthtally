@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import ListCard from '@/components/Lists/ListCard';
 import styles from '@/styles/Home.module.css';
 import Image from 'next/image';
@@ -63,7 +62,7 @@ const Home = (props) => {
 
       <div className={styles['feature-container']}>
         <div className={styles['feature-container-description']}>
-          <h3>Rank the items in your list</h3>
+          <h3>Share your list with friends</h3>
           <p>
             Finally, it&rsquo;s time to share your list with friends! You can easily share your unranked and ranked
             lists with your friends via social media, email, or any other messaging platform. See if your friends agree

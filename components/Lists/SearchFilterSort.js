@@ -10,7 +10,6 @@ const SearchFilterSort = ({ type }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setSortType('title_asc');
     const currentParams = new URLSearchParams(navigate.asPath.split('?')[1]);
     currentParams.set('sort', sortType);
     navigate.push(`/lists/${type}?${searchType}=${searchInput.current.value}&sort=${sortType}`);

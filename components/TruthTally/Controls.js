@@ -138,7 +138,7 @@ const Controls = (props) => {
     clearList();
     nextItemId.current = 0;
     currentIndex.current = 0;
-    router.push('/');
+    router.push('/list');
   };
 
   const shareList = () => {

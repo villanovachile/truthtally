@@ -104,7 +104,6 @@ a.pagination-current-page {
   padding: 5px;
   margin: 10px 5px 10px 5px;
   width: unset;
-  /* min-height: 40px; */
 }
 
 .search-filter-sort form select {
@@ -113,7 +112,6 @@ a.pagination-current-page {
 }
 .search-filter-sort form {
   display: flex;
-  /* background-color: #5f0000; */
   max-width: 600px;
   margin: auto;
   padding: 0px 10px 0px 10px;
@@ -128,7 +126,6 @@ a.pagination-current-page {
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    /* margin: 30px; */
   }
   .search-filter-sort form {
     align-items: unset;
