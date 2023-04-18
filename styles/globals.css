@@ -163,6 +163,16 @@ li {
   top: -10px;
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+#recaptcha {
+  font-size: 0.8em;
+  margin-top: 10px;
+  max-width: 400px;
+}
+
 /* Mobile Styles */
 
 /* Apply styles when screen size is less than or equal to 768px */

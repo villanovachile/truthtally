@@ -3,7 +3,7 @@ import Link from 'next/link';
 const About = () => {
   return (
     <>
-      <div style={{ textAlign: 'left', margin: '10px 30px 10px 30px' }}>
+      <div style={{ textAlign: 'left', margin: '30px' }}>
         <h1>About Truth Tally</h1>
         <p>
           Truth Tally is the ultimate list ranking app that allows you to create custom lists of your favorite things
