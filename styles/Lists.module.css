@@ -130,4 +130,8 @@ a.pagination-current-page {
   .search-filter-sort form {
     align-items: unset;
   }
+  .search-filter-sort form select {
+    height: 30px;
+    -webkit-appearance: menulist-button;
+  }
 }

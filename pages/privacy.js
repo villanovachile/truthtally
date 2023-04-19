@@ -6,8 +6,8 @@ const Privacy = () => {
     <>
       <Head>
         <title>Privacy Policy | Truth Tally</title>
-        <meta property="og:title" content="Privacy Policy | Truth Tally" />
-        <meta name="twitter:title" content="Privacy Policy | Truth Tally" />
+        <meta property="og:title" content="Privacy Policy" />
+        <meta name="twitter:title" content="Privacy Policy" />
         <meta name="description" content="Truth Tally Ranker" />
         <meta property="og:image" key="og:image" content="/images/og-image.png" />
         <meta charSet="utf-8" />
@@ -61,7 +61,7 @@ const Privacy = () => {
         <h3>Contact Truth Tally</h3>
         <p>
           If there are any questions or concerns about the Privacy Policy, please{' '}
-          <Link href="/contact">contact Truth Taly</Link>.
+          <Link href="/contact">contact Truth Tally</Link>.
         </p>
       </div>
     </>
