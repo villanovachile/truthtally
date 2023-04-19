@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import ListCard from '@/components/Lists/ListCard';
 import styles from '@/styles/Home.module.css';
 import Image from 'next/image';
@@ -7,6 +8,20 @@ const Home = (props) => {
   const navigate = useRouter();
   return (
     <>
+      <Head>
+        <title>Truth Tally | List Ranker</title>
+        <meta property="og:title" content="Truth Tally" />
+        <meta name="twitter:title" content="Truth Tally" />
+        <meta name="description" content="List Ranker / Bias Sorter" />
+        <meta property="og:image" key="og:image" content="/images/og-image.png" />
+        <meta charSet="utf-8" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+        <link rel="icon" href="/images/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      </Head>
       <div className={styles['feature-container']}>
         <div className={styles['feature-container-image']}>
           <Image
@@ -103,13 +118,13 @@ const Home = (props) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const [unrankedNewest, rankedNewest, unrankedPopular, rankedPopular] = await Promise.all([
-      fetch(`${process.env.API_URL}/api/get_lists?type=unranked&sort=newest&limit=8`),
-      fetch(`${process.env.API_URL}/api/get_lists?type=ranked&sort=newest&limit=8`),
-      fetch(`${process.env.API_URL}/api/get_lists?type=unranked&sort=popularity&limit=8`),
-      fetch(`${process.env.API_URL}/api/get_lists?type=ranked&sort=popularity&limit=8`)
+      fetch(`${process.env.API_URL}/api/get_lists?type=unranked&sort=newest&limit=8&skipCount=true`),
+      fetch(`${process.env.API_URL}/api/get_lists?type=ranked&sort=newest&limit=8&skipCount=true`),
+      fetch(`${process.env.API_URL}/api/get_lists?type=unranked&sort=popularity&limit=8&skipCount=true`),
+      fetch(`${process.env.API_URL}/api/get_lists?type=ranked&sort=popularity&limit=8&skipCount=true`)
     ]);
 
     const unrankedListsNewest = await unrankedNewest.json();
@@ -123,8 +138,8 @@ export async function getStaticProps() {
         rankedListsNewest,
         unrankedListsPopular,
         rankedListsPopular
-      },
-      revalidate: 3600
+      }
+      // revalidate: 3600
     };
   } catch (error) {
     console.error(error);

@@ -82,11 +82,11 @@ const TruthTally = ({ uri, listData }) => {
 
   useEffect(() => {
     const rankedTitle = listAuthor
-      ? `Truth Tally - ${listTitle} ranked by ${listAuthor}`
-      : `Truth Tally - ${listTitle} ranked`;
+      ? `${listTitle} ranked by ${listAuthor} | Truth Tally`
+      : `${listTitle} ranked | Truth Tally`;
     const unrankedTitle = listAuthor
-      ? `Truth Tally - ${listTitle} created by ${listAuthor}`
-      : `Truth Tally - ${listTitle}`;
+      ? `${listTitle} created by ${listAuthor} | Truth Tally`
+      : `${listTitle} | Truth Tally`;
     setTitleInput(listTitle);
     finishedGameState && (document.title = rankedTitle);
     startGameState && (document.title = unrankedTitle);

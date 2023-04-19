@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import { Store } from 'react-notifications-component';
 import styles from '@/styles/Contact.module.css';
@@ -80,8 +81,6 @@ const Contact = () => {
       const data = await response.json();
 
       if (data.success) {
-        console.log('Email sent successfully');
-
         setSuccessMessage('Your message has been sent!');
         setName('');
         setEmail('');
@@ -125,67 +124,83 @@ const Contact = () => {
   };
 
   return (
-    <div style={{ textAlign: 'left', margin: '30px' }}>
-      <h1>Contact</h1>
-      <div className={styles.contact}>
-        {isFormVisible ? (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <label className={styles.label}>
-              Name:
-              <input className={styles.input} type="text" value={name} onChange={handleNameChange} required />
-            </label>
-            <br />
-            <label className={styles.label}>
-              Email Address:
-              <input className={styles.input} type="email" value={email} onChange={handleEmailChange} required />
-            </label>
-            <br />
-            <label className={styles.label}>
-              Reason:
-              <select className={styles.select} value={reason} onChange={handleReasonChange}>
-                <option value="Feature Request">Feature Request</option>
-                <option value="Edit or Remove List">Edit or Remove List</option>
-                <option value="Report a Bug">Report a Bug</option>
-                <option value="Other">Other</option>
-              </select>
-            </label>
-            {reason === 'Edit or Remove List' && (
-              <div className={styles.subfield}>
-                <label className={styles.label}>
-                  URL:
-                  <input className={styles.input} type="url" value={url} onChange={handleUrlChange} required />
-                </label>
-                <br />
-              </div>
-            )}
-            <label className={styles.label}>
-              Message:
-              <textarea className={styles.textarea} value={message} onChange={handleMessageChange} />
-            </label>
-            <p id="recaptcha">
-              This site is protected by reCAPTCHA and the Google
-              <Link href="https://policies.google.com/privacy" target="_blank">
-                {' '}
-                Privacy Policy{' '}
-              </Link>
-              and
-              <Link href="https://policies.google.com/terms" target="_blank">
-                {' '}
-                Terms of Service
-              </Link>{' '}
-              apply.
-            </p>
-            <button className={styles.button} type="submit">
-              Submit
-            </button>
-          </form>
-        ) : (
-          <div style={{ height: '100%' }}>
-            <p>{successMessage}</p>
-          </div>
-        )}
+    <>
+      <Head>
+        <title>Contact Us | Truth Tally</title>
+        <meta property="og:title" content="Contact Us" />
+        <meta name="twitter:title" content="Contact Us" />
+        <meta name="description" content="Truth Tally Ranker" />
+        <meta property="og:image" key="og:image" content="/images/og-image.png" />
+        <meta charSet="utf-8" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+        <link rel="icon" href="/images/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      </Head>
+      <div style={{ textAlign: 'left', margin: '30px' }}>
+        <h1>Contact</h1>
+        <div className={styles.contact}>
+          {isFormVisible ? (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <label className={styles.label}>
+                Name:
+                <input className={styles.input} type="text" value={name} onChange={handleNameChange} required />
+              </label>
+              <br />
+              <label className={styles.label}>
+                Email Address:
+                <input className={styles.input} type="email" value={email} onChange={handleEmailChange} required />
+              </label>
+              <br />
+              <label className={styles.label}>
+                Reason:
+                <select className={styles.select} value={reason} onChange={handleReasonChange}>
+                  <option value="Feature Request">Feature Request</option>
+                  <option value="Edit or Remove List">Edit or Remove List</option>
+                  <option value="Report a Bug">Report a Bug</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              {reason === 'Edit or Remove List' && (
+                <div className={styles.subfield}>
+                  <label className={styles.label}>
+                    URL:
+                    <input className={styles.input} type="url" value={url} onChange={handleUrlChange} required />
+                  </label>
+                  <br />
+                </div>
+              )}
+              <label className={styles.label}>
+                Message:
+                <textarea className={styles.textarea} value={message} onChange={handleMessageChange} />
+              </label>
+              <p id="recaptcha">
+                This site is protected by reCAPTCHA and the Google
+                <Link href="https://policies.google.com/privacy" target="_blank">
+                  {' '}
+                  Privacy Policy{' '}
+                </Link>
+                and
+                <Link href="https://policies.google.com/terms" target="_blank">
+                  {' '}
+                  Terms of Service
+                </Link>{' '}
+                apply.
+              </p>
+              <button className={styles.button} type="submit">
+                Submit
+              </button>
+            </form>
+          ) : (
+            <div style={{ height: '100%' }}>
+              <p>{successMessage}</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

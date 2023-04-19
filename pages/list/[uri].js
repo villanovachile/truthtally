@@ -4,23 +4,20 @@ import TruthTally from '@/components/TruthTally/TruthTally';
 const TruthTallyURI = ({ uri, listData }) => {
   const listTitle = listData.title;
   const listAuthor = listData.author;
-  const rankedTitle = listAuthor
-    ? `Truth Tally - ${listTitle} ranked by ${listAuthor}`
-    : `Truth Tally - ${listTitle} ranked`;
-  const unrankedTitle = listAuthor
-    ? `Truth Tally - ${listTitle} created by ${listAuthor}`
-    : `Truth Tally - ${listTitle}`;
+  const rankedTitle = listAuthor ? `${listTitle} ranked by ${listAuthor}` : `${listTitle} ranked`;
+  const unrankedTitle = listAuthor ? `${listTitle} created by ${listAuthor}` : `${listTitle}`;
 
-  const title = listData.type === 'unranked' ? unrankedTitle : rankedTitle;
+  const titlePrefix = listData.type === 'unranked' ? unrankedTitle : rankedTitle;
+  const title = `${titlePrefix} | Truth Tally`;
   return (
     <>
       <Head>
         <title>{title}</title>
-        <meta property="og:title" content={title} />
-        <meta name="twitter:title" content={title} />
+        <meta property="og:title" content={titlePrefix} />
+        <meta name="twitter:title" content={titlePrefix} />
         <meta name="description" content="Truth Tally Ranker" />
         <meta property="og:image" key="og:image" content="/images/og-image.png" />
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />

@@ -1,7 +1,8 @@
 import connectToDatabase from '@/utils/mongo-connection';
 
 export default async function handler(req, res) {
-  const { type, page, tags, title, items, all, sort, limit } = req.query;
+  const { type, page, tags, title, items, all, sort, limit, skipCount } = req.query;
+  let searchQuery = null;
 
   let sortOrder;
 
@@ -34,17 +35,20 @@ export default async function handler(req, res) {
       const tagArray = tags.split(',');
       const regexArray = tagArray.map((tag) => new RegExp(`${tag}`, 'i'));
       query.tags = { $all: regexArray };
+      searchQuery = tags;
     }
 
     if (title) {
       const words = title.split(/\s+/);
       const regex = words.map((word) => `(?=.*${word})`).join('');
       query.title = { $regex: regex, $options: 'i' };
+      searchQuery = title;
     }
 
     if (items) {
       const itemsRegex = new RegExp(`.*${items}.*`, 'i');
       query.items = { $elemMatch: { item: itemsRegex } };
+      searchQuery = items;
     }
 
     if (all) {
@@ -54,12 +58,16 @@ export default async function handler(req, res) {
         { tags: { $all: [searchRegex] } },
         { items: { $elemMatch: { item: searchRegex } } }
       ];
+      searchQuery = all;
     }
 
     const database = await connectToDatabase(process.env.MONGODB_URI);
     const collection = database.collection(process.env.MONGODB_COLLECTION);
 
-    const totalCount = await collection.countDocuments(query);
+    let totalCount;
+    if (!skipCount) {
+      totalCount = await collection.countDocuments(query);
+    }
 
     const totalPages = Math.ceil(totalCount / 24);
 
@@ -75,7 +83,8 @@ export default async function handler(req, res) {
       type: type,
       lists: lists,
       totalPages: totalPages,
-      currentPage: currentPage
+      currentPage: currentPage,
+      searchQuery: searchQuery
     };
 
     res.status(200).json(results);
