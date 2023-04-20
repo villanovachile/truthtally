@@ -181,7 +181,8 @@ const Item = (props) => {
                     cursor: 'pointer',
                     width: itemInput.length + 3 + 'ch',
                     maxWidth: itemMaxWidth,
-                    padding: '0px'
+                    padding: '0px',
+                    borderRadius: '5px'
                   }
                 : { backgroundColor: '#FFFFFF' }
             }

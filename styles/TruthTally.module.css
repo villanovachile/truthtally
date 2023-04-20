@@ -61,7 +61,7 @@
   text-transform: none;
   display: block;
   font-size: 1.17em;
-
+  margin: 0px;
   font-weight: bold;
 }
 
@@ -308,12 +308,13 @@
 
 .share-modal {
   position: fixed;
-  top: 30%;
+  top: 275px;
   left: 50%;
   transform: translate(-50%, -70%);
   z-index: 7999;
-  padding: 2px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.9);
+  border-style: solid;
+  border-color: #8b8b8b;
   border-radius: 1px;
 }
 
@@ -619,7 +620,7 @@ button.item-card {
 
   .list-title form input[type='text'] {
     padding: 10px;
-    margin: 10px 10px 0px 10px;
+    margin: 0px 10px 0px 10px;
     display: block;
     font-size: 1.17em;
     font-weight: bold;

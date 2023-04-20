@@ -385,7 +385,8 @@ const TruthTally = ({ uri, listData }) => {
                     cursor: 'pointer',
                     width: titleInput.length + 9 + 'ch',
                     maxWidth: titleMaxWidth,
-                    padding: '0px'
+                    padding: '0px',
+                    borderRadius: '5px'
                   }
                 : { backgroundColor: '#5f0000' }
             }
