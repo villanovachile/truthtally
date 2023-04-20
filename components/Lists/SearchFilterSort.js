@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/Lists.module.css';
 
@@ -25,16 +25,20 @@ const SearchFilterSort = ({ type }) => {
     navigate.push(`/lists/${type}?${queryString}`);
   };
 
+  useEffect(() => {
+    searchInput.current.value = '';
+  }, [type]);
+
   return (
     <div className={styles['search-filter-sort']}>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="text" placeholder="Search" ref={searchInput} />
 
         <select onChange={(e) => setSearchType(e.target.value)}>
+          <option value="all">All</option>
           <option value="title">Title</option>
           <option value="tags">Tags</option>
           <option value="items">Items</option>
-          <option value="all">All</option>
         </select>
         <select value={sortType} onChange={handleSortChange}>
           <option value="title_asc">Title: A-Z</option>

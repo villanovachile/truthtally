@@ -57,10 +57,12 @@ a.pagination-current-page {
 
 a.pagination-page {
   background: #5e0000;
+  border-radius: 5px;
 }
 
 a.pagination-current-page {
   background: #ab0101;
+  border-radius: 5px;
 }
 
 .list-cards-container {
@@ -104,6 +106,11 @@ a.pagination-current-page {
   padding: 5px;
   margin: 10px 5px 10px 5px;
   width: unset;
+  border-radius: 5px;
+}
+
+.search-filter-sort form input[type='submit'] {
+  padding: 8px;
 }
 
 .search-filter-sort form select {
@@ -116,6 +123,7 @@ a.pagination-current-page {
   margin: auto;
   padding: 0px 10px 0px 10px;
   align-items: center;
+  border-radius: 5px;
 }
 @media screen and (max-width: 768px) {
   .list-cards-container {
