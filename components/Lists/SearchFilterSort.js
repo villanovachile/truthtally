@@ -27,6 +27,7 @@ const SearchFilterSort = ({ type }) => {
 
   useEffect(() => {
     searchInput.current.value = '';
+    setSortType('title_asc');
   }, [type]);
 
   return (
