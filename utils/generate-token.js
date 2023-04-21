@@ -1,5 +1,3 @@
-// utils/generate-token.js
-
 import { v4 as uuidv4 } from 'uuid';
 
 // Store the token in an in-memory object

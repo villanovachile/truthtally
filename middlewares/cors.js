@@ -1,4 +1,3 @@
-// middlewares/cors.js
 const corsMiddleware = (req, res) => {
   return new Promise((resolve, reject) => {
     const allowedOrigins = ['https://truthtallyranker.com', 'https://dev.truthtallyranker.com', 'http://localhost'];

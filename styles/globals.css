@@ -1,39 +1,95 @@
 body {
-  background: #e8e7e7;
+  background: #ffffff;
   font-family: arial;
+  margin: 0px;
 }
 
 header {
+  width: 100%;
   color: #fff;
+  padding: 15px 10px;
+  text-align: center;
+  background-color: #5f0000;
+  border-bottom: solid 2px #970101;
+  font-size: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#title {
+  display: flex;
+  align-items: center;
+}
+
+#title img {
+  margin: 0px 30px 0px 10px;
+}
+
+.nav a {
+  padding: 0px 10px 0px 10px;
+}
+
+#main-content p a {
+  color: #5e0000;
+  text-decoration: none;
+}
+
+footer {
+  width: 100%;
+  margin-top: 30px;
   padding: 5px 10px;
   text-align: center;
   background-color: #5f0000;
   border-bottom: solid 2px #970101;
-  font-size: 1.3em;
+}
+
+footer a {
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 1em;
+  text-decoration: none;
 }
 
 .main-container {
   background: #ffffff;
-  min-width: 375px;
-  max-width: 700px;
-  height: 100%;
-  margin: auto;
+  min-width: 320px;
+  min-height: 100vh;
   box-shadow: 0 2px 0 rgb(119, 0, 0);
   overflow: hidden;
   border: 1px;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  overflow-y: scroll;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#main-content {
+  max-width: 875px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: auto;
 }
 
 .error404-div {
   margin: auto;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 90vh;
+}
+
+.error404-div a {
+  color: #550000;
+  font-weight: bold;
 }
 
 /* Form & Buttons */
@@ -110,6 +166,16 @@ li {
   top: -10px;
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+#recaptcha {
+  font-size: 0.8em;
+  margin-top: 10px;
+  max-width: 400px;
+}
+
 /* Mobile Styles */
 
 /* Apply styles when screen size is less than or equal to 768px */
@@ -134,10 +200,25 @@ li {
     justify-content: center;
   }
 
+  footer {
+    height: 50px;
+    margin-top: 0px;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    flex-wrap: wrap;
+  }
+
+  footer a {
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 1.2em;
+    text-decoration: none;
+  }
+
   .main-container {
     width: 100%;
-    height: 100vh;
-    max-height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
     box-shadow: none;
     border-radius: 0;
     border: none;
@@ -163,5 +244,74 @@ li {
 
   li {
     font-size: 1em;
+  }
+
+  /* Position and sizing of burger button */
+  .bm-burger-button {
+    position: relative;
+    width: 30px;
+    height: 24px;
+    right: -120px;
+    top: 0px;
+  }
+
+  /* Color/shape of burger icon bars */
+  .bm-burger-bars {
+    background: #ffffff;
+  }
+
+  /* Color/shape of burger icon bars on hover*/
+  .bm-burger-bars-hover {
+    background: #4b4b4b;
+  }
+
+  /* Position and sizing of clickable cross button */
+  .bm-cross-button {
+    height: 30px;
+    width: 30px;
+  }
+
+  /* Color/shape of close button cross */
+  .bm-cross {
+    background: #bdc3c7;
+  }
+
+  .bm-menu-wrap {
+    position: fixed;
+    height: 100%;
+    width: 100% !important;
+    top: 0px;
+  }
+
+  /* General sidebar styles */
+  .bm-menu {
+    background: #000000;
+    padding: 1 0.5em 0.5em 0;
+    font-size: 1em;
+    opacity: 0.9;
+  }
+
+  /* Wrapper for item list */
+  .bm-item-list {
+    color: #b8b7ad;
+    padding: 0.8em;
+    height: 0px !important;
+  }
+
+  /* Individual item */
+  .bm-item {
+    display: inline-block;
+    padding: 10px;
+  }
+  #title img,
+  #tile a,
+  #title {
+    margin: unset;
+    width: 25px;
+  }
+  #main-content {
+    margin: 0px 15px 0px 15px;
+    min-height: calc(100dvh - (57px + 30.5px));
+    align-items: normal;
   }
 }

@@ -37,7 +37,6 @@ const Controls = (props) => {
   } = props;
 
   let router = useRouter();
-  // let { uri } = useParams();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showContent, setShowContent] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -139,7 +138,7 @@ const Controls = (props) => {
     clearList();
     nextItemId.current = 0;
     currentIndex.current = 0;
-    router.push('/');
+    router.push('/list');
   };
 
   const shareList = () => {

@@ -82,11 +82,11 @@ const TruthTally = ({ uri, listData }) => {
 
   useEffect(() => {
     const rankedTitle = listAuthor
-      ? `Truth Tally - ${listTitle} ranked by ${listAuthor}`
-      : `Truth Tally - ${listTitle} ranked`;
+      ? `${listTitle} ranked by ${listAuthor} | Truth Tally`
+      : `${listTitle} ranked | Truth Tally`;
     const unrankedTitle = listAuthor
-      ? `Truth Tally - ${listTitle} created by ${listAuthor}`
-      : `Truth Tally - ${listTitle}`;
+      ? `${listTitle} created by ${listAuthor} | Truth Tally`
+      : `${listTitle} | Truth Tally`;
     setTitleInput(listTitle);
     finishedGameState && (document.title = rankedTitle);
     startGameState && (document.title = unrankedTitle);
@@ -107,7 +107,6 @@ const TruthTally = ({ uri, listData }) => {
   useEffect(() => {
     setItems([]);
     setSourceTitleChanged(false);
-    // const fetchURL = "/.netlify/functions/get_list?uri=" + uri;
 
     if (uri === undefined) {
       setLoadingText('Loading...');
@@ -200,7 +199,7 @@ const TruthTally = ({ uri, listData }) => {
         }
       } catch (error) {
         console.log('Error: ', error);
-        router.push('/');
+        router.push('/list/404');
         Store.addNotification({
           title: 'Error loading list',
           message: 'There was a problem loading this list',
@@ -386,7 +385,8 @@ const TruthTally = ({ uri, listData }) => {
                     cursor: 'pointer',
                     width: titleInput.length + 9 + 'ch',
                     maxWidth: titleMaxWidth,
-                    padding: '0px'
+                    padding: '0px',
+                    borderRadius: '5px'
                   }
                 : { backgroundColor: '#5f0000' }
             }

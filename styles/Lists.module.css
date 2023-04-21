@@ -1,0 +1,146 @@
+.lists-container {
+  text-align: center;
+}
+
+.lists-index-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 30px;
+}
+
+.lists-index-container h2 {
+  margin-bottom: 0px;
+}
+
+.lists-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 30px;
+}
+
+.ranked-lists-link-div,
+.unranked-lists-link-div {
+  min-width: 250px;
+  height: 75px;
+  background-color: #5e0000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.ranked-lists-link-div a h2,
+.unranked-lists-link-div a h2 {
+  color: white;
+  text-decoration: none;
+  margin: 15px;
+}
+
+.list-pagination {
+  padding: 15px;
+  margin: 10px;
+}
+
+a.pagination-page,
+a.pagination-current-page {
+  width: 3px;
+  height: 3px;
+  padding: 5px;
+  margin: 3px;
+  color: white;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+
+a.pagination-page {
+  background: #5e0000;
+  border-radius: 5px;
+}
+
+a.pagination-current-page {
+  background: #ab0101;
+  border-radius: 5px;
+}
+
+.list-cards-container {
+  margin: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.list-card {
+  box-shadow: -1px 0px 20px 0px #e4e4e4;
+  min-height: 75px;
+  margin: 5px;
+  padding: 10px;
+  background: #f8f7f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.list-card p,
+.list-card h3 {
+  margin: 3px;
+  padding: 3px;
+  font-size: 1em;
+}
+
+.list-card a {
+  color: #5e0000;
+  text-decoration: none;
+}
+
+.search-filter-sort {
+  max-width: 600px;
+  text-align: center;
+  margin: auto;
+}
+
+.search-filter-sort form input[type='text'],
+.search-filter-sort form select,
+.search-filter-sort form input[type='submit'] {
+  padding: 5px;
+  margin: 10px 5px 10px 5px;
+  width: unset;
+  border-radius: 5px;
+}
+
+.search-filter-sort form input[type='submit'] {
+  padding: 8px;
+}
+
+.search-filter-sort form select {
+  padding: 5px;
+  margin: 5px;
+}
+.search-filter-sort form {
+  display: flex;
+  max-width: 600px;
+  margin: auto;
+  padding: 0px 10px 0px 10px;
+  align-items: center;
+  border-radius: 5px;
+}
+@media screen and (max-width: 768px) {
+  .list-cards-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .lists-links-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+  }
+  .search-filter-sort form {
+    align-items: unset;
+  }
+  .search-filter-sort form select {
+    height: 30px;
+    -webkit-appearance: menulist-button;
+  }
+}
