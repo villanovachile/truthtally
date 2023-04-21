@@ -14,6 +14,7 @@ const Contact = () => {
   const [message, setMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState();
   const [isFormVisible, setIsFormVisible] = useState(true);
+  const [isSending, setIsSending] = useState(false);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -37,6 +38,7 @@ const Contact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSending(true);
 
     if (!executeRecaptcha) {
       return;
@@ -60,6 +62,7 @@ const Contact = () => {
             duration: 3000
           }
         });
+        setIsSending(false);
         return;
       }
 
@@ -88,7 +91,9 @@ const Contact = () => {
         setUrl('');
         setMessage('');
         setIsFormVisible(false);
+        setIsSending(false);
       } else {
+        setIsSending(false);
         Store.addNotification({
           title: 'Error sending message',
           message: `An error occurred while sending your message. Please try again later.`,
@@ -106,6 +111,7 @@ const Contact = () => {
       }
     } catch (error) {
       console.error(error);
+      setIsSending(false);
       Store.addNotification({
         title: 'Error sending message',
         message: `An error occurred while sending your message. Please try again later.`,
@@ -142,90 +148,97 @@ const Contact = () => {
       <div style={{ textAlign: 'left', margin: '30px' }}>
         <h1>Contact</h1>
         <div className={styles.contact}>
-          {isFormVisible ? (
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <label className={styles.label}>
-                Name:
-                <input
-                  className={styles.input}
-                  type="text"
-                  value={name}
-                  onChange={handleNameChange}
-                  pattern="[A-Za-z ]+"
-                  required
-                  maxLength="50"
-                />
-              </label>
-              <br />
-              <label className={styles.label}>
-                Email Address:
-                <input
-                  className={styles.input}
-                  type="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  required
-                  maxLength="255"
-                />
-              </label>
-              <br />
-              <label className={styles.label}>
-                Reason:
-                <select className={styles.select} value={reason} onChange={handleReasonChange}>
-                  <option value="Feature Request">Feature Request</option>
-                  <option value="Edit or Remove List">Edit or Remove List</option>
-                  <option value="Report a Bug">Report a Bug</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
-              {reason === 'Edit or Remove List' && (
-                <div className={styles.subfield}>
-                  <label className={styles.label}>
-                    URL:
-                    <input
-                      className={styles.input}
-                      type="url"
-                      value={url}
-                      onChange={handleUrlChange}
-                      required
-                      pattern="https?://.+"
-                      maxLength="50"
-                    />
-                  </label>
-                  <br />
-                </div>
-              )}
-              <label className={styles.label}>
-                Message:
-                <textarea
-                  className={styles.textarea}
-                  value={message}
-                  onChange={handleMessageChange}
-                  maxLength="1000"
-                  required
-                />
-              </label>
-              <p id="recaptcha">
-                This site is protected by reCAPTCHA and the Google
-                <Link href="https://policies.google.com/privacy" target="_blank">
-                  {' '}
-                  Privacy Policy{' '}
-                </Link>
-                and
-                <Link href="https://policies.google.com/terms" target="_blank">
-                  {' '}
-                  Terms of Service
-                </Link>{' '}
-                apply.
-              </p>
-              <button className={styles.button} type="submit">
-                Submit
-              </button>
-            </form>
+          {!isSending ? (
+            isFormVisible ? (
+              <form className={styles.form} onSubmit={handleSubmit}>
+                <label className={styles.label}>
+                  Name:
+                  <input
+                    className={styles.input}
+                    type="text"
+                    value={name}
+                    onChange={handleNameChange}
+                    pattern="[A-Za-z ]+"
+                    required
+                    maxLength="50"
+                  />
+                </label>
+                <br />
+                <label className={styles.label}>
+                  Email Address:
+                  <input
+                    className={styles.input}
+                    type="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    required
+                    maxLength="255"
+                  />
+                </label>
+                <br />
+                <label className={styles.label}>
+                  Reason:
+                  <select className={styles.select} value={reason} onChange={handleReasonChange}>
+                    <option value="Feature Request">Feature Request</option>
+                    <option value="Edit or Remove List">Edit or Remove List</option>
+                    <option value="Report a Bug">Report a Bug</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </label>
+                {reason === 'Edit or Remove List' && (
+                  <div className={styles.subfield}>
+                    <label className={styles.label}>
+                      URL:
+                      <input
+                        className={styles.input}
+                        type="url"
+                        value={url}
+                        onChange={handleUrlChange}
+                        required
+                        pattern="https?://.+"
+                        maxLength="50"
+                      />
+                    </label>
+                    <br />
+                  </div>
+                )}
+                <label className={styles.label}>
+                  Message:
+                  <textarea
+                    className={styles.textarea}
+                    value={message}
+                    onChange={handleMessageChange}
+                    maxLength="1000"
+                    required
+                  />
+                </label>
+                <p id="recaptcha">
+                  This site is protected by reCAPTCHA and the Google
+                  <Link href="https://policies.google.com/privacy" target="_blank">
+                    {' '}
+                    Privacy Policy{' '}
+                  </Link>
+                  and
+                  <Link href="https://policies.google.com/terms" target="_blank">
+                    {' '}
+                    Terms of Service
+                  </Link>{' '}
+                  apply.
+                </p>
+                <button className={styles.button} type="submit">
+                  Submit
+                </button>
+              </form>
+            ) : (
+              <div style={{ height: '100%', textAlign: 'center' }}>
+                <p>{successMessage}</p>
+                <p>
+                  <Link href="/">Return home</Link>
+                </p>
+              </div>
+            )
           ) : (
-            <div style={{ height: '100%' }}>
-              <p>{successMessage}</p>
-            </div>
+            <div className={styles['loading']}></div>
           )}
         </div>
       </div>
