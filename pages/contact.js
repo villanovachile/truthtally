@@ -146,12 +146,27 @@ const Contact = () => {
             <form className={styles.form} onSubmit={handleSubmit}>
               <label className={styles.label}>
                 Name:
-                <input className={styles.input} type="text" value={name} onChange={handleNameChange} required />
+                <input
+                  className={styles.input}
+                  type="text"
+                  value={name}
+                  onChange={handleNameChange}
+                  pattern="[A-Za-z ]+"
+                  required
+                  maxLength="50"
+                />
               </label>
               <br />
               <label className={styles.label}>
                 Email Address:
-                <input className={styles.input} type="email" value={email} onChange={handleEmailChange} required />
+                <input
+                  className={styles.input}
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  required
+                  maxLength="255"
+                />
               </label>
               <br />
               <label className={styles.label}>
@@ -167,14 +182,28 @@ const Contact = () => {
                 <div className={styles.subfield}>
                   <label className={styles.label}>
                     URL:
-                    <input className={styles.input} type="url" value={url} onChange={handleUrlChange} required />
+                    <input
+                      className={styles.input}
+                      type="url"
+                      value={url}
+                      onChange={handleUrlChange}
+                      required
+                      pattern="https?://.+"
+                      maxLength="50"
+                    />
                   </label>
                   <br />
                 </div>
               )}
               <label className={styles.label}>
                 Message:
-                <textarea className={styles.textarea} value={message} onChange={handleMessageChange} />
+                <textarea
+                  className={styles.textarea}
+                  value={message}
+                  onChange={handleMessageChange}
+                  maxLength="1000"
+                  required
+                />
               </label>
               <p id="recaptcha">
                 This site is protected by reCAPTCHA and the Google

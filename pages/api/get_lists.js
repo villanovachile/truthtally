@@ -33,32 +33,32 @@ export default async function handler(req, res) {
 
     if (tags) {
       const tagArray = tags.split(',');
-      const regexArray = tagArray.map((tag) => new RegExp(`${tag}`, 'i'));
+      const regexArray = tagArray.map((tag) => new RegExp(`${tag.slice(0, 150)}`, 'i'));
       query.tags = { $all: regexArray };
-      searchQuery = tags;
+      searchQuery = tags.slice(0, 150);
     }
 
     if (title) {
       const words = title.split(/\s+/);
-      const regex = words.map((word) => `(?=.*${word})`).join('');
+      const regex = words.map((word) => `(?=.*${word.slice(0, 150)})`).join('');
       query.title = { $regex: regex, $options: 'i' };
-      searchQuery = title;
+      searchQuery = title.slice(0, 150);
     }
 
     if (items) {
-      const itemsRegex = new RegExp(`.*${items}.*`, 'i');
+      const itemsRegex = new RegExp(`.*${items.slice(0, 150)}.*`, 'i');
       query.items = { $elemMatch: { item: itemsRegex } };
-      searchQuery = items;
+      searchQuery = items.slice(0, 150);
     }
 
     if (all) {
-      const searchRegex = new RegExp(`.*${all}.*`, 'i');
+      const searchRegex = new RegExp(`.*${all.slice(0, 150)}.*`, 'i');
       query.$or = [
         { title: searchRegex },
         { tags: { $all: [searchRegex] } },
         { items: { $elemMatch: { item: searchRegex } } }
       ];
-      searchQuery = all;
+      searchQuery = all.slice(0, 150);
     }
 
     const database = await connectToDatabase(process.env.MONGODB_URI);
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
       lists: lists,
       totalPages: totalPages,
       currentPage: currentPage,
-      searchQuery: searchQuery
+      searchQuery: searchQuery && searchQuery.slice(0, 150)
     };
 
     res.status(200).json(results);

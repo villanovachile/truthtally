@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import validator from 'validator';
 
 const verifyRecaptcha = async (token) => {
   const secretKey = process.env.RECAPTHA_SECRET_KEY;
@@ -16,6 +17,30 @@ const verifyRecaptcha = async (token) => {
 
 export default async function handler(req, res) {
   const { name, email, reason, url, message, token } = req.body;
+
+  if (!validator.isLength(name, { min: 1, max: 50 })) {
+    return res.status(422).json({ error: 'Invalid name' });
+  }
+
+  if (!validator.isEmail(email)) {
+    return res.status(422).json({ error: 'Invalid email' });
+  }
+  if (!validator.isLength(email, { max: 255 })) {
+    return res.status(422).json({ error: 'Email too long' });
+  }
+
+  if (reason === 'Edit or Remove List' && url) {
+    if (!validator.isURL(url, { protocols: ['http', 'https'] })) {
+      return res.status(422).json({ error: 'Invalid URL' });
+    }
+    if (!validator.isLength(url, { max: 60 })) {
+      return res.status(422).json({ error: 'URL too long' });
+    }
+  }
+
+  if (!validator.isLength(message, { min: 1, max: 1000 })) {
+    return res.status(422).json({ error: 'Invalid message' });
+  }
 
   let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

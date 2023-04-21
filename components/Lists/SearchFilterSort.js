@@ -32,7 +32,7 @@ const SearchFilterSort = ({ type }) => {
   return (
     <div className={styles['search-filter-sort']}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="text" placeholder="Search" ref={searchInput} />
+        <input type="text" placeholder="Search" ref={searchInput} maxLength="50" />
 
         <select onChange={(e) => setSearchType(e.target.value)}>
           <option value="all">All</option>
