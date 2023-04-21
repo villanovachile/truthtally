@@ -6,12 +6,23 @@ import 'animate.css/animate.min.css';
 import { ReactNotifications } from 'react-notifications-component';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import Script from 'next/script';
 import { config } from '@fortawesome/fontawesome-svg-core';
 
 config.autoAddCss = false; /* eslint-disable import/first */
 export default function App({ Component, pageProps }) {
   return (
     <>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-HP30KGJHK8" strategy="afterInteractive" />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-HP30KGJHK8');
+        `}
+      </Script>
       <ReactNotifications />
       <GoogleReCaptchaProvider
         reCaptchaKey="6LfchJclAAAAALKBFYO9Xd9uaS8275mmtBPtzDCy"
