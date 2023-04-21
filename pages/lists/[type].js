@@ -39,6 +39,7 @@ const ListsIndex = (lists) => {
         type={lists.type}
         totalPages={lists.totalPages}
         currentPage={lists.currentPage}
+        searchQuery={lists.searchQuery}
       />
     </>
   );

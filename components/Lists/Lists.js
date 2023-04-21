@@ -5,7 +5,7 @@ import SearchFilterSort from './SearchFilterSort';
 import styles from '@/styles/Lists.module.css';
 
 const Lists = ({ ...props }) => {
-  const { lists, totalCount, type, totalPages, currentPage } = props;
+  const { lists, totalCount, type, totalPages, currentPage, searchQuery } = props;
   const listType = type === 'ranked' ? 'Ranked' : 'Unranked';
   const navigate = useRouter();
 
@@ -14,7 +14,7 @@ const Lists = ({ ...props }) => {
       <div className={styles['lists-container']}>
         <h1>{listType} Lists</h1>
 
-        <SearchFilterSort type={type} />
+        <SearchFilterSort type={type} searchQuery={searchQuery} />
         {totalCount > 0 && (
           <>
             <Pagination totalPages={totalPages} currentPage={currentPage} type={type} />

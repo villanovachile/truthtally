@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/Lists.module.css';
 
-const SearchFilterSort = ({ type }) => {
+const SearchFilterSort = ({ type, searchQuery }) => {
   const [searchType, setSearchType] = useState('title');
   const [sortType, setSortType] = useState('title_asc');
   const searchInput = useRef();
@@ -26,7 +26,7 @@ const SearchFilterSort = ({ type }) => {
   };
 
   useEffect(() => {
-    searchInput.current.value = '';
+    searchQuery ? (searchInput.current.value = searchQuery) : (searchInput.current.value = '');
     setSortType('title_asc');
   }, [type]);
 
