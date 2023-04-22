@@ -33,7 +33,10 @@ const Controls = (props) => {
     updateDraggableListItems,
     draggableListItems,
     setIsRankingSharedList,
-    uri
+    uri,
+    listVersion,
+    sourceListVersion,
+    sourceListVersionCount
   } = props;
 
   let router = useRouter();
@@ -195,7 +198,9 @@ const Controls = (props) => {
   };
 
   const viewSourceList = () => {
-    router.push('/list/' + sourceListURI);
+    const sourceURL =
+      sourceListVersion && sourceListVersionCount > 1 ? `${sourceListURI}?v=${sourceListVersion}` : `${sourceListURI}`;
+    router.push('/list/' + sourceURL);
   };
 
   return (

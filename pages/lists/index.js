@@ -75,7 +75,6 @@ export async function getServerSideProps() {
         unrankedListsPopular,
         rankedListsPopular
       }
-      // revalidate: 3600
     };
   } catch (error) {
     console.error(error);

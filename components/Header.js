@@ -3,7 +3,7 @@ import Nav from './Nav';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const Header = () => {
+const Header = ({ user }) => {
   return (
     <header>
       <Link href="/" id="title">

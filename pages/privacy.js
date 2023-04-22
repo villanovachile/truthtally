@@ -33,7 +33,11 @@ const Privacy = () => {
           monitored, Truth Tally encourages users to refrain from entering any personal information that they do not
           want to be shared with others.
         </p>
-
+        <p>
+          Truth Tally uses Firebase anonymous authentication to provide a seamless user experience without requiring
+          users to create an account. No personally identifiable information is collected during this process, and no
+          user IDs are stored in the database at this time.
+        </p>
         <p>
           Please note that while unlisted lists will not be displayed on the Ranked and Unranked list pages, they are
           still accessible by anyone who has the URL. Additionally, if a user shares an unlisted list with someone and
@@ -44,7 +48,8 @@ const Privacy = () => {
         <p>
           Truth Tally takes reasonable measures to protect personal information from unauthorized access or disclosure.
           Shared lists are stored in a secure database that is only accessible by authorized personnel. Security
-          procedures are regularly reviewed to ensure that information remains safe.
+          procedures are regularly reviewed to ensure that information remains safe. Firebase anonymous authentication
+          is also used to ensure user privacy and security.
         </p>
         <h3>Data Removal</h3>
         <p>

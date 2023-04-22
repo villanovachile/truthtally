@@ -2,6 +2,7 @@ import connectToDatabase from '@/utils/mongo-connection';
 import { generateToken } from '@/utils/generate-token';
 import corsMiddleware from '@/middlewares/cors';
 import randomstring from 'randomstring';
+import { admin } from '@/middlewares/firebaseAdmin';
 import validator from 'validator';
 
 const validatePayload = (input) => {
@@ -101,15 +102,15 @@ const validatePayload = (input) => {
 export default async function handler(req, res) {
   try {
     await corsMiddleware(req, res);
-    const newToken = await generateToken();
 
-    // Get the token from the Authorization header of the request
-    const token = req.headers.authorization.replace('Bearer ', '');
-
-    if (!newToken || newToken !== token) {
+    if (!req.headers.authorization) {
       res.status(401).send('Unauthorized');
       return;
     }
+
+    const idToken = req.headers.authorization.replace('Bearer ', '');
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const uid = decodedToken.uid;
 
     const input = req.body;
 
@@ -127,18 +128,43 @@ export default async function handler(req, res) {
       const collection = database.collection(process.env.MONGODB_COLLECTION);
       let newURI = randomstring.generate(8);
       const tags = input.tags && input.tags.length > 0 ? input.tags.map((tag) => tag.toLowerCase()) : [];
-      await collection.insertOne({
-        uri: newURI,
-        items: input.items,
-        title: input.title,
-        ...(input.author && { author: input.author }),
-        type: input.type.toLowerCase(),
-        unlisted: input.unlisted,
-        ...(input.tags && input.tags.length > 0 && { tags: tags }),
-        ...(input.source_uri && { source_uri: input.source_uri }),
-        views: 0,
-        rating: 0
-      });
+
+      if (input.type.toLowerCase() === 'unranked') {
+        // Use the versioned schema for unranked lists
+        await collection.insertOne({
+          uri: newURI,
+          title: input.title,
+          ...(input.author && { author: input.author }),
+          type: input.type.toLowerCase(),
+          unlisted: input.unlisted,
+          ...(input.tags && input.tags.length > 0 && { tags: tags }),
+          ...(input.source_uri && { source_uri: input.source_uri }),
+          ...(input.author_uid && { author_uid: uid }),
+          views: 0,
+          rating: 0,
+          versions: [
+            {
+              version: 1,
+              items: input.items
+            }
+          ]
+        });
+      } else {
+        await collection.insertOne({
+          uri: newURI,
+          items: input.items,
+          title: input.title,
+          ...(input.author && { author: input.author }),
+          type: input.type.toLowerCase(),
+          unlisted: input.unlisted,
+          ...(input.tags && input.tags.length > 0 && { tags: tags }),
+          ...(input.source_uri && { source_uri: input.source_uri }),
+          ...(input.author_uid && { author_uid: uid }),
+          ...(input.source_version && { source_version: input.source_version }),
+          views: 0,
+          rating: 0
+        });
+      }
 
       res.status(200).json(newURI);
     } catch (error) {

@@ -9,6 +9,7 @@ const TruthTallyURI = ({ uri, listData }) => {
 
   const titlePrefix = listData.type === 'unranked' ? unrankedTitle : rankedTitle;
   const title = `${titlePrefix} | Truth Tally`;
+
   return (
     <>
       <Head>
@@ -33,9 +34,16 @@ const TruthTallyURI = ({ uri, listData }) => {
 
 export async function getServerSideProps(context) {
   const { uri } = context.params;
+  const { v } = context.query;
 
   try {
-    const response = await fetch(`${process.env.API_URL}/api/get_list?uri=${uri}`);
+    let apiUrl = `${process.env.API_URL}/api/get_list?uri=${uri}`;
+    if (v) {
+      apiUrl += `&v=${v}`;
+    }
+
+    const response = await fetch(apiUrl);
+
     const listData = await response.json();
 
     if (listData === 'not_found') {

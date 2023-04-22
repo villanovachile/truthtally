@@ -2,10 +2,13 @@ import Link from 'next/link';
 import { slide as Menu } from 'react-burger-menu';
 import { useState } from 'react';
 import styles from '@/styles/Nav.module.css';
+import { firebase, auth } from '@/middlewares/firebase';
+import { useAuth } from '@/utils/auth-context';
 
 const Nav = () => {
-  const [isOpen, setOpen] = useState(false);
+  const { user, isSignedIn } = useAuth();
 
+  const [isOpen, setOpen] = useState(false);
   const handleIsOpen = () => {
     setOpen(!isOpen);
   };
