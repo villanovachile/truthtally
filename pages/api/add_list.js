@@ -60,8 +60,8 @@ const validatePayload = (input) => {
         if (!validator.isLength(tag, { min: 2, max: 20 })) {
           errors.push(`Tag at index ${index} must be between 2 and 20 characters`);
         }
-        if (!validator.matches(tag, /^[a-zA-Z0-9]+$/)) {
-          errors.push(`Tag at index ${index} must contain only alphanumeric characters`);
+        if (!validator.matches(tag, /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9\-]+$/)) {
+          errors.push(`Tag at index ${index} must contain only alphanumeric characters and hyphens`);
         }
         if (tagSet.has(tag.toLowerCase())) {
           errors.push(`Tag at index ${index} is a duplicate`);

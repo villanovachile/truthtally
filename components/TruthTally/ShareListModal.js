@@ -159,10 +159,10 @@ const ShareListModal = ({
 
         return;
       }
-      if (!/^[a-zA-Z0-9]+$/.test(tag)) {
+      if (!/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9\-]+$/.test(tag)) {
         Store.addNotification({
           title: 'Invalid tag',
-          message: `Tag '${tag}' contains special characters. Tags can only contain letters and numbers.`,
+          message: `Tag '${tag}' contains special characters. Tags can only contain letters, numbers, and hyphens.`,
           type: 'danger',
           insert: 'top',
           isMobile: true,
@@ -553,7 +553,7 @@ const ShareListModal = ({
                   data-tooltip-id="tagsTooltip"
                   data-tooltip-place="top"
                   icon={faInfoCircle}
-                  data-tooltip-content="Tags: Add up to 6 tags, using single words without spaces and up to 20 characters each, to improve searchability and aid others in discovering your list."
+                  data-tooltip-content="Tags: Add up to 6 tags, using single or hyphenated words without spaces and up to 20 characters each, to improve searchability and aid others in discovering your list."
                 />
                 <ReactTooltip id="tagsTooltip" effect="solid" multiline={true} className={styles['tooltip']} />
               </span>
