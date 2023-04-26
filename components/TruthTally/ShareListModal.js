@@ -6,11 +6,13 @@ import 'react-tooltip/dist/react-tooltip.css';
 import { Store } from 'react-notifications-component';
 import styles from '@/styles/TruthTally.module.css';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/utils/auth-context';
 
 const ShareListModal = ({
   sourceListChanged,
   sourceTitleChanged,
   uri,
+  listVersion,
   items,
   setShowShareModal,
   listTitle,
@@ -24,10 +26,12 @@ const ShareListModal = ({
   sourceListTags,
   setSourceListTags
 }) => {
+  const { user, isSignedIn } = useAuth();
   const router = useRouter();
   const [copied, setCopied] = useState(false);
 
   const [showShareLoader, setShowShareLoader] = useState(false);
+  const [updatingList, setUpdatingList] = useState(false);
   const startGameStart = gameState === 'start';
   const finishedGameState = gameState === 'finished';
   const isSourceListUnranked = sourceListType === 'unranked';
@@ -184,9 +188,8 @@ const ShareListModal = ({
 
     (async () => {
       try {
-        const response = await fetch('/api/get_token');
-        const data = await response.json();
-        const token = data.token;
+        const token = await user.getIdToken();
+
         const headers = {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -207,6 +210,7 @@ const ShareListModal = ({
             const newList = {
               title: title,
               ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+              ...(isSignedIn && { author_uid: user.uid }),
               items: tempList,
               type: type,
               unlisted: unlisted,
@@ -268,6 +272,7 @@ const ShareListModal = ({
             const newList = {
               title: title,
               ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+              ...(isSignedIn && { author_uid: user.uid }),
               items: tempList,
               type: type,
               unlisted: unlisted,
@@ -296,10 +301,12 @@ const ShareListModal = ({
                 const newList = {
                   title: title,
                   ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+                  ...(isSignedIn && { author_uid: user.uid }),
                   items: tempRankedList,
                   type: type,
                   unlisted: unlisted,
                   source_uri: sourceListURI,
+                  source_version: 1,
                   ...(tags.length > 0 && { tags: tags })
                 };
 
@@ -384,10 +391,12 @@ const ShareListModal = ({
             const newList = {
               title: title,
               ...(author.replace(/\s+/g, '') !== '' && { author: author }),
+              ...(isSignedIn && { author_uid: user.uid }),
               items: tempRankedList,
               type: type,
               unlisted: unlisted,
               source_uri: source_uri,
+              source_version: listVersion,
               ...(tags.length > 0 && { tags: tags })
             };
 

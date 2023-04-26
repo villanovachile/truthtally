@@ -19,6 +19,7 @@
 .DS_Store
 *.pem
 /.server-pages/
+firebase-service-account.json
 
 # debug
 npm-debug.log*

@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@firebase/auth": "^0.23.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "animate.css": "^4.1.1",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
+    "firebase": "^9.20.0",
+    "firebase-admin": "^11.7.0",
     "mongodb": "^5.1.0",
     "next": "13.2.4",
     "nodemailer": "^6.9.1",

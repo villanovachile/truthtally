@@ -11,8 +11,18 @@ const ListCard = ({ lists }) => {
           </Link>
           <p>
             {list.type === 'unranked'
-              ? list.author && 'created by ' + list.author
-              : list.author && 'ranked by ' + list.author}
+              ? list.author && (
+                  <>
+                    {'created by '}
+                    {list.author_uid ? <Link href={`/users/${list.author}`}>{list.author}</Link> : list.author}
+                  </>
+                )
+              : list.author && (
+                  <>
+                    {'ranked by '}
+                    {list.author_uid ? <Link href={`/users/${list.author}`}>{list.author}</Link> : list.author}
+                  </>
+                )}
           </p>
         </div>
       ))}

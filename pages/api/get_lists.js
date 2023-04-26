@@ -3,7 +3,6 @@ import connectToDatabase from '@/utils/mongo-connection';
 export default async function handler(req, res) {
   const { type, page, tags, title, items, all, sort, limit, skipCount } = req.query;
   let searchQuery = null;
-
   let sortOrder;
 
   switch (sort) {
@@ -47,7 +46,12 @@ export default async function handler(req, res) {
 
     if (items) {
       const itemsRegex = new RegExp(`.*${items.slice(0, 150)}.*`, 'i');
-      query.items = { $elemMatch: { item: itemsRegex } };
+      query.$or = [
+        // Search items in the main document (for backward compatibility)
+        { items: { $elemMatch: { item: itemsRegex } } },
+        // Search items in the latest version of the versions array
+        { versions: { $elemMatch: { items: { $elemMatch: { item: itemsRegex } } } } }
+      ];
       searchQuery = items.slice(0, 150);
     }
 
@@ -71,12 +75,36 @@ export default async function handler(req, res) {
 
     const totalPages = Math.ceil(totalCount / 24);
 
-    const currentPage = page > totalPages ? 1 : page;
+    const currentPage = page > totalPages ? 1 : page || 1;
+
     const itemsPerPage = 24;
     const skip = (currentPage - 1) * itemsPerPage;
     const limitItems = limit ? limit : itemsPerPage;
 
-    const lists = await collection.find(query).sort(sortOrder).skip(skip).limit(parseInt(limitItems, 10)).toArray();
+    // const lists = await collection.find(query).sort(sortOrder).skip(skip).limit(parseInt(limitItems, 10)).toArray();
+    const lists = await collection
+      .aggregate([
+        { $match: query },
+        {
+          $lookup: {
+            from: process.env.MONGODB_COLLECTION_USERS,
+            localField: 'author_uid',
+            foreignField: 'uid',
+            as: 'author_info'
+          }
+        },
+        {
+          $addFields: {
+            author: {
+              $cond: [{ $ifNull: ['$author_uid', false] }, { $arrayElemAt: ['$author_info.username', 0] }, '$author']
+            }
+          }
+        },
+        { $sort: sortOrder },
+        { $skip: skip },
+        { $limit: parseInt(limitItems, 10) }
+      ])
+      .toArray();
 
     const results = {
       totalCount: totalCount,

@@ -7,7 +7,6 @@ import styles from '@/styles/Lists.module.css';
 const Lists = ({ ...props }) => {
   const { lists, totalCount, type, totalPages, currentPage, searchQuery } = props;
   const listType = type === 'ranked' ? 'Ranked' : 'Unranked';
-  const navigate = useRouter();
 
   return (
     <>

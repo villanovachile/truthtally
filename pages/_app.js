@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Script from 'next/script';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import { AuthProvider } from '@/utils/auth-context';
 
 config.autoAddCss = false; /* eslint-disable import/first */
 export default function App({ Component, pageProps }) {
@@ -47,11 +48,13 @@ export default function App({ Component, pageProps }) {
           <meta property="og:image" key="og:image" content="/images/og-image.png" />
           <meta name="keywords" content="bias, ranker, list sorter, HTML, CSS, JavaScript, React" />
 
-          <link rel="manifest" href="/manifest.json" />
+          <link rel="manifest" href="/site.webmanifest" />
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <AuthProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
       </GoogleReCaptchaProvider>
     </>
   );

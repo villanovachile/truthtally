@@ -9,9 +9,12 @@ import RankedList from './RankedList';
 import LoadingSpinner from './LoadingSpinner';
 import ShareListModal from './ShareListModal';
 import styles from '@/styles/TruthTally.module.css';
+import { auth } from '@/middlewares/firebase';
+import { useAuth } from '@/utils/auth-context';
 
 const TruthTally = ({ uri, listData }) => {
   const router = useRouter();
+  const { user, isSignedIn } = useAuth();
   const [draggableListItems, updateDraggableListItems] = useState([]);
   const [editingTitle, setEditingTitle] = useState(false);
   const [gameState, setGameState] = useState('preload');
@@ -40,6 +43,9 @@ const TruthTally = ({ uri, listData }) => {
   const [titleMaxWidth, setTitleMaxWidth] = useState('600px');
   const currentIndex = useRef(0);
   const nextItemId = useRef(0);
+  const listVersion = listData && listData.version;
+  const sourceListVersion = listData && listData.source_version;
+  const sourceListVersionCount = listData && listData.version_count;
 
   const isListEditMode = listState === 'edit';
   const sourceListTypeNew = sourceListType === 'new';
@@ -53,6 +59,23 @@ const TruthTally = ({ uri, listData }) => {
     if (storedValue) {
       setShowShareModal(JSON.parse(storedValue));
     }
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        //console.log('User is signed in:', user);
+      } else {
+        //console.log('User is not signed in. Signing in anonymously.');
+        auth
+          .signInAnonymously()
+          .then((userCredential) => {
+            //const newUser = userCredential.user;
+            //console.log('Anonymous user signed in:', newUser);
+          })
+          .catch((error) => {
+            //console.error('Error signing in anonymously:', error);
+          });
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -306,6 +329,9 @@ const TruthTally = ({ uri, listData }) => {
     handleRemoveItem,
     updatePairsList,
     uri,
+    listVersion,
+    sourceListVersion,
+    sourceListVersionCount,
     sourceItemsList,
     showShareModal,
     setShowShareModal,
