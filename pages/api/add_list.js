@@ -1,5 +1,4 @@
 import connectToDatabase from '@/utils/mongo-connection';
-import { generateToken } from '@/utils/generate-token';
 import corsMiddleware from '@/middlewares/cors';
 import randomstring from 'randomstring';
 import { admin } from '@/middlewares/firebaseAdmin';
